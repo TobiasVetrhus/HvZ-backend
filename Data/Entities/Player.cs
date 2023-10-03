@@ -18,6 +18,8 @@ namespace HvZ_backend.Data.Entities
 
         //Navigation
         public User User { get; set; }
+        public Location Location { get; set; }
+        public Squad squad { get; set; }
 
     }
 }
