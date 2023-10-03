@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HvZ_backend.Data.Entities
 {
@@ -8,7 +7,6 @@ namespace HvZ_backend.Data.Entities
         public int Id { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
-        [Column(TypeName = "timestamp")]
         public DateTime TimeOfKill { get; set; }
         public int KillerPlayerId { get; set; }
         public int VictimPlayerId { get; set; }
