@@ -20,8 +20,10 @@ namespace HvZ_backend.Data.Entities
         public string PictureURL { get; set; }
         public int PlayerId { get; set; }
         public int MissionId { get; set; }
+        public ICollection<Rule>? Rules { get; set; }
 
         public Player Player { get; set; }
         public Mission Mission { get; set; }
+
     }
 }
