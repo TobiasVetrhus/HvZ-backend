@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\Entities\" />
     <Folder Include="Data\DTOs\" />
     <Folder Include="Data\Exceptions\" />
     <Folder Include="Mappers\" />
