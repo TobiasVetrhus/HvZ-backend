@@ -11,5 +11,6 @@ namespace HvZ_backend.Data.Entities
         public string Description { get; set; }
 
         public ICollection<Game>? Games { get; set; }
+
     }
 }
