@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HvZ_backend.Data.Entities
+namespace HvZ_backend.Data.DTOs.Missions
 {
-    public class Mission
+    public class MissionPutDTO
     {
         public int Id { get; set; }
         [StringLength(50)]
@@ -11,10 +11,5 @@ namespace HvZ_backend.Data.Entities
         public string Description { get; set; }
         public int LocationId { get; set; }
         public int GameId { get; set; }
-
-        // Navigation property 
-        public Location Location { get; set; }
-        public Game Game { get; set; }
-
     }
 }
