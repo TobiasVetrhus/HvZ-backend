@@ -12,5 +12,6 @@ namespace HvZ_backend.Data.DTOs.Games
         public int[]? Rules { get; set; }
         public int[]? PlayerIds { get; set; }
         public int[]? MissionIds { get; set; }
+        public int[]? ConversationIds { get; set; }
     }
 }
