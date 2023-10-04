@@ -19,6 +19,8 @@ namespace HvZ_backend.Data.Entities
         [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be 10 digits.")]
         [MaxLength(15, ErrorMessage = "Phone number should be up to 15 characters.")]
         public string Phone { get; set; }
+
+        public ICollection<Player>? Players { get; set; }
     }
 }
 
