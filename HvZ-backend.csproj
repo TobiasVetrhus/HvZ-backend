@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Data\DTOs\" />
-    <Folder Include="Data\Exceptions\" />
     <Folder Include="Mappers\" />
   </ItemGroup>
 
