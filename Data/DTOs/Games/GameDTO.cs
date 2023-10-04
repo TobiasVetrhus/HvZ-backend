@@ -11,5 +11,6 @@ namespace HvZ_backend.Data.DTOs.Games
         public string PictureURL { get; set; }
         public int[]? Rules { get; set; }
         public int[]? PlayerIds { get; set; }
+        public int[]? MissionIds { get; set; }
     }
 }
