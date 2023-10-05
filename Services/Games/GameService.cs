@@ -63,5 +63,10 @@ namespace HvZ_backend.Services.Games
         {
             throw new NotImplementedException();
         }
+
+        Task<Game> ICrudService<Game, int>.AddAsync(Game obj)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
