@@ -1,4 +1,5 @@
 ﻿using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.Users
@@ -26,9 +27,16 @@ namespace HvZ_backend.Services.Users
             return await _context.Users.Include(u => u.Players).ToListAsync();
         }
 
-        public Task<User> GetByIdAsync(int id)
+        public async Task<User> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await UserExistsAsync(id))
+                throw new EntityNotFoundException(nameof(User), id);
+
+            var user = await _context.Users.Where(c => c.Id == id)
+                .Include(u => u.Players)
+                .FirstAsync();
+
+            return user;
         }
 
         public Task<User> UpdateAsync(User obj)

@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using HvZ_backend.Data.Entities;
-using HvZ_backend.Services.Users;
-using AutoMapper;
+﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.Users;
+using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
+using HvZ_backend.Services.Users;
+using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
@@ -31,13 +26,20 @@ namespace HvZ_backend.Controllers
         {
             return Ok(_mapper.Map<IEnumerable<UserDTO>>(await _userService.GetAllAsync()));
         }
-        /*
+
         [HttpGet("{id}")]
         public async Task<ActionResult<UserDTO>> GetUser(int id)
         {
-
+            try
+            {
+                return Ok(_mapper.Map<UserDTO>(await _userService.GetByIdAsync(id)));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
-
+        /*
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUser(int id, User user)
         {
