@@ -1,9 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Authorize]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -18,16 +21,32 @@ namespace HvZ_backend.Controllers
             _logger = logger;
         }
 
-        [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get()
+        [HttpGet("public")]
+        [AllowAnonymous]
+        public ActionResult GetPublic()
         {
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-            {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = Random.Shared.Next(-20, 55),
-                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+            return Ok(new { Message = "Public resource" });
         }
+
+        [HttpGet("protected")]
+        public ActionResult GetProtected()
+        {
+            return Ok(new { Message = "Protected resource" });
+        }
+
+        [HttpGet("role")]
+        [Authorize(Roles = "ADMIN")]
+        public ActionResult GetRoles()
+        {
+            return Ok(new { Message = "Roles resource" });
+        }
+
+        [HttpGet("subject")]
+        public ActionResult GetSubject()
+        {
+            var subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(new { Subject = subject });
+        }
+
     }
 }
