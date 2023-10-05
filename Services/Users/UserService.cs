@@ -53,21 +53,30 @@ namespace HvZ_backend.Services.Users
             throw new NotImplementedException();
         }
 
-        public Task<User> DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await UserExistsAsync(id))
+                throw new EntityNotFoundException(nameof(User), id);
+
+            var user = await _context.Users
+                .Where(c => c.Id == id)
+                .FirstAsync();
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
         }
 
         private async Task<bool> UserExistsAsync(int id)
         {
             return await _context.Users.AnyAsync(u => u.Id == id);
         }
+
         /*
-        private async Task<bool> PlayerExistsAsync(int movieId)
-        {
-            return await _context.Players.AnyAsync(p => p.Id == playerId);
-        }
-        */
+private async Task<bool> PlayerExistsAsync(int movieId)
+{
+   return await _context.Players.AnyAsync(p => p.Id == playerId);
+}
+*/
 
 
 
