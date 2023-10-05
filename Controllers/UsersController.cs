@@ -22,7 +22,7 @@ namespace HvZ_backend.Controllers
 
         // GET: api/Users
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetUsers()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
             return Ok(_mapper.Map<IEnumerable<UserDTO>>(await _userService.GetAllAsync()));
         }
@@ -45,14 +45,18 @@ namespace HvZ_backend.Controllers
         {
 
         }
-
+        */
 
         [HttpPost]
-        public async Task<ActionResult<User>> PostUser(User user)
+        public async Task<ActionResult<UserDTO>> PostUser(UserPostDTO user)
         {
+            var newUser = await _userService.AddAsync(_mapper.Map<User>(user));
 
+            return CreatedAtAction("GetUser",
+                new { id = newUser.Id },
+                _mapper.Map<UserDTO>(newUser));
         }
-
+        /*
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
