@@ -29,6 +29,11 @@ namespace HvZ_backend.Services.Games
             throw new NotImplementedException();
         }
 
+        public Task<ICollection<Conversation>> GetGameConversationsAsync(int gameId)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<Game> UpdateAsync(Game obj)
         {
             throw new NotImplementedException();
@@ -45,6 +50,11 @@ namespace HvZ_backend.Services.Games
         }
 
         public Task UpdateRulesAsync(int gameId, int[] ruleIds)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateConversationsAsync(int gameId, int[] conversationIds)
         {
             throw new NotImplementedException();
         }

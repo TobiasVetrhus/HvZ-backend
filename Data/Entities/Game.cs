@@ -18,8 +18,12 @@ namespace HvZ_backend.Data.Entities
         public GameStatus GameState { get; set; }
         [StringLength(50)]
         public string PictureURL { get; set; }
-        public int PlayerId { get; set; }
+      
         public ICollection<Rule>? Rules { get; set; }
-        public Player Player { get; set; }
+        public ICollection<Player>? Players { get; set; }
+        public ICollection<Mission>? Missions { get; set; }
+        public ICollection<Conversation>? Conversations { get; set; }
+
+
     }
 }

@@ -1,16 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace HvZ_backend.Data.Entities
+namespace HvZ_backend.Data.DTOs.Missions
 {
-    public class Rule
+    public class MissionPutDTO
     {
         public int Id { get; set; }
         [StringLength(50)]
-        public string Title { get; set; }
+        public string Name { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
-
-        public ICollection<Game>? Games { get; set; }
-
+        public int LocationId { get; set; }
+        public int GameId { get; set; }
     }
 }
