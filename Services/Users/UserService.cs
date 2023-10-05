@@ -15,12 +15,9 @@ namespace HvZ_backend.Services.Users
 
         public async Task<User> AddAsync(User obj)
         {
-            throw new NotImplementedException();
-            /*
             await _context.Users.AddAsync(obj);
             await _context.SaveChangesAsync();
             return obj;
-            */
         }
         public async Task<IEnumerable<User>> GetAllAsync()
         {
