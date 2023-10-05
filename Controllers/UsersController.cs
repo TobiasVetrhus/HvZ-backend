@@ -68,13 +68,21 @@ namespace HvZ_backend.Controllers
                 new { id = newUser.Id },
                 _mapper.Map<UserDTO>(newUser));
         }
-        /*
+
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteUser(int id)
         {
-
+            try
+            {
+                await _userService.DeleteByIdAsync(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
-        */
+
     }
 }
