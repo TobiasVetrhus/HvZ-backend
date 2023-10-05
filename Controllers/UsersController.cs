@@ -20,7 +20,6 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
         {
@@ -39,13 +38,26 @@ namespace HvZ_backend.Controllers
                 return NotFound(ex.Message);
             }
         }
-        /*
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, User user)
-        {
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUser(int id, UserPutDTO user)
+        {
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var updatedUser = await _userService.UpdateAsync(_mapper.Map<User>(user));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            return NoContent();
         }
-        */
+
 
         [HttpPost]
         public async Task<ActionResult<UserDTO>> PostUser(UserPostDTO user)

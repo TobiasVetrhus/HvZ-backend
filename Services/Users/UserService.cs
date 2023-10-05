@@ -36,9 +36,16 @@ namespace HvZ_backend.Services.Users
             return user;
         }
 
-        public Task<User> UpdateAsync(User obj)
+        public async Task<User> UpdateAsync(User obj)
         {
-            throw new NotImplementedException();
+            if (!await UserExistsAsync(obj.Id))
+                throw new EntityNotFoundException(nameof(User), obj.Id);
+
+            // Mark the object as modified so it will be updated in the database
+            _context.Entry(obj).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return obj;
         }
 
         public Task UpdatePlayersAsync(int userId, int[] playerIds)
