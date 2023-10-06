@@ -56,6 +56,30 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetGameById", new { id = newGame.Id }, _mapper.Map<GameDTO>(newGame));
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateGame(int id, GamePutDTO game)
+        {
+            if (id != game.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var updatedGame = await _gameService.UpdateAsync(_mapper.Map<Game>(game));
+                await _gameService.UpdatePlayersAsync(updatedGame.Id, game.PlayerIds);
+                await _gameService.UpdateMissionsAsync(updatedGame.Id, game.MissionIds);
+                await _gameService.UpdateConversationsAsync(updatedGame.Id, game.ConversationIds);
+                await _gameService.UpdateRulesAsync(updatedGame.Id, game.RuleIds);
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            return NoContent();
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
