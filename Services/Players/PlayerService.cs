@@ -1,8 +1,5 @@
 ﻿using HvZ_backend.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HvZ_backend.Services.Players
 {
@@ -68,24 +65,11 @@ namespace HvZ_backend.Services.Players
 
             if (player != null)
             {
-                // Update foreign keys in Kills table to null
-                var killsAsKiller = await _context.Kills
-                    .Where(kill => kill.KillerPlayerId == playerId)
+                var messagesToDelete = await _context.Messages
+                    .Where(m => m.PlayerId == playerId)
                     .ToListAsync();
 
-                foreach (var kill in killsAsKiller)
-                {
-                    kill.KillerPlayerId = null;
-                }
-
-                var killsAsVictim = await _context.Kills
-                    .Where(kill => kill.VictimPlayerId == playerId)
-                    .ToListAsync();
-
-                foreach (var kill in killsAsVictim)
-                {
-                    kill.VictimPlayerId = null;
-                }
+                _context.Messages.RemoveRange(messagesToDelete);
 
                 // Remove the player from the database and save changes.
                 _context.Players.Remove(player);
