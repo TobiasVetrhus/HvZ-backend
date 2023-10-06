@@ -46,7 +46,18 @@ namespace HvZ_backend.Services.Games
 
         public async Task<Game> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await GameExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Game), id);
+
+            var game = await _context.Games
+                .Where(g => g.Id == id)
+                .Include(g => g.Players)
+                .Include(g => g.Rules)
+                .Include(g => g.Missions)
+                .Include(g => g.Conversations)
+                .FirstAsync();
+
+            return game;
         }
 
         public async Task<ICollection<Conversation>> GetGameConversationsAsync(int gameId)

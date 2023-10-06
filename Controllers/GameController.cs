@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.Games;
 using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Games;
 using Microsoft.AspNetCore.Mvc;
 
@@ -25,6 +26,20 @@ namespace HvZ_backend.Controllers
             var games = await _gameService.GetAllAsync();
             var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
             return Ok(gameDTOs);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<GameDTO>> GetGameById(int id)
+        {
+            try
+            {
+                var game = await _gameService.GetByIdAsync(id);
+                return Ok(_mapper.Map<GameDTO>(game));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
 
 
