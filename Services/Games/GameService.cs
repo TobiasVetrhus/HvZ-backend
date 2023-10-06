@@ -29,9 +29,7 @@ namespace HvZ_backend.Services.Games
             var game = await _context.Games
                 .Include(g => g.Missions)
                 .Include(g => g.Players)
-                    .ThenInclude(p => p.KillsAsKiller)
-                .Include(g => g.Players)
-                    .ThenInclude(p => p.KillsAsVictim)
+                    .ThenInclude(p => p.PlayerRolesInKills)
                 .Include(g => g.Rules)
                 .Include(g => g.Conversations)
                     .ThenInclude(c => c.Messages)
