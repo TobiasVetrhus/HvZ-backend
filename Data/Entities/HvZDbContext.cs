@@ -51,19 +51,23 @@ namespace HvZ_backend.Data.Entities
                 .WithOne(p => p.Game)
                 .HasForeignKey(p => p.GameId);
 
-            // Configure one-to-many relationship between Player and Kill (Killer)
             modelBuilder.Entity<Player>()
-                .HasMany(p => p.KillsAsKiller) // Use a different navigation property for killer kills
-                .WithOne(k => k.KillerPlayer)
-                .HasForeignKey(k => k.KillerPlayerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMany(p => p.PlayerRolesInKills)
+                .WithOne(k => k.Player)
+                .HasForeignKey(k => k.PlayerId);
 
-            // Configure one-to-many relationship between Player and Kill (Victim)
+            modelBuilder.Entity<Kill>()
+                .HasMany(p => p.PlayerRoles)
+                .WithOne(k => k.Kill)
+                .HasForeignKey(k => k.KillId);
+
             modelBuilder.Entity<Player>()
-                .HasMany(p => p.KillsAsVictim) // Use a different navigation property for victim kills
-                .WithOne(k => k.VictimPlayer)
-                .HasForeignKey(k => k.VictimPlayerId)
-                .OnDelete(DeleteBehavior.Restrict);
+                .HasMany(p => p.Messages)
+                .WithOne(m => m.Player)
+                .HasForeignKey(m => m.PlayerId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+
 
 
 
@@ -86,10 +90,10 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Kills
             modelBuilder.Entity<Kill>().HasData(
-                new Kill { Id = 1, Description = "Player 2 tagged Player 1 as a zombie.", TimeOfKill = DateTime.Now, KillerPlayerId = 2, VictimPlayerId = 1 },
-                new Kill { Id = 2, Description = "Player 3 eliminated Zombie 1.", TimeOfKill = DateTime.Now, KillerPlayerId = 3, VictimPlayerId = 2 },
-                new Kill { Id = 3, Description = "Player 4 tagged Player 3.", TimeOfKill = DateTime.Now, KillerPlayerId = 4, VictimPlayerId = 3 },
-                new Kill { Id = 4, Description = "Player 1 tagged Player 4.", TimeOfKill = DateTime.Now, KillerPlayerId = 1, VictimPlayerId = 4 }
+                new Kill { Id = 1, Description = "Player 2 tagged Player 1 as a zombie.", TimeOfKill = DateTime.Now },
+                new Kill { Id = 2, Description = "Player 3 eliminated Zombie 1.", TimeOfKill = DateTime.Now },
+                new Kill { Id = 3, Description = "Player 4 tagged Player 3.", TimeOfKill = DateTime.Now },
+                new Kill { Id = 4, Description = "Player 1 tagged Player 4.", TimeOfKill = DateTime.Now }
             );
 
             // Seed data for Locations
@@ -148,6 +152,15 @@ namespace HvZ_backend.Data.Entities
                 new User { Id = 4, FirstName = "Player", LastName = "Four", Email = "playerfour@example.com", Phone = "1111111111" }
             );
 
+
+            // Seed data for PlayerKillRoles
+            modelBuilder.Entity<PlayerKillRole>().HasData(
+                new PlayerKillRole { Id = 1, RoleType = KillRoleType.Killer, PlayerId = 1, KillId = 1 },
+                new PlayerKillRole { Id = 2, RoleType = KillRoleType.Victim, PlayerId = 2, KillId = 1 },
+                new PlayerKillRole { Id = 3, RoleType = KillRoleType.Killer, PlayerId = 3, KillId = 2 },
+                new PlayerKillRole { Id = 4, RoleType = KillRoleType.Victim, PlayerId = 1, KillId = 3 }
+            );
+
             // Configure one-to-many relationship between Squad and Player
             modelBuilder.Entity<Squad>()
                     .HasMany(s => s.Players)
@@ -170,18 +183,8 @@ namespace HvZ_backend.Data.Entities
                        new { GameId = 4, RuleId = 4 }
                    );
                });
-            // In your DbContext's OnModelCreating method
-            modelBuilder.Entity<Player>()
-                .HasMany(p => p.Messages)
-                .WithOne(m => m.Player)
-                .HasForeignKey(m => m.PlayerId)
-                .OnDelete(DeleteBehavior.Restrict);
 
-            modelBuilder.Entity<Conversation>()
-                .HasMany(c => c.Messages)
-                .WithOne(m => m.Conversation)
-                .HasForeignKey(m => m.ConversationId)
-                .OnDelete(DeleteBehavior.Restrict);
+
 
 
 

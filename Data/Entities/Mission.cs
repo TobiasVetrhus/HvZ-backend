@@ -9,8 +9,8 @@ namespace HvZ_backend.Data.Entities
         public string Name { get; set; }
         [StringLength(255)]
         public string Description { get; set; }
-        public int LocationId { get; set; }
-        public int GameId { get; set; }
+        public int? LocationId { get; set; }
+        public int? GameId { get; set; }
 
         // Navigation property 
         public Location Location { get; set; }

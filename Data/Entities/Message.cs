@@ -9,8 +9,8 @@ namespace HvZ_backend.Data.Entities
         [Column(TypeName = "text")]
         public string Content { get; set; }
         public DateTime Sent { get; set; }
-        public int ConversationId { get; set; }
-        public int PlayerId { get; set; }
+        public int? ConversationId { get; set; }
+        public int? PlayerId { get; set; }
 
         //Navigation
         public Conversation Conversation { get; set; }

@@ -41,17 +41,13 @@ namespace HvZ_backend.Services.Users
             if (!await UserExistsAsync(obj.Id))
                 throw new EntityNotFoundException(nameof(User), obj.Id);
 
-            // Mark the object as modified so it will be updated in the database
             _context.Entry(obj).State = EntityState.Modified;
             _context.SaveChanges();
 
             return obj;
         }
 
-        public Task UpdatePlayersAsync(int userId, int[] playerIds)
-        {
-            throw new NotImplementedException();
-        }
+
 
         public async Task DeleteByIdAsync(int id)
         {
@@ -66,10 +62,97 @@ namespace HvZ_backend.Services.Users
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddPlayerAsync(int userId, int playerId)
+        {
+            if (!await UserExistsAsync(userId))
+                throw new EntityNotFoundException(nameof(User), userId);
+
+            if (!await UserExistsAsync(playerId))
+                throw new EntityNotFoundException(nameof(Player), playerId);
+
+            var user = await _context.Users
+                .Include(u => u.Players)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            var player = await _context.Players
+                .FindAsync(playerId);
+            user.Players.Add(player);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task UpdatePlayersAsync(int userId, int[] playerIds)
+        {
+            if (!await UserExistsAsync(userId))
+                throw new EntityNotFoundException(nameof(User), userId);
+
+            var user = await _context.Users
+                .Include(u => u.Players)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+
+            // Collect the player IDs that are no longer associated with the user
+            var removedPlayerIds = user.Players.Select(p => p.Id).Except(playerIds).ToList();
+
+            // Delete messages associated with the removed players
+            foreach (int removedPlayerId in removedPlayerIds)
+            {
+                var messagesToDelete = await _context.Messages
+                    .Where(m => m.PlayerId == removedPlayerId)
+                    .ToListAsync();
+
+                _context.Messages.RemoveRange(messagesToDelete);
+            }
+
+            // Clear the current player associations
+            //user.Players.Clear();
+
+            // Associate the user with the new set of players
+            foreach (int playerId in playerIds)
+            {
+                if (!await UserExistsAsync(playerId))
+                    throw new EntityNotFoundException(nameof(Player), playerId);
+
+                var player = await _context.Players.FindAsync(playerId);
+                user.Players.Add(player);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+
+
+        public async Task RemovePlayerAsync(int userId, int playerId)
+        {
+            if (!await UserExistsAsync(userId))
+                throw new EntityNotFoundException(nameof(User), userId);
+
+            if (!await UserExistsAsync(playerId))
+                throw new EntityNotFoundException(nameof(Player), playerId);
+
+            var user = _context.Users
+                .Where(u => u.Id == userId)
+                .Include(u => u.Players)
+                //.FirstOrDefaultAsync();
+                .First();
+
+            var player = _context.Players.First(p => p.Id == playerId);
+            //user.Players.Remove(player);
+            //player.UserId = null;
+            await _context.SaveChangesAsync();
+
+        }
+
+
         private async Task<bool> UserExistsAsync(int id)
         {
             return await _context.Users.AnyAsync(u => u.Id == id);
         }
+
+        private async Task<bool> PlayerExistsAsync(int id)
+        {
+            return await _context.Players.AnyAsync(u => u.Id == id);
+        }
+
+
 
         /*
 private async Task<bool> PlayerExistsAsync(int movieId)
