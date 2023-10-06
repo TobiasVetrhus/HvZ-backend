@@ -13,5 +13,6 @@ namespace HvZ_backend.Data.DTOs.Player
         public int UserId { get; set; }
         public int LocationId { get; set; }
         public int SquadId { get; set; }
+        public int GameId { get; set; }
     }
 }

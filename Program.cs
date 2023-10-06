@@ -1,5 +1,6 @@
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Services.Games;
+using HvZ_backend.Services.Players;
 using HvZ_backend.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -58,6 +59,8 @@ builder.Services.AddScoped<IGameService, GameService>();
 //builder.Services.AddScoped<IRuleService, RuleService>();
 //builder.Services.AddScoped<ISquadService, SquadService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
+
 
 
 // Add automapper
