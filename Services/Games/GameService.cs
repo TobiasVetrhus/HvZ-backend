@@ -59,7 +59,12 @@ namespace HvZ_backend.Services.Games
             throw new NotImplementedException();
         }
 
-        public Task<Game> DeleteByIdAsync(int id)
+        public Task DeleteByIdAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        Task<Game> ICrudService<Game, int>.AddAsync(Game obj)
         {
             throw new NotImplementedException();
         }
