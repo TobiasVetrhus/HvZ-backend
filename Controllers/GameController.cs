@@ -27,7 +27,6 @@ namespace HvZ_backend.Controllers
             var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
             return Ok(gameDTOs);
         }
-
         [HttpGet("{id}")]
         public async Task<ActionResult<GameDTO>> GetGameById(int id)
         {
@@ -41,6 +40,7 @@ namespace HvZ_backend.Controllers
                 return NotFound(ex.Message);
             }
         }
+
 
 
         [HttpPost]
