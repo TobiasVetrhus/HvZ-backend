@@ -9,7 +9,7 @@ namespace HvZ_backend.Data.DTOs.Games
         public string Description { get; set; }
         public GameStatus GameState { get; set; }
         public string PictureURL { get; set; }
-        public int[]? Rules { get; set; }
+        public int[]? RuleIds { get; set; }
         public int[]? PlayerIds { get; set; }
         public int[]? MissionIds { get; set; }
         public int[]? ConversationIds { get; set; }
