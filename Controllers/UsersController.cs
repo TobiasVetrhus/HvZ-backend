@@ -84,5 +84,64 @@ namespace HvZ_backend.Controllers
             }
         }
 
+
+        [HttpPut("{id}/add-player/{playerId}")]
+        public async Task<IActionResult> AddPlayerAsync(int id, int playerId)
+        {
+            try
+            {
+                await _userService.AddPlayerAsync(id, playerId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        /*
+        [HttpPut("{id}/update-players")]
+        public async Task<IActionResult> UpdatePlayersAsync(int id, [FromBody] int[] players)
+        {
+            try
+            {
+                await _userService.UpdatePlayersAsync(id, players);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        */
+
+        /*
+        [HttpPut("{id}/remove-player/{playerId}")]
+        public async Task<IActionResult> RemovePlayerAsync(int userId, int playerId)
+        {
+            try
+            {
+                await _userService.RemovePlayerAsync(userId, playerId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        */
+
     }
 }

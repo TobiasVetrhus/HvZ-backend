@@ -8,13 +8,6 @@ namespace HvZ_backend.Data.Entities
         [StringLength(255)]
         public string Description { get; set; }
         public DateTime TimeOfKill { get; set; }
-        public int KillerPlayerId { get; set; }
-        public int VictimPlayerId { get; set; }
-
-        //Navigation to access the killer and victim players
-        public Player KillerPlayer { get; set; }
-        public Player VictimPlayer { get; set; }
-
-
+        public ICollection<PlayerKillRole>? PlayerRoles { get; set; }
     }
 }
