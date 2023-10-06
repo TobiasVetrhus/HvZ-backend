@@ -5,7 +5,7 @@ namespace HvZ_backend.Data.DTOs.Player
     public class PlayerPutDTO
     {
 
-        public int Id { get; set; }
+       public int Id { get; set; }
 
         [StringLength(100)]
         public string Username { get; set; }
@@ -15,5 +15,6 @@ namespace HvZ_backend.Data.DTOs.Player
         public int UserId { get; set; }
         public int LocationId { get; set; }
         public int SquadId { get; set; }
+        public int GameId { get; set; }
     }
 }
