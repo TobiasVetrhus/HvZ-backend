@@ -1,40 +1,80 @@
 ﻿using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
+using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.Games
 {
     public class GameService : IGameService
     {
-        public Task<IEnumerable<Game>> GetAllAsync()
+        //Dependency Injection
+        private readonly HvZDbContext _context;
+
+        public GameService(HvZDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task<Game> AddAsync(Game obj)
+        {
+            await _context.Games.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return obj;
+        }
+
+        public async Task DeleteByIdAsync(int id)
+        {
+            if (!await GameExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Game), id);
+
+            var game = await _context.Games
+                .Where(g => g.Id == id)
+                .FirstAsync();
+
+            _context.Games.Remove(game);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Game>> GetAllAsync()
+        {
+            return await _context.Games
+                .Include(g => g.Players)
+                .Include(g => g.Rules)
+                .Include(g => g.Missions)
+                .Include(g => g.Conversations)
+                .ToListAsync();
+        }
+
+        public async Task<Game> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Game> GetByIdAsync(int id)
+        public async Task<ICollection<Conversation>> GetGameConversationsAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Mission>> GetGameMissionsAsync(int gameId)
+        public async Task<ICollection<Mission>> GetGameMissionsAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Player>> GetGamePlayersAsync(int gameId)
+        public async Task<ICollection<Player>> GetGamePlayersAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Rule>> GetGameRulesAsync(int gameId)
+        public async Task<ICollection<Rule>> GetGameRulesAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<ICollection<Conversation>> GetGameConversationsAsync(int gameId)
+        public async Task<Game> UpdateAsync(Game obj)
         {
             throw new NotImplementedException();
         }
 
-        public Task<Game> UpdateAsync(Game obj)
+        public async Task UpdateConversationsAsync(int gameId, int[] conversations)
         {
             throw new NotImplementedException();
         }
@@ -54,19 +94,10 @@ namespace HvZ_backend.Services.Games
             throw new NotImplementedException();
         }
 
-        public Task UpdateConversationsAsync(int gameId, int[] conversationIds)
+        //Helper methods
+        public async Task<bool> GameExistsAsync(int id)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task<Game> ICrudService<Game, int>.AddAsync(Game obj)
-        {
-            throw new NotImplementedException();
+            return await _context.Games.AnyAsync(g => g.Id == id);
         }
     }
 }
