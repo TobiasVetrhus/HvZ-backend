@@ -1,5 +1,6 @@
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Services.Games;
+using HvZ_backend.Services.Locations;
 using HvZ_backend.Services.Players;
 using HvZ_backend.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -52,7 +53,7 @@ builder.Services.AddDbContext<HvZDbContext>(options =>
 builder.Services.AddScoped<IGameService, GameService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
 //builder.Services.AddScoped<IKillService, KillService>();
-//builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<ILocationService, LocationService>();
 //builder.Services.AddScoped<IMessageService, MessageService>();
 //builder.Services.AddScoped<IMissionService, MissionService>();
 //builder.Services.AddScoped<IPlayerService, PlayerService>();
