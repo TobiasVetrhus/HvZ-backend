@@ -65,10 +65,17 @@ namespace HvZ_backend.Services.Messages
 
             return existingMessage;
         }
-
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await MessageExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Message), id);
+
+            var message = await _context.Messages
+                .Where(m => m.Id == id)
+                .FirstAsync();
+
+            _context.Messages.Remove(message);
+            await _context.SaveChangesAsync();
         }
 
         private async Task<bool> MessageExistsAsync(int id)
