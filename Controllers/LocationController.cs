@@ -50,6 +50,26 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetLocationById", new { id = newLocation.Id }, _mapper.Map<LocationDTO>(newLocation));
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateLocation(int id, LocationPutDTO location)
+        {
+            if (id != location.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var updatedLocation = await _locationService.UpdateAsync(_mapper.Map<Location>(location));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            return NoContent();
+        }
+
 
     }
 }
