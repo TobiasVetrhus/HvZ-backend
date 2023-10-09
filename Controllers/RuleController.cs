@@ -30,8 +30,25 @@ namespace HvZ_backend.Controllers
             // Retrieve and return a list of rules
             return Ok(_mapper.Map<IEnumerable<RuleDTO>>(await _ruleService.GetAllAsync()));
         }
-        
-        
+
+
+        // GET: api/v1/Rules/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<RuleDTO>> GetRule(int id)
+        {
+            try
+            {
+                // Retrieve a rule by ID and return it
+                return Ok(_mapper.Map<RuleDTO>(await _ruleService.GetByIdAsync(id)));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                // Handle the case where the rule with the specified ID was not found
+                return NotFound(ex.Message);
+            }
+        }
+
+
         // PUT: api/v1/Rules/{id}
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRule(int id, RulePutDTO rule)
