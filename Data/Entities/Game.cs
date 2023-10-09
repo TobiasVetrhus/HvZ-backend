@@ -16,9 +16,9 @@ namespace HvZ_backend.Data.Entities
         [StringLength(255)]
         public string Description { get; set; }
         public GameStatus GameState { get; set; }
-        [StringLength(50)]
+        [StringLength(250)]
         public string PictureURL { get; set; }
-      
+
         public ICollection<Rule>? Rules { get; set; }
         public ICollection<Player>? Players { get; set; }
         public ICollection<Mission>? Missions { get; set; }
