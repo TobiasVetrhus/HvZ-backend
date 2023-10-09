@@ -54,6 +54,16 @@ namespace HvZ_backend.Controllers
 
             return NoContent();
         }
+        // POST: api/v1/Rules
+        [HttpPost]
+        public async Task<ActionResult<RuleDTO>> PostRule(RulePostDTO rule)
+        {
+            // Create a new rule and return CreatedAtAction with the newly created rule's information
+            var newRule = await _ruleService.AddAsync(_mapper.Map<Rule>(rule));
 
+            return CreatedAtAction("GetRule",
+                new { id = newRule.Id },
+                _mapper.Map<RuleDTO>(newRule));
+        }
     }
 }
