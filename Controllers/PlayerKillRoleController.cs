@@ -42,6 +42,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<ActionResult<PlayerKillRoleDTO>> AddPlayerKillRole(PlayerKillRolePostDTO playerkillrole)
+        {
+            var newPlayerKillRole = await _playerKillRoleService.AddAsync(_mapper.Map<PlayerKillRole>(playerkillrole));
+
+            return CreatedAtAction("GetPlayerKillRoleById", new { id = newPlayerKillRole.Id }, _mapper.Map<PlayerKillRoleDTO>(newPlayerKillRole));
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePlayerKillRole(int id, PlayerKillRolePutDTO playerkillrole)
         {
