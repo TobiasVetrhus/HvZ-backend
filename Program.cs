@@ -1,6 +1,7 @@
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Services.Games;
 using HvZ_backend.Services.Locations;
+using HvZ_backend.Services.Messages;
 using HvZ_backend.Services.Players;
 using HvZ_backend.Services.Rules;
 using HvZ_backend.Services.Users;
@@ -55,7 +56,7 @@ builder.Services.AddScoped<IGameService, GameService>();
 //builder.Services.AddScoped<IConversationService, ConversationService>();
 //builder.Services.AddScoped<IKillService, KillService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
-//builder.Services.AddScoped<IMessageService, MessageService>();
+builder.Services.AddScoped<IMessageService, MessageService>();
 //builder.Services.AddScoped<IMissionService, MissionService>();
 //builder.Services.AddScoped<IPlayerService, PlayerService>();
 //builder.Services.AddScoped<IRuleService, RuleService>();

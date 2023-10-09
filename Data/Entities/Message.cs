@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace HvZ_backend.Data.Entities
 {
@@ -7,6 +8,7 @@ namespace HvZ_backend.Data.Entities
         public int Id { get; set; }
 
         [Column(TypeName = "text")]
+        [StringLength(1000)]
         public string Content { get; set; }
         public DateTime Sent { get; set; }
         public int? ConversationId { get; set; }
