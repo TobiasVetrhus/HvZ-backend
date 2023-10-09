@@ -70,6 +70,20 @@ namespace HvZ_backend.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteLocation(int id)
+        {
+            try
+            {
+                await _locationService.DeleteByIdAsync(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
 
     }
 }
