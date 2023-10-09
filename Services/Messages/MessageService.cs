@@ -1,4 +1,5 @@
 ﻿using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.Messages
@@ -24,12 +25,18 @@ namespace HvZ_backend.Services.Messages
             return await _context.Messages.ToListAsync();
         }
 
-        public Task<Message> GetByIdAsync(int id)
+        public async Task<Message> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await MessageExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Message), id);
+
+            var message = await _context.Messages.Where(m => m.Id == id)
+                .FirstAsync();
+
+            return message;
         }
 
-        public Task<Message> UpdateAsync(Message obj)
+        public async Task<Message> UpdateAsync(Message obj)
         {
             throw new NotImplementedException();
         }
@@ -38,5 +45,9 @@ namespace HvZ_backend.Services.Messages
             throw new NotImplementedException();
         }
 
+        private async Task<bool> MessageExistsAsync(int id)
+        {
+            return await _context.Messages.AnyAsync(u => u.Id == id);
+        }
     }
 }
