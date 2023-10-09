@@ -82,5 +82,22 @@ namespace HvZ_backend.Controllers
                 new { id = newRule.Id },
                 _mapper.Map<RuleDTO>(newRule));
         }
+       
+        // DELETE: api/v1/Rules/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteRule(int id)
+        {
+            try
+            {
+                // Delete a rule by ID and return NoContent on success
+                await _ruleService.DeleteByIdAsync(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                // Handle the case where the rule with the specified ID was not found
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
