@@ -36,6 +36,7 @@ namespace HvZ_backend.Services.Messages
             return message;
         }
 
+        /*
         public async Task<Message> UpdateAsync(Message obj)
         {
             if (!await MessageExistsAsync(obj.Id))
@@ -45,6 +46,24 @@ namespace HvZ_backend.Services.Messages
             await _context.SaveChangesAsync();
 
             return obj;
+        }
+        */
+
+
+        public async Task<Message> UpdateAsync(Message updatedMessage)
+        {
+            var existingMessage = await _context.Messages.FindAsync(updatedMessage.Id);
+
+            if (existingMessage == null)
+                throw new EntityNotFoundException(nameof(Message), updatedMessage.Id);
+
+            updatedMessage.ConversationId = existingMessage.ConversationId;
+            updatedMessage.PlayerId = existingMessage.PlayerId;
+
+            _context.Entry(existingMessage).CurrentValues.SetValues(updatedMessage);
+            await _context.SaveChangesAsync();
+
+            return existingMessage;
         }
 
         public Task DeleteByIdAsync(int id)
