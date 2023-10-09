@@ -44,7 +44,13 @@ namespace HvZ_backend.Services.PlayerKillRoles
 
         public async Task<PlayerKillRole> UpdateAsync(PlayerKillRole obj)
         {
-            throw new NotImplementedException();
+            if (!await PlayerKillRoleExistsAsync(obj.Id))
+                throw new EntityNotFoundException(nameof(PlayerKillRole), obj.Id);
+
+            _context.Entry(obj).State = EntityState.Modified;
+            _context.SaveChanges();
+
+            return obj;
         }
 
         //Helper methods
