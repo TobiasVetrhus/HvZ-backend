@@ -22,7 +22,15 @@ namespace HvZ_backend.Services.PlayerKillRoles
 
         public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await PlayerKillRoleExistsAsync(id))
+                throw new EntityNotFoundException(nameof(PlayerKillRole), id);
+
+            var playerkillrole = await _context.PlayerKillRole
+                .Where(p => p.Id == id)
+                .FirstAsync();
+
+            _context.PlayerKillRole.Remove(playerkillrole);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<PlayerKillRole>> GetAllAsync()
