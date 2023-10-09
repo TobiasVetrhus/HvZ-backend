@@ -19,6 +19,8 @@ namespace HvZ_backend.Data.Entities
         public DbSet<Squad> Squads { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<PlayerKillRole> PlayerKillRole { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Configure one-to-many relationship between Conversation and Message
@@ -68,10 +70,6 @@ namespace HvZ_backend.Data.Entities
                 .OnDelete(DeleteBehavior.NoAction);
 
 
-
-
-
-
             // Seed data for Conversations
             modelBuilder.Entity<Conversation>().HasData(
                 new Conversation { Id = 1, ConversationName = "Global Chat", ChatType = ChatType.Global, GameId = 1 },
@@ -82,10 +80,38 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Games
             modelBuilder.Entity<Game>().HasData(
-                new Game { Id = 1, Title = "HvZ Spring 2023", Description = "Humans vs. Zombies - Spring 2023 Edition", GameState = GameStatus.Registration, PictureURL = "game1.jpg", },
-                new Game { Id = 2, Title = "HvZ Summer 2023", Description = "Humans vs. Zombies - Summer 2023 Edition", GameState = GameStatus.InProgress, PictureURL = "game2.jpg" },
-                new Game { Id = 3, Title = "HvZ Fall 2023", Description = "Humans vs. Zombies - Fall 2023 Edition", GameState = GameStatus.InProgress, PictureURL = "game3.jpg" },
-                new Game { Id = 4, Title = "HvZ Winter 2023", Description = "Humans vs. Zombies - Winter 2023 Edition", GameState = GameStatus.Complete, PictureURL = "game4.jpg" }
+                new Game
+                {
+                    Id = 1,
+                    Title = "HvZ Spring 2023",
+                    Description = "Humans vs. Zombies - Spring 2023 Edition",
+                    GameState = GameStatus.Registration,
+                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais",
+                },
+                new Game
+                {
+                    Id = 2,
+                    Title = "HvZ Summer 2023",
+                    Description = "Humans vs. Zombies - Summer 2023 Edition",
+                    GameState = GameStatus.InProgress,
+                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                },
+                new Game
+                {
+                    Id = 3,
+                    Title = "HvZ Fall 2023",
+                    Description = "Humans vs. Zombies - Fall 2023 Edition",
+                    GameState = GameStatus.InProgress,
+                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                },
+                new Game
+                {
+                    Id = 4,
+                    Title = "HvZ Winter 2023",
+                    Description = "Humans vs. Zombies - Winter 2023 Edition",
+                    GameState = GameStatus.Complete,
+                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                }
             );
 
             // Seed data for Kills
