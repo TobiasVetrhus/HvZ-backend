@@ -8,6 +8,7 @@ namespace HvZ_backend.Services.Games
         Task UpdatePlayersAsync(int gameId, int[] playerIds);
         Task UpdateMissionsAsync(int gameId, int[] missionIds);
         Task UpdateConversationsAsync(int gameId, int[] conversations);
+        Task<ICollection<Game>> GetGamesByStateAsync(GameStatus gamestatus);
         Task<ICollection<Rule>> GetGameRulesAsync(int gameId);
         Task<ICollection<Player>> GetGamePlayersAsync(int gameId);
         Task<ICollection<Mission>> GetGameMissionsAsync(int gameId);

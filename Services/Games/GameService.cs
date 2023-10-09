@@ -29,10 +29,8 @@ namespace HvZ_backend.Services.Games
             var game = await _context.Games
                 .Include(g => g.Missions)
                 .Include(g => g.Players)
-                    .ThenInclude(p => p.PlayerRolesInKills)
                 .Include(g => g.Rules)
                 .Include(g => g.Conversations)
-                    .ThenInclude(c => c.Messages)
                 .SingleOrDefaultAsync(g => g.Id == id);
 
             foreach (var conversation in game.Conversations)
@@ -47,6 +45,17 @@ namespace HvZ_backend.Services.Games
             _context.Games.Remove(game);
 
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<ICollection<Game>> GetGamesByStateAsync(GameStatus gamestatus)
+        {
+            return await _context.Games
+                .Include(g => g.Missions)
+                .Include(g => g.Players)
+                .Include(g => g.Rules)
+                .Include(g => g.Conversations)
+                .Where(g => g.GameState == gamestatus)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Game>> GetAllAsync()

@@ -27,6 +27,7 @@ namespace HvZ_backend.Controllers
             var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
             return Ok(gameDTOs);
         }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<GameDTO>> GetGameById(int id)
         {
@@ -41,7 +42,13 @@ namespace HvZ_backend.Controllers
             }
         }
 
-
+        [HttpGet("filterbystates/{gamestate}")]
+        public async Task<ActionResult<IEnumerable<GameDTO>>> GetGamesByState(GameStatus gamestate)
+        {
+            var games = await _gameService.GetGamesByStateAsync(gamestate);
+            var gameDTOs = _mapper.Map<IEnumerable<GameDTO>>(games);
+            return Ok(gameDTOs);
+        }
 
         [HttpPost]
         public async Task<ActionResult<GameDTO>> AddGame(GamePostDTO game)
