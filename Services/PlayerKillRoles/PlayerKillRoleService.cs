@@ -1,4 +1,5 @@
 ﻿using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.PlayerKillRoles
@@ -31,7 +32,14 @@ namespace HvZ_backend.Services.PlayerKillRoles
 
         public async Task<PlayerKillRole> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await PlayerKillRoleExistsAsync(id))
+                throw new EntityNotFoundException(nameof(PlayerKillRole), id);
+
+            var playerkillrole = await _context.PlayerKillRole
+                .Where(p => p.Id == id)
+                .FirstAsync();
+
+            return playerkillrole;
         }
 
         public async Task<PlayerKillRole> UpdateAsync(PlayerKillRole obj)

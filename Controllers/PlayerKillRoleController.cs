@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.PlayerKillRoles;
+using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.PlayerKillRoles;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,6 +25,20 @@ namespace HvZ_backend.Controllers
             var playerkillroles = await _playerKillRoleService.GetAllAsync();
             var playerkillroleDTOs = _mapper.Map<IEnumerable<PlayerKillRoleDTO>>(playerkillroles);
             return Ok(playerkillroleDTOs);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<PlayerKillRoleDTO>> GetPlayerKillRoleById(int id)
+        {
+            try
+            {
+                var playerkillrole = await _playerKillRoleService.GetByIdAsync(id);
+                return Ok(_mapper.Map<PlayerKillRoleDTO>(playerkillrole));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
     }
 }
