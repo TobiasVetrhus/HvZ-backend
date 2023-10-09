@@ -38,8 +38,15 @@ namespace HvZ_backend.Services.Messages
 
         public async Task<Message> UpdateAsync(Message obj)
         {
-            throw new NotImplementedException();
+            if (!await MessageExistsAsync(obj.Id))
+                throw new EntityNotFoundException(nameof(Message), obj.Id);
+
+            _context.Entry(obj).State = EntityState.Modified;
+            await _context.SaveChangesAsync();
+
+            return obj;
         }
+
         public Task DeleteByIdAsync(int id)
         {
             throw new NotImplementedException();
