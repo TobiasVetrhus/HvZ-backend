@@ -76,7 +76,7 @@ namespace HvZ_backend.Services.Users
 
             var player = await _context.Players
                 .FindAsync(playerId);
-            user.Players.Add(player);
+                user.Players.Add(player);
 
             await _context.SaveChangesAsync();
         }
