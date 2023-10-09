@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.Locations;
+using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Locations;
 using Microsoft.AspNetCore.Mvc;
@@ -39,6 +40,14 @@ namespace HvZ_backend.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<LocationDTO>> AddLocation(LocationPostDTO location)
+        {
+            var newLocation = await _locationService.AddAsync(_mapper.Map<Location>(location));
+
+            return CreatedAtAction("GetLocationById", new { id = newLocation.Id }, _mapper.Map<LocationDTO>(newLocation));
         }
 
 
