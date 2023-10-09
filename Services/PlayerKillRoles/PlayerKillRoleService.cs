@@ -12,27 +12,29 @@ namespace HvZ_backend.Services.PlayerKillRoles
             _context = context;
         }
 
-        public Task<PlayerKillRole> AddAsync(PlayerKillRole obj)
+        public async Task<PlayerKillRole> AddAsync(PlayerKillRole obj)
+        {
+            await _context.PlayerKillRole.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return obj;
+        }
+
+        public async Task DeleteByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task<IEnumerable<PlayerKillRole>> GetAllAsync()
+        {
+            return await _context.PlayerKillRole.ToListAsync();
+        }
+
+        public async Task<PlayerKillRole> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IEnumerable<PlayerKillRole>> GetAllAsync()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PlayerKillRole> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<PlayerKillRole> UpdateAsync(PlayerKillRole obj)
+        public async Task<PlayerKillRole> UpdateAsync(PlayerKillRole obj)
         {
             throw new NotImplementedException();
         }
