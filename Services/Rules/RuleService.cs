@@ -23,20 +23,25 @@ namespace HvZ_backend.Services.Rules
         // Get all rules from the database
         public async Task<IEnumerable<Rule>> GetAllAsync()
         {
-            return await _context.Rules.ToListAsync();
+            return await _context.Rules
+               .Include(r => r.Games)
+               .ToListAsync();
         }
 
-        // Get a rule by its ID
+        // Get a rule by its ID with associated GameIds
         public async Task<Rule> GetByIdAsync(int id)
         {
-            var rule = await _context.Rules.FindAsync(id);
+            var rule = await _context.Rules
+                .Include(r => r.Games)
+                .FirstOrDefaultAsync(r => r.Id == id);
 
             if (rule == null)
             {
-                // Throw an exception if the rule with the specified ID is not found
                 throw new EntityNotFoundException("Rule", id);
             }
 
+            // Extract the GameIds from the related Games entities
+            var gameIds = rule.Games.Select(game => game.Id).ToList();
             return rule;
         }
 
@@ -61,7 +66,7 @@ namespace HvZ_backend.Services.Rules
 
             try
             {
-                await _context.SaveChangesAsync(); // Save changes asynchronously
+                await _context.SaveChangesAsync(); 
             }
             catch (DbUpdateConcurrencyException)
             {
