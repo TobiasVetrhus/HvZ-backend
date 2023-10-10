@@ -42,9 +42,19 @@ namespace HvZ_backend.Services.Conversations
             return conversation;
         }
 
-        public Task<Conversation> UpdateAsync(Conversation obj)
+        public async Task<Conversation> UpdateAsync(Conversation updatedConversation)
         {
-            throw new NotImplementedException();
+            var existingConversation = await _context.Conversations.FindAsync(updatedConversation.Id);
+
+            if (existingConversation == null)
+                throw new EntityNotFoundException(nameof(Conversation), updatedConversation.Id);
+
+            updatedConversation.GameId = existingConversation.GameId;
+
+            _context.Entry(existingConversation).CurrentValues.SetValues(updatedConversation);
+            await _context.SaveChangesAsync();
+
+            return existingConversation;
         }
 
         private async Task<bool> ConversationExistsAsync(int id)

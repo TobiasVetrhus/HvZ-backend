@@ -50,5 +50,24 @@ namespace HvZ_backend.Controllers
                 new { id = newConversation.Id },
                 _mapper.Map<ConversationDTO>(newConversation));
         }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutConversation(int id, ConversationPutDTO conversation)
+        {
+            if (id != conversation.Id)
+            {
+                return BadRequest();
+            }
+            try
+            {
+                var updatedConversation = await _conversationService.UpdateAsync(_mapper.Map<Conversation>(conversation));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            return NoContent();
+        }
     }
 }
