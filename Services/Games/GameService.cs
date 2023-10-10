@@ -204,6 +204,8 @@ namespace HvZ_backend.Services.Games
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
+            game.Conversations.Clear();
+
             foreach (int id in conversations)
             {
                 if (!await ConversationExistsAsync(id))
@@ -248,6 +250,8 @@ namespace HvZ_backend.Services.Games
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
+            game.Players.Clear();
+
             foreach (int id in playerIds)
             {
                 if (!await PlayerExistsAsync(id))
@@ -268,6 +272,8 @@ namespace HvZ_backend.Services.Games
 
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
+
+            game.Rules.Clear();
 
             foreach (int id in ruleIds)
             {
@@ -316,6 +322,44 @@ namespace HvZ_backend.Services.Games
                 throw new EntityNotFoundException(nameof(Mission), missionId);
 
             missionToRemove.GameId = null;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveConversationAsync(int gameId, int conversationId)
+        {
+            var game = await _context.Games
+                .Include(g => g.Conversations)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var conversationToRemove = _context.Conversations.FirstOrDefault(c => c.Id == conversationId);
+
+            if (!await ConversationExistsAsync(conversationId))
+                throw new EntityNotFoundException(nameof(Conversation), conversationId);
+
+            conversationToRemove.GameId = null;
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemovePlayerAsync(int gameId, int playerId)
+        {
+            var game = await _context.Games
+                .Include(g => g.Players)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var playerToRemove = _context.Players.FirstOrDefault(p => p.Id == playerId);
+
+            if (!await ConversationExistsAsync(playerId))
+                throw new EntityNotFoundException(nameof(Player), playerId);
+
+            playerToRemove.GameId = null;
 
             await _context.SaveChangesAsync();
         }

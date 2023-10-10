@@ -14,6 +14,8 @@ namespace HvZ_backend.Services.Games
         Task AddConversationAsync(int gameId, int conversations);
         Task RemoveRuleAsync(int gameId, int ruleId);
         Task RemoveMissionAsync(int gameId, int missionId);
+        Task RemoveConversationAsync(int gameId, int conversationId);
+        Task RemovePlayerAsync(int gameId, int playerId);
         Task<ICollection<Game>> GetGamesByStateAsync(GameStatus gamestatus);
         Task<ICollection<Rule>> GetGameRulesAsync(int gameId);
         Task<ICollection<Player>> GetGamePlayersAsync(int gameId);

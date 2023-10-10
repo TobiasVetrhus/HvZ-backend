@@ -46,13 +46,15 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<Game>()
                 .HasMany(g => g.Players)
                 .WithOne(p => p.Game)
-                .HasForeignKey(p => p.GameId);
+                .HasForeignKey(p => p.GameId)
+                .IsRequired(false);
 
             // Configure one-to-many relationship between Game and Conversation
             modelBuilder.Entity<Game>()
                 .HasMany(g => g.Conversations)
                 .WithOne(p => p.Game)
-                .HasForeignKey(p => p.GameId);
+                .HasForeignKey(p => p.GameId)
+                .IsRequired(false);
 
             modelBuilder.Entity<Player>()
                 .HasMany(p => p.PlayerRolesInKills)
