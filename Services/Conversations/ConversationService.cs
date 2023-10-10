@@ -20,9 +20,20 @@ namespace HvZ_backend.Services.Conversations
             return obj;
         }
 
-        public Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            if (!await ConversationExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Conversation), id);
+
+            var conversation = await _context.Conversations
+                .Where(m => m.Id == id)
+                .Include(c => c.Messages)
+                .FirstAsync();
+
+            conversation.Messages.Clear();
+
+            _context.Conversations.Remove(conversation);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IEnumerable<Conversation>> GetAllAsync()
