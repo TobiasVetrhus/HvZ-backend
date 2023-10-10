@@ -9,6 +9,5 @@ namespace HvZ_backend.Data.DTOs.Conversations
         public string ConversationName { get; set; }
         public ChatType ChatType { get; set; }
         public int GameId { get; set; }
-        public int[]? Messages { get; set; }
     }
 }
