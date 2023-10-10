@@ -48,6 +48,17 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+// Add CORS configuration
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("MyCorsPolicy", builder =>
+    {
+        builder.WithOrigins("http://localhost:3000")
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 // Add services to the container.
 builder.Services.AddControllers();
 
@@ -88,6 +99,9 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+// Use CORS with your custom policy
+app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
 
