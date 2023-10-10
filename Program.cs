@@ -1,4 +1,5 @@
 using HvZ_backend.Data.Entities;
+using HvZ_backend.Services.Conversations;
 using HvZ_backend.Services.Games;
 using HvZ_backend.Services.Locations;
 using HvZ_backend.Services.Messages;
@@ -6,12 +7,12 @@ using HvZ_backend.Services.Missions;
 using HvZ_backend.Services.PlayerKillRoles;
 using HvZ_backend.Services.Players;
 using HvZ_backend.Services.Rules;
+using HvZ_backend.Services.Squads;
 using HvZ_backend.Services.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using HvZ_backend.Services.Squads;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = new ConfigurationBuilder()
@@ -56,7 +57,7 @@ builder.Services.AddDbContext<HvZDbContext>(options =>
 
 // Add custom services
 builder.Services.AddScoped<IGameService, GameService>();
-//builder.Services.AddScoped<IConversationService, ConversationService>();
+builder.Services.AddScoped<IConversationService, ConversationService>();
 //builder.Services.AddScoped<IKillService, KillService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IMissionService, MissionService>();
