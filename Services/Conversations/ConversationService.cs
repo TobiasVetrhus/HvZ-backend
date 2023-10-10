@@ -13,9 +13,11 @@ namespace HvZ_backend.Services.Conversations
             _context = context;
         }
 
-        public Task<Conversation> AddAsync(Conversation obj)
+        public async Task<Conversation> AddAsync(Conversation obj)
         {
-            throw new NotImplementedException();
+            await _context.Conversations.AddAsync(obj);
+            await _context.SaveChangesAsync();
+            return obj;
         }
 
         public Task DeleteByIdAsync(int id)

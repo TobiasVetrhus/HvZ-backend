@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.Conversations;
+using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Conversations;
 using Microsoft.AspNetCore.Mvc;
@@ -38,6 +39,16 @@ namespace HvZ_backend.Controllers
             {
                 return NotFound(ex.Message);
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ConversationDTO>> PostConversation(ConversationPostDTO conversation)
+        {
+            var newConversation = await _conversationService.AddAsync(_mapper.Map<Conversation>(conversation));
+
+            return CreatedAtAction("GetConversation",
+                new { id = newConversation.Id },
+                _mapper.Map<ConversationDTO>(newConversation));
         }
     }
 }
