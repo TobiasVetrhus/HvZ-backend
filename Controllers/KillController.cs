@@ -29,6 +29,21 @@ namespace HvZ_backend.Controllers
             var killDTOs = _mapper.Map<IEnumerable<KillDTO>>(kills);
             return Ok(killDTOs);
         }
+        // GET: api/v1/Kill/{id}
+        [HttpGet("{id}")]
+        public async Task<ActionResult<KillDTO>> GetKill(int id)
+        {
+            try
+            {
+                // Retrieve a kill by ID and return it
+                return Ok(_mapper.Map<KillDTO>(await _killService.GetByIdAsync(id)));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                // Handle the case where the kill with the specified ID was not found
+                return NotFound(ex.Message);
+            }
+        }
 
     }
 }
