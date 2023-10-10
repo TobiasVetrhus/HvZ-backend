@@ -40,7 +40,7 @@ namespace HvZ_backend.Data.Entities
                 .HasMany(g => g.Missions)
                 .WithOne(m => m.Game)
                 .HasForeignKey(m => m.GameId)
-                .OnDelete(DeleteBehavior.NoAction);
+                .IsRequired(false);
 
             // Configure one-to-many relationship between Game and Player
             modelBuilder.Entity<Game>()
@@ -69,7 +69,6 @@ namespace HvZ_backend.Data.Entities
                 .WithOne(m => m.Player)
                 .HasForeignKey(m => m.PlayerId)
                 .OnDelete(DeleteBehavior.NoAction);
-
 
             // Seed data for Conversations
             modelBuilder.Entity<Conversation>().HasData(
