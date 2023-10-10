@@ -88,7 +88,7 @@ namespace HvZ_backend.Data.Entities
                     Title = "HvZ Spring 2023",
                     Description = "Humans vs. Zombies - Spring 2023 Edition",
                     GameState = GameStatus.Registration,
-                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais",
+                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
                 },
                 new Game
                 {
@@ -96,7 +96,7 @@ namespace HvZ_backend.Data.Entities
                     Title = "HvZ Summer 2023",
                     Description = "Humans vs. Zombies - Summer 2023 Edition",
                     GameState = GameStatus.InProgress,
-                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
                 },
                 new Game
                 {
@@ -104,7 +104,7 @@ namespace HvZ_backend.Data.Entities
                     Title = "HvZ Fall 2023",
                     Description = "Humans vs. Zombies - Fall 2023 Edition",
                     GameState = GameStatus.InProgress,
-                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
                 },
                 new Game
                 {
@@ -112,7 +112,7 @@ namespace HvZ_backend.Data.Entities
                     Title = "HvZ Winter 2023",
                     Description = "Humans vs. Zombies - Winter 2023 Edition",
                     GameState = GameStatus.Complete,
-                    PictureURL = "https://www.freepik.com/premium-ai-image/terrifying-landscape-horde-zombies_60117114.htm#query=zombie%20background&position=11&from_view=keyword&track=ais"
+                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
                 }
             );
 
