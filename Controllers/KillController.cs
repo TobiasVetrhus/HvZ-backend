@@ -58,6 +58,26 @@ namespace HvZ_backend.Controllers
                 new { id = newKill.Id },
                 _mapper.Map<KillDTO>(newKill));
         }
+        
+        // PUT: api/v1/Kill/{id}
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutKill(int id, KillPutDTO killPutDTO)
+        {
+            try
+            {
+                // Update the existing kill with the provided ID using the DTO data
+                var updatedKill = await _killService.UpdateKillAsync(id, killPutDTO);
+
+                // Return the updated kill as a DTO
+                return Ok(_mapper.Map<KillDTO>(updatedKill));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                // Handle the case where the kill with the specified ID was not found
+                return NotFound(ex.Message);
+            }
+        }
+
         // DELETE: api/v1/Kill/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKill(int id)
