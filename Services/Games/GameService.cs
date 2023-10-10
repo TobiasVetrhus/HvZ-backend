@@ -115,6 +115,86 @@ namespace HvZ_backend.Services.Games
             return obj;
         }
 
+        public async Task AddRuleAsync(int gameId, int ruleId)
+        {
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var game = await _context.Games
+                .Include(g => g.Rules)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+
+            if (!await RuleExistsAsync(ruleId))
+                throw new EntityNotFoundException(nameof(Rule), ruleId);
+
+            var rule = await _context.Rules.FindAsync(ruleId);
+
+            game.Rules.Add(rule);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddPlayerAsync(int gameId, int playerId)
+        {
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var game = await _context.Games
+                .Include(g => g.Players)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+
+            if (!await RuleExistsAsync(playerId))
+                throw new EntityNotFoundException(nameof(Player), playerId);
+
+            var player = await _context.Players.FindAsync(playerId);
+
+            game.Players.Add(player);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddMissionAsync(int gameId, int missionId)
+        {
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var game = await _context.Games
+                .Include(g => g.Missions)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+
+            if (!await RuleExistsAsync(missionId))
+                throw new EntityNotFoundException(nameof(Mission), missionId);
+
+            var mission = await _context.Missions.FindAsync(missionId);
+
+            game.Missions.Add(mission);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddConversationAsync(int gameId, int conversationId)
+        {
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var game = await _context.Games
+                .Include(g => g.Conversations)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+
+            if (!await RuleExistsAsync(conversationId))
+                throw new EntityNotFoundException(nameof(Conversation), conversationId);
+
+            var conversation = await _context.Conversations.FindAsync(conversationId);
+
+            game.Conversations.Add(conversation);
+
+            await _context.SaveChangesAsync();
+        }
+
         public async Task UpdateConversationsAsync(int gameId, int[] conversations)
         {
             var game = await _context.Games
@@ -123,8 +203,6 @@ namespace HvZ_backend.Services.Games
 
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
-
-            game.Conversations.Clear();
 
             foreach (int id in conversations)
             {
@@ -147,8 +225,6 @@ namespace HvZ_backend.Services.Games
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
-            game.Missions.Clear();
-
             foreach (int id in missionIds)
             {
                 if (!await MissionExistsAsync(id))
@@ -169,8 +245,6 @@ namespace HvZ_backend.Services.Games
 
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
-
-            game.Players.Clear();
 
             foreach (int id in playerIds)
             {
@@ -193,8 +267,6 @@ namespace HvZ_backend.Services.Games
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
-            game.Rules.Clear();
-
             foreach (int id in ruleIds)
             {
                 if (!await RuleExistsAsync(id))
@@ -203,6 +275,58 @@ namespace HvZ_backend.Services.Games
                 var rule = await _context.Rules.FindAsync(id);
                 game.Rules.Add(rule);
             }
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveRuleAsync(int gameId, int ruleId)
+        {
+            var game = await _context.Games
+                .Include(g => g.Rules)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var ruleToRemove = game.Rules.FirstOrDefault(r => r.Id == ruleId);
+
+            if (!await RuleExistsAsync(ruleId))
+                throw new EntityNotFoundException(nameof(Rule), ruleId);
+
+            // Remove the rule from the game's Rules collection
+            game.Rules.Remove(ruleToRemove);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveMissionAsync(int gameId, int missionId)
+        {
+            /*
+            var game = await _context.Games
+                .Include(g => g.Missions)
+                .FirstOrDefaultAsync(g => g.Id == gameId);
+            */
+
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var missionToRemove = _context.Missions.FirstOrDefault(r => r.Id == missionId);
+
+            if (!await MissionExistsAsync(missionId))
+                throw new EntityNotFoundException(nameof(Mission), missionId);
+
+            // Store the mission's current property values
+            var currentName = missionToRemove.Name;
+            var currentDescription = missionToRemove.Description;
+            var currentLocationId = missionToRemove.LocationId;
+
+            // Disassociate the mission from the game by setting its GameId to null
+            missionToRemove.GameId = null;
+
+            // Restore the other property values
+            missionToRemove.Name = currentName;
+            missionToRemove.Description = currentDescription;
+            missionToRemove.LocationId = currentLocationId;
 
             await _context.SaveChangesAsync();
         }

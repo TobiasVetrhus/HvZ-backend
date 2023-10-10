@@ -39,7 +39,8 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<Game>()
                 .HasMany(g => g.Missions)
                 .WithOne(m => m.Game)
-                .HasForeignKey(m => m.GameId);
+                .HasForeignKey(m => m.GameId)
+                .OnDelete(DeleteBehavior.NoAction);
 
             // Configure one-to-many relationship between Game and Player
             modelBuilder.Entity<Game>()
