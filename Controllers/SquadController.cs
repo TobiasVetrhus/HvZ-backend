@@ -51,6 +51,16 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Create a new squad.
+        /// </summary>
+        [HttpPost]
+        public async Task<ActionResult<SquadDTO>> AddSquad(SquadPostDTO squadPostDTO)
+        {
+            var newSquad = await _squadService.AddAsync(_mapper.Map<Squad>(squadPostDTO));
+            return CreatedAtAction("GetSquadById", new { id = newSquad.Id }, _mapper.Map<SquadDTO>(newSquad));
+        }
+
     }
 }
 
