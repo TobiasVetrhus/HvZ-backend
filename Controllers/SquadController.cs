@@ -98,6 +98,19 @@ namespace HvZ_backend.Controllers
                 return NotFound(ex.Message);
             }
         }
+        /// <summary>
+        /// Get all squads within a size range.
+        /// </summary>
+        [HttpGet("size")]
+        public async Task<ActionResult<IEnumerable<SquadDTO>>> GetSquadsBySize(int minSize, int maxSize)
+        {
+            var squads = await _squadService.GetSquadsBySizeAsync(minSize, maxSize);
+            var squadDTOs = _mapper.Map<IEnumerable<SquadDTO>>(squads);
+            return Ok(squadDTOs);
+        }
+
+        }
     }
-}
+
+
 
