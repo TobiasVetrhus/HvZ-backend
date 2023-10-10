@@ -60,6 +60,28 @@ namespace HvZ_backend.Controllers
             var newSquad = await _squadService.AddAsync(_mapper.Map<Squad>(squadPostDTO));
             return CreatedAtAction("GetSquadById", new { id = newSquad.Id }, _mapper.Map<SquadDTO>(newSquad));
         }
+        /// <summary>
+        /// Update an existing squad.
+        /// </summary>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSquad(int id, SquadPutDTO squadPutDTO)
+        {
+            if (id != squadPutDTO.Id)
+            {
+                return BadRequest();
+            }
+
+            try
+            {
+                var updatedSquad = await _squadService.UpdateAsync(_mapper.Map<Squad>(squadPutDTO));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+
+            return NoContent();
+        }
 
     }
 }
