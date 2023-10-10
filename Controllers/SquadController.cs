@@ -82,7 +82,22 @@ namespace HvZ_backend.Controllers
 
             return NoContent();
         }
-
+        /// <summary>
+        /// Delete a squad by ID.
+        /// </summary>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSquad(int id)
+        {
+            try
+            {
+                await _squadService.DeleteByIdAsync(id);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
 
