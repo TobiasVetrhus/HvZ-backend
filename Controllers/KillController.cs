@@ -21,6 +21,14 @@ namespace HvZ_backend.Controllers
             _killService = killService;
             _mapper = mapper;
         }
+        // GET: api/v1/Kill/GetKills
+        [HttpGet("GetKills")]
+        public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
+        {
+            var kills = await _killService.GetAllAsync();
+            var killDTOs = _mapper.Map<IEnumerable<KillDTO>>(kills);
+            return Ok(killDTOs);
+        }
 
     }
 }
