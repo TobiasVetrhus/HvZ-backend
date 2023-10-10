@@ -27,7 +27,8 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<Conversation>()
                 .HasMany(c => c.Messages)
                 .WithOne(m => m.Conversation)
-                .HasForeignKey(m => m.ConversationId);
+                .HasForeignKey(m => m.ConversationId)
+                .IsRequired(false);
 
             // Configure one-to-many relationship between User and Player
             modelBuilder.Entity<User>()
