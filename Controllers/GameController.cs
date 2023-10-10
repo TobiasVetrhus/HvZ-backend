@@ -258,6 +258,42 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        [HttpPut("{id}/remove-conversation/{conversationId}")]
+        public async Task<IActionResult> RemoveConversationAsync(int id, int conversationId)
+        {
+            try
+            {
+                await _gameService.RemoveConversationAsync(id, conversationId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/remove-player/{playerId}")]
+        public async Task<IActionResult> RemovePlayerAsync(int id, int playerId)
+        {
+            try
+            {
+                await _gameService.RemovePlayerAsync(id, playerId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteGame(int id)
         {
