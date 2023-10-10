@@ -34,7 +34,23 @@ namespace HvZ_backend.Controllers
             var squadDTOs = _mapper.Map<IEnumerable<SquadDTO>>(squads);
             return Ok(squadDTOs);
         }
-
+        /// <summary>
+        /// Get a squad by ID.
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<SquadDTO>> GetSquadById(int id)
+        {
+            try
+            {
+                var squad = await _squadService.GetByIdAsync(id);
+                return Ok(_mapper.Map<SquadDTO>(squad));
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
         }
+
     }
+}
 
