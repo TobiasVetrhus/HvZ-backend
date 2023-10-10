@@ -15,27 +15,27 @@ namespace HvZ_backend.Services.Kills
         private readonly HvZDbContext _context;
         private readonly IMapper _mapper;
 
-        
         public KillService(HvZDbContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
         }
 
-        
-        // Get all kills from the database
+        // Get all kills from the database with related PlayerKillRoles included
         public async Task<IEnumerable<Kill>> GetAllAsync()
         {
-            // Using Entity Framework to fetch all Kill entities
+          
             return await _context.Kills
+               .Include(k => k.PlayerRoles) 
                .ToListAsync();
         }
 
-        // Get a kill by its ID
+        // Get a kill by its ID with related PlayerKillRoles included
         public async Task<Kill> GetByIdAsync(int id)
         {
-            // Using Entity Framework to fetch a specific Kill entity by ID
+       
             var kill = await _context.Kills
+                .Include(k => k.PlayerRoles)
                 .FirstOrDefaultAsync(k => k.Id == id);
 
             // Throw an exception if the kill is not found
@@ -50,7 +50,6 @@ namespace HvZ_backend.Services.Kills
         // Create a new kill in the database
         public async Task<Kill> CreateKillAsync(KillPostDTO killPostDTO)
         {
-       
             var kill = _mapper.Map<Kill>(killPostDTO);
 
             // Adding the new Kill entity to the DbContext
@@ -67,7 +66,6 @@ namespace HvZ_backend.Services.Kills
             // Fetching the existing Kill entity by ID
             var existingKill = await _context.Kills.FindAsync(id);
 
-   
             if (existingKill == null)
             {
                 throw new EntityNotFoundException("Kill", id);

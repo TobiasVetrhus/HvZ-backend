@@ -1,13 +1,15 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace HvZ_backend.Data.DTOs.Kills
 {
     public class KillPostDTO
     {
+        [Required]
         [StringLength(255)]
         public string Description { get; set; }
+
+        [Required]
         public DateTime TimeOfKill { get; set; }
-        public int KillerPlayerId { get; set; }
-        public int VictimPlayerId { get; set; }
     }
 }

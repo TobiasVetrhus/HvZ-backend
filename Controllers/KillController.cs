@@ -21,6 +21,7 @@ namespace HvZ_backend.Controllers
             _killService = killService;
             _mapper = mapper;
         }
+        
         // GET: api/v1/Kill/GetKills
         [HttpGet("GetKills")]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
@@ -29,6 +30,7 @@ namespace HvZ_backend.Controllers
             var killDTOs = _mapper.Map<IEnumerable<KillDTO>>(kills);
             return Ok(killDTOs);
         }
+        
         // GET: api/v1/Kill/{id}
         [HttpGet("{id}")]
         public async Task<ActionResult<KillDTO>> GetKill(int id)
@@ -43,7 +45,44 @@ namespace HvZ_backend.Controllers
                 // Handle the case where the kill with the specified ID was not found
                 return NotFound(ex.Message);
             }
-        }
 
+        }
+        
+        // POST: api/v1/Kill
+        [HttpPost]
+        public async Task<ActionResult<KillDTO>> PostKill(KillPostDTO killPostDTO)
+        {
+            var newKill = await _killService.CreateKillAsync(killPostDTO);
+
+            return CreatedAtAction("GetKill",
+                new { id = newKill.Id },
+                _mapper.Map<KillDTO>(newKill));
+        }
+        // DELETE: api/v1/Kill/{id}
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteKill(int id)
+        {
+            try
+            {
+                // Delete a kill by ID and return NoContent on success
+                var isDeleted = await _killService.DeleteKillAsync(id);
+                if (isDeleted)
+                {
+                    return NoContent();
+                }
+                else
+                {
+                    return NotFound("Kill not found.");
+                }
+            }
+            catch (EntityNotFoundException ex)
+            {
+                // Handle the case where the kill with the specified ID was not found
+                return NotFound(ex.Message);
+            }
+        }
     }
 }
+
+    
+
