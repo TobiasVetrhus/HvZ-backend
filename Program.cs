@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using HvZ_backend.Services.Squads;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = new ConfigurationBuilder()
@@ -59,12 +60,11 @@ builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<IMissionService, MissionService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
-//builder.Services.AddScoped<IPlayerService, PlayerService>();
-//builder.Services.AddScoped<IRuleService, RuleService>();
-//builder.Services.AddScoped<ISquadService, SquadService>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
+builder.Services.AddScoped<ISquadService, SquadService>();
+
 
 
 // Add automapper
