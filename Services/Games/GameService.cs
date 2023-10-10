@@ -225,6 +225,8 @@ namespace HvZ_backend.Services.Games
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
+            game.Missions.Clear();
+
             foreach (int id in missionIds)
             {
                 if (!await MissionExistsAsync(id))
@@ -301,32 +303,19 @@ namespace HvZ_backend.Services.Games
 
         public async Task RemoveMissionAsync(int gameId, int missionId)
         {
-            /*
             var game = await _context.Games
                 .Include(g => g.Missions)
                 .FirstOrDefaultAsync(g => g.Id == gameId);
-            */
 
             if (!await GameExistsAsync(gameId))
                 throw new EntityNotFoundException(nameof(Game), gameId);
 
-            var missionToRemove = _context.Missions.FirstOrDefault(r => r.Id == missionId);
+            var missionToRemove = _context.Missions.FirstOrDefault(m => m.Id == missionId);
 
             if (!await MissionExistsAsync(missionId))
                 throw new EntityNotFoundException(nameof(Mission), missionId);
 
-            // Store the mission's current property values
-            var currentName = missionToRemove.Name;
-            var currentDescription = missionToRemove.Description;
-            var currentLocationId = missionToRemove.LocationId;
-
-            // Disassociate the mission from the game by setting its GameId to null
             missionToRemove.GameId = null;
-
-            // Restore the other property values
-            missionToRemove.Name = currentName;
-            missionToRemove.Description = currentDescription;
-            missionToRemove.LocationId = currentLocationId;
 
             await _context.SaveChangesAsync();
         }
