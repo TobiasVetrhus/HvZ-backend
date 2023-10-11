@@ -1,6 +1,10 @@
 ﻿using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace HvZ_backend.Services.Players
 {
@@ -38,7 +42,6 @@ namespace HvZ_backend.Services.Players
             return player;
         }
 
-
         // Create a new player and add them to the database.
         public async Task<Player> CreatePlayerAsync(Player player)
         {
@@ -47,11 +50,9 @@ namespace HvZ_backend.Services.Players
                 throw new ArgumentNullException(nameof(player));
             }
 
-            // Add the new player to the database and save changes.
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
 
-            // Return the newly created player.
             return player;
         }
 
@@ -63,33 +64,41 @@ namespace HvZ_backend.Services.Players
                 throw new ArgumentNullException(nameof(player));
             }
 
-            // Set the state of the player entity to modified to update it in the database.
+            if (!await PlayerExistsAsync(player.Id))
+            {
+                throw new EntityNotFoundException("Player", player.Id);
+            }
+
             _context.Entry(player).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            // Return the updated player.
             return player;
         }
 
         // Delete a player by their ID from the database.
-        public async Task<bool> DeletePlayerAsync(int playerId)
+        public async Task DeletePlayerAsync(int playerId)
         {
-            // Find the player with the specified ID.
-            var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == playerId);
-
-            if (player != null)
-          
-                _context.Messages.RemoveRange(await _context.Messages.Where(m => m.PlayerId == playerId).ToListAsync());
-
-                _context.Players.Remove(player);
-                await _context.SaveChangesAsync();
-
-                return true;
+            if (!await PlayerExistsAsync(playerId))
+            {
+                throw new EntityNotFoundException("Player", playerId);
             }
 
-            // Player with the given ID was not found.
-            return false;
+            var player = await _context.Players
+                .Where(p => p.Id == playerId)
+                .Include(p => p.Messages)
+                .FirstAsync();
+
+            // Remove all related messages.
+            player.Messages.Clear();
+
+            _context.Players.Remove(player);
+            await _context.SaveChangesAsync();
         }
 
+        // Check if a player with a specific ID exists in the database.
+        private async Task<bool> PlayerExistsAsync(int playerId)
+        {
+            return await _context.Players.AnyAsync(p => p.Id == playerId);
+        }
     }
 }
