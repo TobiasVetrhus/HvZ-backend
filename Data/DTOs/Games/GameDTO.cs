@@ -8,6 +8,7 @@ namespace HvZ_backend.Data.DTOs.Games
         public string Title { get; set; }
         public string Description { get; set; }
         public GameStatus GameState { get; set; }
+        public string GameStateString => GameState.ToString(); // Convert enum to string
         public string PictureURL { get; set; }
         public int[]? RuleIds { get; set; }
         public int[]? PlayerIds { get; set; }
