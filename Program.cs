@@ -40,7 +40,6 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 return keys.Keys;
             },
 
-            RoleClaimType = "roles",
             ValidIssuers = new List<string>
               {
                 Configuration["TokenSecrets:IssuerURI"]
