@@ -34,7 +34,8 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Players)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .IsRequired(false);
 
             // Configure one-to-many relationship between Game and Mission
             modelBuilder.Entity<Game>()
@@ -60,19 +61,20 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<Player>()
                 .HasMany(p => p.PlayerRolesInKills)
                 .WithOne(k => k.Player)
-                .HasForeignKey(k => k.PlayerId);
-
+                .HasForeignKey(k => k.PlayerId)
+                .IsRequired(false);
             modelBuilder.Entity<Kill>()
                 .HasMany(p => p.PlayerRoles)
                 .WithOne(k => k.Kill)
-                .HasForeignKey(k => k.KillId);
+                .HasForeignKey(k => k.KillId)
+                .IsRequired(false);
 
             modelBuilder.Entity<Player>()
                 .HasMany(p => p.Messages)
                 .WithOne(m => m.Player)
                 .HasForeignKey(m => m.PlayerId)
-                .OnDelete(DeleteBehavior.NoAction);
-
+                .OnDelete(DeleteBehavior.NoAction)
+                .IsRequired(false);
             // Seed data for Conversations
             modelBuilder.Entity<Conversation>().HasData(
                 new Conversation { Id = 1, ConversationName = "Global Chat", ChatType = ChatType.Global, GameId = 1 },

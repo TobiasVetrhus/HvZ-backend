@@ -12,9 +12,11 @@ namespace HvZ_backend.Data.DTOs.Player
 
         [StringLength(8)]
         public string BiteCode { get; set; }
-        public int UserId { get; set; }
-        public int LocationId { get; set; }
-        public int SquadId { get; set; }
+        public int? UserId { get; set; }
+        public int? LocationId { get; set; }
         public int? GameId { get; set; }
+        public int? SquadId { get; set; }
+        public int[]? MessageIds { get; set; }
+        public int[]? PlayerKillRoleIds { get; set; }
     }
 }
