@@ -27,22 +27,17 @@ namespace HvZ_backend.Services.Games
                 throw new EntityNotFoundException(nameof(Game), id);
 
             var game = await _context.Games
+                .Where(g => g.Id == id)
                 .Include(g => g.Missions)
                 .Include(g => g.Players)
                 .Include(g => g.Rules)
                 .Include(g => g.Conversations)
-                .SingleOrDefaultAsync(g => g.Id == id);
+                .FirstAsync();
 
-            foreach (var conversation in game.Conversations)
-            {
-                _context.Messages.RemoveRange(conversation.Messages);
-            }
-
-            _context.Conversations.RemoveRange(game.Conversations);
-            _context.Players.RemoveRange(game.Players);
-            _context.Missions.RemoveRange(game.Missions);
-            _context.Rules.RemoveRange(game.Rules);
-            _context.Games.Remove(game);
+            game.Missions.Clear();
+            game.Players.Clear();
+            game.Rules.Clear();
+            game.Conversations.Clear();
 
             await _context.SaveChangesAsync();
         }
