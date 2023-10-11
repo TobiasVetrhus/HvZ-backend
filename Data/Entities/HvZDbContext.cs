@@ -34,7 +34,8 @@ namespace HvZ_backend.Data.Entities
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Players)
                 .WithOne(p => p.User)
-                .HasForeignKey(p => p.UserId);
+                .HasForeignKey(p => p.UserId)
+                .IsRequired(false);
 
             // Configure one-to-many relationship between Game and Mission
             modelBuilder.Entity<Game>()

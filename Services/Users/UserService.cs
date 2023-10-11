@@ -55,8 +55,11 @@ namespace HvZ_backend.Services.Users
                 throw new EntityNotFoundException(nameof(User), id);
 
             var user = await _context.Users
-                .Where(c => c.Id == id)
+                .Where(u => u.Id == id)
+                .Include(u => u.Players)
                 .FirstAsync();
+
+            user.Players.Clear();
 
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
@@ -76,7 +79,7 @@ namespace HvZ_backend.Services.Users
 
             var player = await _context.Players
                 .FindAsync(playerId);
-                user.Players.Add(player);
+            user.Players.Add(player);
 
             await _context.SaveChangesAsync();
         }
