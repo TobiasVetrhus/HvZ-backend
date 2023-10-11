@@ -8,14 +8,18 @@ namespace HvZ_backend.Mappers
     {
         public PlayerProfile()
         {
-            // Mapping from Player entity to PlayerDTO and the reverse
-            CreateMap<Player, PlayerDTO>().ReverseMap();
+            // Mapping from Player to PlayerPostDTO and vice versa
+            CreateMap<Player, PlayerPostDTO>().ReverseMap();
 
-            // Mapping from PlayerPostDTO to Player entity and the reverse
-            CreateMap<PlayerPostDTO, Player>().ReverseMap();
+            // Mapping from Player to PlayerDTO
+            CreateMap<Player, PlayerDTO>()
+                .ForMember(pdto => pdto.MessageIds, options => options
+                    .MapFrom(p => p.Messages.Select(m => m.Id).ToArray()))
+                .ForMember(pdto => pdto.PlayerKillRoleIds, options => options
+                    .MapFrom(p => p.PlayerRolesInKills.Select(pr => pr.Id).ToArray()));
 
-            // Mapping from PlayerPutDTO to Player entity and the reverse
-            CreateMap<PlayerPutDTO, Player>().ReverseMap();
+            // Mapping from Player to PlayerPutDTO and vice versa
+            CreateMap<Player, PlayerPutDTO>().ReverseMap();
         }
     }
 }

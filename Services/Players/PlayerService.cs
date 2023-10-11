@@ -1,4 +1,5 @@
 ﻿using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.Players
@@ -15,15 +16,28 @@ namespace HvZ_backend.Services.Players
         // Retrieve all players from the database.
         public async Task<IEnumerable<Player>> GetAllPlayersAsync()
         {
-            return await _context.Players.ToListAsync();
+            return await _context.Players
+                .Include(p => p.Messages)
+                .Include(p => p.PlayerRolesInKills)
+                .ToListAsync();
         }
 
         // Retrieve a player by their ID from the database.
         public async Task<Player> GetPlayerByIdAsync(int playerId)
         {
+            var player = await _context.Players
+                .Include(p => p.Messages)
+                .Include(p => p.PlayerRolesInKills)
+                .FirstOrDefaultAsync(p => p.Id == playerId);
 
-            return await _context.Players.FirstOrDefaultAsync(p => p.Id == playerId);
+            if (player == null)
+            {
+                throw new EntityNotFoundException("Player", playerId);
+            }
+
+            return player;
         }
+
 
         // Create a new player and add them to the database.
         public async Task<Player> CreatePlayerAsync(Player player)
@@ -64,23 +78,18 @@ namespace HvZ_backend.Services.Players
             var player = await _context.Players.FirstOrDefaultAsync(p => p.Id == playerId);
 
             if (player != null)
-            {
-                var messagesToDelete = await _context.Messages
-                    .Where(m => m.PlayerId == playerId)
-                    .ToListAsync();
+          
+                _context.Messages.RemoveRange(await _context.Messages.Where(m => m.PlayerId == playerId).ToListAsync());
 
-                _context.Messages.RemoveRange(messagesToDelete);
-
-                // Remove the player from the database and save changes.
                 _context.Players.Remove(player);
                 await _context.SaveChangesAsync();
 
-                // Player successfully deleted.
                 return true;
             }
 
             // Player with the given ID was not found.
             return false;
         }
+
     }
 }
