@@ -10,7 +10,7 @@ namespace HvZ_backend.Services.Players
         Task<Player> GetPlayerByIdAsync(int playerId);
         Task<Player> CreatePlayerAsync(Player player);
         Task<Player> UpdatePlayerAsync(Player player);
-        Task<bool> DeletePlayerAsync(int playerId);
+        Task DeletePlayerAsync(int playerId);
     }
 }
 

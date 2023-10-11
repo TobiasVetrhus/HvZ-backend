@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
+using HvZ_backend.Data.Exceptions;
 
 namespace HvZ_backend.Controllers
 {
@@ -24,7 +25,7 @@ namespace HvZ_backend.Controllers
 
         /// <summary>
         /// Get a list of all players.
-     
+
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetAllPlayers()
         {
@@ -53,7 +54,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Create a new player.
         /// </summary>
-        
+
         [HttpPost]
         public async Task<ActionResult<PlayerDTO>> CreatePlayer(PlayerPostDTO playerPostDTO)
         {
@@ -72,7 +73,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Update an existing player.
         /// </summary>
-        
+
         [HttpPut("{id}")]
         public async Task<ActionResult<PlayerDTO>> UpdatePlayer(int id, PlayerPutDTO playerPutDTO)
         {
@@ -98,25 +99,31 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Delete a player by ID.
         /// </summary>
-       
-        [HttpDelete("{id}")]
-        public async Task<ActionResult> DeletePlayer(int id)
-        {
-            var player = await _playerService.GetPlayerByIdAsync(id);
 
-            if (player == null)
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlayer(int id)
+        {
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+
+                if (player == null)
+                {
+                    return NotFound();
+                }
+
+                await _playerService.DeletePlayerAsync(id);
+
+                return NoContent();
+            }
+            catch (EntityNotFoundException)
             {
                 return NotFound();
             }
-
-            var success = await _playerService.DeletePlayerAsync(id);
-
-            if (success)
+            catch (Exception)
             {
-                return NoContent();
+                return StatusCode(500); // Internal Server Error
             }
-
-            return StatusCode(500); // Internal Server Error
         }
     }
 }
