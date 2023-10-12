@@ -33,6 +33,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<GameDTO>> GetGameById(int id)
         {
             try
