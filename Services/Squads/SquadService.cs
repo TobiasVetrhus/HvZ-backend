@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
@@ -23,9 +19,16 @@ namespace HvZ_backend.Services.Squads
         // Get all squads from the database
         public async Task<IEnumerable<Squad>> GetAllAsync()
         {
-            return await _context.Squads
+            var squads = await _context.Squads
                 .Include(s => s.Players)
                 .ToListAsync();
+
+            foreach (var squad in squads)
+            {
+                UpdateSquadStatistics(squad);
+            }
+
+            return squads;
         }
 
         // Get a squad by its ID
@@ -40,6 +43,8 @@ namespace HvZ_backend.Services.Squads
                 throw new EntityNotFoundException("Squad", id);
             }
 
+            UpdateSquadStatistics(squad);
+
             return squad;
         }
 
@@ -47,7 +52,8 @@ namespace HvZ_backend.Services.Squads
         public async Task<Squad> AddAsync(Squad squad)
         {
             _context.Squads.Add(squad);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
+
             return squad;
         }
 
@@ -56,7 +62,7 @@ namespace HvZ_backend.Services.Squads
         {
             if (!_context.Squads.Any(s => s.Id == squad.Id))
             {
-               
+
                 throw new EntityNotFoundException("Squad", squad.Id);
             }
 
@@ -68,7 +74,7 @@ namespace HvZ_backend.Services.Squads
             }
             catch (DbUpdateConcurrencyException)
             {
-               
+
                 throw;
             }
 
@@ -87,7 +93,7 @@ namespace HvZ_backend.Services.Squads
             }
 
             _context.Squads.Remove(squad);
-            await _context.SaveChangesAsync(); 
+            await _context.SaveChangesAsync();
         }
 
         // Update players in a squad by squad ID
@@ -141,10 +147,20 @@ namespace HvZ_backend.Services.Squads
             return squad.Players.ToList();
         }
 
+        private void UpdateSquadStatistics(Squad squad)
+        {
+            squad.NumberOfMembers = squad.Players.Count;
+            squad.NumberOfDeceased = squad.Players.Count(p => p.Zombie);
+        }
+
         // Helper method to check if a player with the given ID exists
         private async Task<bool> PlayerExistsAsync(int id)
         {
             return await _context.Players.AnyAsync(p => p.Id == id);
+        }
+        private async Task<bool> SquadExistsAsync(int id)
+        {
+            return await _context.Squads.AnyAsync(s => s.Id == id);
         }
     }
 }
