@@ -1,17 +1,14 @@
-﻿using HvZ_backend.Data.Entities;
+﻿using AutoMapper;
 using HvZ_backend.Data.DTOs.Player;
+using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Players;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
-using HvZ_backend.Data.Exceptions;
 
 namespace HvZ_backend.Controllers
 {
     [ApiController]
-    [Route("api/players")]
+    [Route("api/v1/players")]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;
