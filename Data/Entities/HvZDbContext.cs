@@ -23,6 +23,12 @@ namespace HvZ_backend.Data.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Squad>()
+                .HasMany(s => s.Players)
+                .WithOne(p => p.squad)
+                .HasForeignKey(p => p.SquadId)
+                .IsRequired(false);
+
             // Configure one-to-many relationship between Conversation and Message
             modelBuilder.Entity<Conversation>()
                 .HasMany(c => c.Messages)

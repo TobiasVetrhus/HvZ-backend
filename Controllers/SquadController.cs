@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using HvZ_backend.Data.DTOs.Player;
 using HvZ_backend.Data.DTOs.Squads;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Squads;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HvZ_backend.Controllers
 {
@@ -48,6 +44,42 @@ namespace HvZ_backend.Controllers
             catch (EntityNotFoundException ex)
             {
                 return NotFound(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/add-player/{playerId}")]
+        public async Task<IActionResult> AddPlayerAsync(int id, int playerId)
+        {
+            try
+            {
+                await _squadService.AddPlayerAsync(id, playerId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut("{id}/remove-player/{playerId}")]
+        public async Task<IActionResult> RemovePlayerAsync(int id, int playerId)
+        {
+            try
+            {
+                await _squadService.RemovePlayerAsync(id, playerId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
 
@@ -109,8 +141,8 @@ namespace HvZ_backend.Controllers
             return Ok(squadDTOs);
         }
 
-        }
     }
+}
 
 
 

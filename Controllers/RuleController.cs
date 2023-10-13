@@ -2,12 +2,8 @@
 using HvZ_backend.Data.DTOs.Rules;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
-using HvZ_backend.Services.Games;
 using HvZ_backend.Services.Rules;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HvZ_backend.Controllers
 {
@@ -17,7 +13,6 @@ namespace HvZ_backend.Controllers
     {
         private readonly IRuleService _ruleService;
         private readonly IMapper _mapper;
-        private readonly IGameService _gameService;
         public RulesController(IRuleService ruleService, IMapper mapper)
         {
             _ruleService = ruleService;
@@ -86,7 +81,7 @@ namespace HvZ_backend.Controllers
                 new { id = newRule.Id },
                 _mapper.Map<RuleDTO>(newRule));
         }
-       
+
         // DELETE: api/v1/Rules/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRule(int id)

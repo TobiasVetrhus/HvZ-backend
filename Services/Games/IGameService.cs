@@ -9,9 +9,9 @@ namespace HvZ_backend.Services.Games
         Task UpdateMissionsAsync(int gameId, int[] missionIds);
         Task UpdateConversationsAsync(int gameId, int[] conversations);
         Task AddRuleAsync(int gameId, int rule);
-        Task AddPlayerAsync(int gameId, int players);
-        Task AddMissionAsync(int gameId, int missions);
-        Task AddConversationAsync(int gameId, int conversations);
+        Task AddPlayerAsync(int gameId, int player);
+        Task AddMissionAsync(int gameId, int mission);
+        Task AddConversationAsync(int gameId, int conversation);
         Task RemoveRuleAsync(int gameId, int ruleId);
         Task RemoveMissionAsync(int gameId, int missionId);
         Task RemoveConversationAsync(int gameId, int conversationId);
