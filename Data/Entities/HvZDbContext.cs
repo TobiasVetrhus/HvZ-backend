@@ -198,15 +198,33 @@ new Location { Id = 10, XCoordinate = 31, YCoordinate = 49 }
                 new Message { Id = 3, Content = "Brains...", Sent = DateTime.Now, ConversationId = 3, PlayerId = 3 },
                 new Message { Id = 4, Content = "Stay vigilant, humans.", Sent = DateTime.Now, ConversationId = 4, PlayerId = 4 }
             );
-
             // Seed data for Missions
             modelBuilder.Entity<Mission>().HasData(
-                new Mission { Id = 5, Name = "Nocturnal Escape", Description = "Venture into the darkness on a Nocturnal Escape mission. Sneak past the undead and reach the designated safe zone undetected.", LocationId = 1, GameId = 5 },
-                new Mission { Id = 6, Name = "Infected Research", Description = "Undertake the Infected Research mission to gather crucial data on the zombie virus. Stay alert, as the undead may guard their secrets.", LocationId = 2, GameId = 6 },
-                new Mission { Id = 7, Name = "Haunted Hideout", Description = "The Haunted Hideout mission challenges you to find refuge in an eerie, abandoned building. Can you withstand the supernatural forces within?", LocationId = 7, GameId = 7 },
-                new Mission { Id = 8, Name = "Survivors' Revolt", Description = "Join the Survivors' Revolt mission and lead a group of determined survivors against the zombie horde. The fate of humanity hangs in the balance.", LocationId = 8, GameId = 8 },
-                new Mission { Id = 9, Name = "Epidemic Escape", Description = "In the Epidemic Escape mission, a virus outbreak threatens your group. Find a cure before it's too late, but beware of infected creatures.", LocationId = 9, GameId = 9 },
-                new Mission { Id = 10, Name = "Crypt Crawl", Description = "Descend into the depths of darkness on a Crypt Crawl mission. Explore ancient catacombs, solve cryptic puzzles, and unearth hidden horrors.", LocationId = 10, GameId = 10 }
+                // Missions for Game 1
+                new Mission { Id = 1, Name = "Supply Run", Description = "Gather supplies from the designated location.", LocationId = 1, GameId = 1 },
+                new Mission { Id = 2, Name = "Zombie Hunt", Description = "Hunt down and eliminate zombie players.", LocationId = 2, GameId = 1 },
+                new Mission { Id = 3, Name = "Survival Challenge", Description = "Test your survival skills in the wilderness.", LocationId = 3, GameId = 1 },
+
+                // Missions for Game 2
+                new Mission { Id = 4, Name = "Final Stand", Description = "Defend the safe zone from zombie attacks.", LocationId = 4, GameId = 2 },
+                new Mission { Id = 5, Name = "Nocturnal Escape", Description = "Venture into the darkness on a Nocturnal Escape mission. Sneak past the undead and reach the designated safe zone undetected.", LocationId = 1, GameId = 2 },
+                new Mission { Id = 6, Name = "Infected Research", Description = "Undertake the Infected Research mission to gather crucial data on the zombie virus. Stay alert, as the undead may guard their secrets.", LocationId = 2, GameId = 2 },
+
+                // Missions for Game 3
+                new Mission { Id = 7, Name = "Haunted Hideout", Description = "The Haunted Hideout mission challenges you to find refuge in an eerie, abandoned building. Can you withstand the supernatural forces within?", LocationId = 7, GameId = 3 },
+                new Mission { Id = 8, Name = "Survivors' Revolt", Description = "Join the Survivors' Revolt mission and lead a group of determined survivors against the zombie horde. The fate of humanity hangs in the balance.", LocationId = 8, GameId = 3 },
+
+                // Missions for Game 4
+                new Mission { Id = 9, Name = "Epidemic Escape", Description = "In the Epidemic Escape mission, a virus outbreak threatens your group. Find a cure before it's too late, but beware of infected creatures.", LocationId = 9, GameId = 4 },
+                new Mission { Id = 10, Name = "Crypt Crawl", Description = "Descend into the depths of darkness on a Crypt Crawl mission. Explore ancient catacombs, solve cryptic puzzles, and unearth hidden horrors.", LocationId = 10, GameId = 4 },
+
+                // Missions for Game 5
+                new Mission { Id = 11, Name = "The Abandoned Asylum", Description = "Enter the eerie and haunted abandoned asylum, and investigate the mysteries that lie within its walls.", LocationId = 11, GameId = 5 },
+                new Mission { Id = 12, Name = "Curse of the Cursed", Description = "The Curse of the Cursed mission takes you to a cursed location where supernatural entities roam. Break the curse or become one of them.", LocationId = 12, GameId = 5 },
+
+                // Missions for Game 6
+                new Mission { Id = 13, Name = "Maze of Mirrors", Description = "Get lost in the Maze of Mirrors, where reality and illusion blend. Find the exit before the reflections turn against you.", LocationId = 13, GameId = 6 },
+                new Mission { Id = 14, Name = "Realm of Shadows", Description = "Explore the mysterious Realm of Shadows, a dimension where darkness holds unimaginable secrets. Find your way back to reality.", LocationId = 14, GameId = 6 }
             );
 
 
