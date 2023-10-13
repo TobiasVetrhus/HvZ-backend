@@ -85,38 +85,87 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Games
             modelBuilder.Entity<Game>().HasData(
-                new Game
-                {
-                    Id = 1,
-                    Title = "HvZ Spring 2023",
-                    Description = "Humans vs. Zombies - Spring 2023 Edition",
-                    GameState = GameStatus.Registration,
-                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
-                },
-                new Game
-                {
-                    Id = 2,
-                    Title = "HvZ Summer 2023",
-                    Description = "Humans vs. Zombies - Summer 2023 Edition",
-                    GameState = GameStatus.InProgress,
-                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-                },
-                new Game
-                {
-                    Id = 3,
-                    Title = "HvZ Fall 2023",
-                    Description = "Humans vs. Zombies - Fall 2023 Edition",
-                    GameState = GameStatus.InProgress,
-                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-                },
-                new Game
-                {
-                    Id = 4,
-                    Title = "HvZ Winter 2023",
-                    Description = "Humans vs. Zombies - Winter 2023 Edition",
-                    GameState = GameStatus.Complete,
-                    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-                }
+    new Game
+    {
+        Id = 1,
+        Title = "Cursed Asylum",
+        Description = "Venture into the Cursed Asylum, where madness reigns and dark secrets lurk in every corner. Can you escape its horrifying grip?",
+        GameState = GameStatus.Registration,
+        PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+    },
+new Game
+{
+    Id = 2,
+    Title = "Eldritch Nightmare",
+    Description = "Enter the Eldritch Nightmare, a realm of cosmic horrors and unspeakable terrors. Will you survive the relentless onslaught of the unknown?",
+    GameState = GameStatus.InProgress,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 3,
+    Title = "Haunting Shadows",
+    Description = "Face the Haunting Shadows, where vengeful spirits and malevolent entities lurk in the darkness. Can you escape their relentless pursuit?",
+    GameState = GameStatus.InProgress,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 4,
+    Title = "Frostbitten Horror",
+    Description = "Confront the Frostbitten Horror, a desolate wasteland where the cold bites deep and ancient evils stir. Will you survive its icy embrace?",
+    GameState = GameStatus.Complete,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 5,
+    Title = "Dreaded Catacombs",
+    Description = "Descend into the Dreaded Catacombs, a labyrinth of death and despair. Face the wrath of the undead in this chilling underground nightmare.",
+    GameState = GameStatus.Registration,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+},
+new Game
+{
+    Id = 6,
+    Title = "Infernal Abyss",
+    Description = "Plunge into the Infernal Abyss, a fiery inferno of torment and suffering. Survive the relentless flames or be consumed by the eternal blaze.",
+    GameState = GameStatus.InProgress,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 7,
+    Title = "Phantom's Curse",
+    Description = "Unravel the Phantom's Curse, a haunting enigma that threatens your very soul. Confront the ghostly apparitions and uncover their dark secrets.",
+    GameState = GameStatus.InProgress,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 8,
+    Title = "Eternal Frostbite",
+    Description = "Endure the Eternal Frostbite, where bone-chilling cold and frosty horrors await. Can you withstand the icy grip of this frozen nightmare?",
+    GameState = GameStatus.Complete,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+},
+new Game
+{
+    Id = 9,
+    Title = "Sinister Hunt",
+    Description = "Embark on the Sinister Hunt, a deadly game of survival where hunters become the hunted. Outwit your pursuers or meet a gruesome fate.",
+    GameState = GameStatus.Registration,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+},
+new Game
+{
+    Id = 10,
+    Title = "Crimson Catastrophe",
+    Description = "Face the Crimson Catastrophe, a world bathed in blood and chaos. Survive the crimson tide or drown in the sea of horror it brings.",
+    GameState = GameStatus.InProgress,
+    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
+}
+
             );
 
             // Seed data for Kills
@@ -129,10 +178,17 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Locations
             modelBuilder.Entity<Location>().HasData(
-                new Location { Id = 1, XCoordinate = 123, YCoordinate = 456 },
-                new Location { Id = 2, XCoordinate = 789, YCoordinate = 101 },
-                new Location { Id = 3, XCoordinate = 345, YCoordinate = 678 },
-                new Location { Id = 4, XCoordinate = 987, YCoordinate = 543 }
+     new Location { Id = 1, XCoordinate = 23, YCoordinate = 56 },
+new Location { Id = 2, XCoordinate = 89, YCoordinate = 1 },
+new Location { Id = 3, XCoordinate = 45, YCoordinate = 78 },
+new Location { Id = 4, XCoordinate = 87, YCoordinate = 43 },
+new Location { Id = 5, XCoordinate = 34, YCoordinate = 92 },
+new Location { Id = 6, XCoordinate = 12, YCoordinate = 65 },
+new Location { Id = 7, XCoordinate = 76, YCoordinate = 29 },
+new Location { Id = 8, XCoordinate = 50, YCoordinate = 14 },
+new Location { Id = 9, XCoordinate = 69, YCoordinate = 37 },
+new Location { Id = 10, XCoordinate = 31, YCoordinate = 49 }
+
             );
 
             // Seed data for Messages
@@ -145,11 +201,15 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Missions
             modelBuilder.Entity<Mission>().HasData(
-                new Mission { Id = 1, Name = "Supply Run", Description = "Gather supplies from the designated location.", LocationId = 1, GameId = 1 },
-                new Mission { Id = 2, Name = "Zombie Hunt", Description = "Hunt down and eliminate zombie players.", LocationId = 2, GameId = 2 },
-                new Mission { Id = 3, Name = "Survival Challenge", Description = "Test your survival skills in the wilderness.", LocationId = 3, GameId = 3 },
-                new Mission { Id = 4, Name = "Final Stand", Description = "Defend the safe zone from zombie attacks.", LocationId = 4, GameId = 4 }
+                new Mission { Id = 5, Name = "Nocturnal Escape", Description = "Venture into the darkness on a Nocturnal Escape mission. Sneak past the undead and reach the designated safe zone undetected.", LocationId = 1, GameId = 5 },
+                new Mission { Id = 6, Name = "Infected Research", Description = "Undertake the Infected Research mission to gather crucial data on the zombie virus. Stay alert, as the undead may guard their secrets.", LocationId = 2, GameId = 6 },
+                new Mission { Id = 7, Name = "Haunted Hideout", Description = "The Haunted Hideout mission challenges you to find refuge in an eerie, abandoned building. Can you withstand the supernatural forces within?", LocationId = 7, GameId = 7 },
+                new Mission { Id = 8, Name = "Survivors' Revolt", Description = "Join the Survivors' Revolt mission and lead a group of determined survivors against the zombie horde. The fate of humanity hangs in the balance.", LocationId = 8, GameId = 8 },
+                new Mission { Id = 9, Name = "Epidemic Escape", Description = "In the Epidemic Escape mission, a virus outbreak threatens your group. Find a cure before it's too late, but beware of infected creatures.", LocationId = 9, GameId = 9 },
+                new Mission { Id = 10, Name = "Crypt Crawl", Description = "Descend into the depths of darkness on a Crypt Crawl mission. Explore ancient catacombs, solve cryptic puzzles, and unearth hidden horrors.", LocationId = 10, GameId = 10 }
             );
+
+
 
             // Seed data for Players
             modelBuilder.Entity<Player>().HasData(
