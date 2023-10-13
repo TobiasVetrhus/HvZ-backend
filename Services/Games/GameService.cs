@@ -140,7 +140,7 @@ namespace HvZ_backend.Services.Games
                 .FirstOrDefaultAsync(g => g.Id == gameId);
 
 
-            if (!await RuleExistsAsync(playerId))
+            if (!await PlayerExistsAsync(playerId))
                 throw new EntityNotFoundException(nameof(Player), playerId);
 
             var player = await _context.Players.FindAsync(playerId);
@@ -351,7 +351,7 @@ namespace HvZ_backend.Services.Games
 
             var playerToRemove = _context.Players.FirstOrDefault(p => p.Id == playerId);
 
-            if (!await ConversationExistsAsync(playerId))
+            if (!await PlayerExistsAsync(playerId))
                 throw new EntityNotFoundException(nameof(Player), playerId);
 
             playerToRemove.GameId = null;
