@@ -1,10 +1,6 @@
 ﻿using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace HvZ_backend.Services.Players
 {
@@ -45,10 +41,23 @@ namespace HvZ_backend.Services.Players
         // Create a new player and add them to the database.
         public async Task<Player> CreatePlayerAsync(Player player)
         {
-            if (player == null)
-            {
-                throw new ArgumentNullException(nameof(player));
-            }
+            //Add starting location
+            var location = new Location { XCoordinate = 1, YCoordinate = 1 };
+            _context.Locations.Add(location);
+            await _context.SaveChangesAsync();
+
+            //Add random BiteCode
+            var random = new Random();
+            const string allowedChars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            var biteCode = new string(Enumerable.Repeat(allowedChars, 8)
+                .Select(s => s[random.Next(s.Length)]).ToArray());
+
+            //Determine Zombie property
+            bool zombiesExist = await _context.Players.AnyAsync(p => p.GameId == player.GameId && p.Zombie);
+
+            player.LocationId = location.Id;
+            player.BiteCode = biteCode;
+            player.Zombie = zombiesExist ? false : true;
 
             _context.Players.Add(player);
             await _context.SaveChangesAsync();
