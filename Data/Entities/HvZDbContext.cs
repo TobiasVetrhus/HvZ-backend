@@ -178,16 +178,26 @@ new Game
 
             // Seed data for Locations
             modelBuilder.Entity<Location>().HasData(
-     new Location { Id = 1, XCoordinate = 23, YCoordinate = 56 },
-new Location { Id = 2, XCoordinate = 89, YCoordinate = 1 },
-new Location { Id = 3, XCoordinate = 45, YCoordinate = 78 },
-new Location { Id = 4, XCoordinate = 87, YCoordinate = 43 },
-new Location { Id = 5, XCoordinate = 34, YCoordinate = 92 },
-new Location { Id = 6, XCoordinate = 12, YCoordinate = 65 },
-new Location { Id = 7, XCoordinate = 76, YCoordinate = 29 },
-new Location { Id = 8, XCoordinate = 50, YCoordinate = 14 },
-new Location { Id = 9, XCoordinate = 69, YCoordinate = 37 },
-new Location { Id = 10, XCoordinate = 31, YCoordinate = 49 }
+                        new Location { Id = 1, XCoordinate = 23, YCoordinate = 56 },
+                        new Location { Id = 2, XCoordinate = 89, YCoordinate = 1 },
+                        new Location { Id = 3, XCoordinate = 45, YCoordinate = 78 },
+                        new Location { Id = 4, XCoordinate = 87, YCoordinate = 43 },
+                        new Location { Id = 5, XCoordinate = 34, YCoordinate = 92 },
+                        new Location { Id = 6, XCoordinate = 12, YCoordinate = 65 },
+                        new Location { Id = 7, XCoordinate = 76, YCoordinate = 29 },
+                        new Location { Id = 8, XCoordinate = 50, YCoordinate = 14 },
+                        new Location { Id = 9, XCoordinate = 69, YCoordinate = 37 },
+                        new Location { Id = 10, XCoordinate = 31, YCoordinate = 49 },
+                        new Location { Id = 11, XCoordinate = 38, YCoordinate = 61 },
+                        new Location { Id = 12, XCoordinate = 72, YCoordinate = 23 },
+                        new Location { Id = 13, XCoordinate = 51, YCoordinate = 47 },
+                        new Location { Id = 14, XCoordinate = 29, YCoordinate = 84 },
+                        new Location { Id = 15, XCoordinate = 17, YCoordinate = 39 },
+                        new Location { Id = 16, XCoordinate = 93, YCoordinate = 12 },
+                        new Location { Id = 17, XCoordinate = 64, YCoordinate = 58 },
+                        new Location { Id = 18, XCoordinate = 45, YCoordinate = 75 },
+                        new Location { Id = 19, XCoordinate = 81, YCoordinate = 32 },
+                        new Location { Id = 20, XCoordinate = 22, YCoordinate = 69 }
 
             );
 
