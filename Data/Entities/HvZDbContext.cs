@@ -17,7 +17,7 @@ namespace HvZ_backend.Data.Entities
         public DbSet<Player> Players { get; set; }
         public DbSet<Rule> Rules { get; set; }
         public DbSet<Squad> Squads { get; set; }
-        public DbSet<User> Users { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
 
         public DbSet<PlayerKillRole> PlayerKillRole { get; set; }
 
@@ -37,7 +37,7 @@ namespace HvZ_backend.Data.Entities
                 .IsRequired(false);
 
             // Configure one-to-many relationship between User and Player
-            modelBuilder.Entity<User>()
+            modelBuilder.Entity<AppUser>()
                 .HasMany(u => u.Players)
                 .WithOne(p => p.User)
                 .HasForeignKey(p => p.UserId)
@@ -243,16 +243,6 @@ new Game
                 new Mission { Id = 14, Name = "Realm of Shadows", Description = "Explore the mysterious Realm of Shadows, a dimension where darkness holds unimaginable secrets. Find your way back to reality.", LocationId = 14, GameId = 6 }
             );
 
-
-
-            // Seed data for Players
-            modelBuilder.Entity<Player>().HasData(
-                new Player { Id = 1, Username = "Player1", Zombie = false, BiteCode = "BITE001", UserId = 1, LocationId = 1, SquadId = 1, GameId = 1 },
-                new Player { Id = 2, Username = "Player2", Zombie = true, BiteCode = "ZOMBIE01", UserId = 2, LocationId = 2, SquadId = 2, GameId = 2 },
-                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE002", UserId = 3, LocationId = 3, SquadId = 3, GameId = 3 },
-                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = 4, LocationId = 4, SquadId = 4, GameId = 4 }
-            );
-
             // Seed data for Rules
             modelBuilder.Entity<Rule>().HasData(
                 new Rule { Id = 1, Title = "Safe Zones", Description = "Safe zones are designated areas where players cannot be tagged or eliminated. Seek refuge in these zones when needed." },
@@ -269,14 +259,27 @@ new Game
                 new Squad { Id = 4, SquadName = "Bravo Squad", NumberOfMembers = 6, NumberOfDeceased = 2 }
             );
 
+            //Seed Guid for Users
+            var user1Guid = Guid.NewGuid();
+            var user2Guid = Guid.NewGuid();
+            var user3Guid = Guid.NewGuid();
+            var user4Guid = Guid.NewGuid();
+
             // Seed data for Users
-            modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, FirstName = "John", LastName = "Doe", Email = "johndoe@example.com", Phone = "1234567890" },
-                new User { Id = 2, FirstName = "Jane", LastName = "Smith", Email = "janesmith@example.com", Phone = "9876543210" },
-                new User { Id = 3, FirstName = "Zombie", LastName = "Walker", Email = "zombiewalker@example.com", Phone = "5555555555" },
-                new User { Id = 4, FirstName = "Player", LastName = "Four", Email = "playerfour@example.com", Phone = "1111111111" }
+            modelBuilder.Entity<AppUser>().HasData(
+                new AppUser { Id = user1Guid, FirstName = "John", LastName = "Doe", Email = "johndoe@example.com", Phone = "1234567890" },
+                new AppUser { Id = user2Guid, FirstName = "Jane", LastName = "Smith", Email = "janesmith@example.com", Phone = "9876543210" },
+                new AppUser { Id = user3Guid, FirstName = "Zombie", LastName = "Walker", Email = "zombiewalker@example.com", Phone = "5555555555" },
+                new AppUser { Id = user4Guid, FirstName = "Player", LastName = "Four", Email = "playerfour@example.com", Phone = "1111111111" }
             );
 
+            // Seed data for Players
+            modelBuilder.Entity<Player>().HasData(
+                new Player { Id = 1, Username = "Player1", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 1, SquadId = 1, GameId = 1 },
+                new Player { Id = 2, Username = "Player2", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 2, SquadId = 2, GameId = 2 },
+                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 3, SquadId = 3, GameId = 3 },
+                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 4, SquadId = 4, GameId = 4 }
+            );
 
             // Seed data for PlayerKillRoles
             modelBuilder.Entity<PlayerKillRole>().HasData(

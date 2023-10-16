@@ -4,17 +4,17 @@ using HvZ_backend.Data.Entities;
 
 namespace HvZ_backend.Mappers
 {
-    public class UserProfile : Profile
+    public class AppUserProfile : Profile
     {
-        public UserProfile()
+        public AppUserProfile()
         {
-            CreateMap<User, UserPostDTO>().ReverseMap();
+            CreateMap<AppUser, AppUserPostDTO>().ReverseMap();
 
-            CreateMap<User, UserDTO>()
+            CreateMap<AppUser, AppUserDTO>()
                 .ForMember(udto => udto.Players, options => options
                     .MapFrom(u => u.Players.Select(u => u.Id).ToArray()));
 
-            CreateMap<User, UserPutDTO>().ReverseMap();
+            CreateMap<AppUser, AppUserPutDTO>().ReverseMap();
         }
     }
 }
