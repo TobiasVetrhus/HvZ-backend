@@ -2,9 +2,9 @@
 
 namespace HvZ_backend.Data.DTOs.Users
 {
-    public class UserPutDTO
+    public class AppUserPostDTO
     {
-        public int Id { get; set; }
+
         [StringLength(50)]
         public string FirstName { get; set; }
 
