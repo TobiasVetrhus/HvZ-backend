@@ -9,9 +9,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
-    [Authorize]
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;

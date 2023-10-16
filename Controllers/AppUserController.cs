@@ -3,11 +3,13 @@ using HvZ_backend.Data.DTOs.Users;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class AppUserController : ControllerBase
@@ -76,12 +78,15 @@ namespace HvZ_backend.Controllers
 
 
         [HttpPost("register")]
-        public async Task<ActionResult<AppUserDTO>> PostAppUser(AppUserPostDTO user)
+        public async Task<ActionResult<AppUserDTO>> PostAppUser()
         {
             string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid userId = Guid.Parse(subject);
 
-            var newUser = _mapper.Map<AppUser>(user);
+            var newUser = new AppUser
+            {
+                Id = userId
+            };
 
             newUser.Id = userId;
 

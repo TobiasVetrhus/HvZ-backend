@@ -4,6 +4,7 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Players;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
@@ -60,7 +61,12 @@ namespace HvZ_backend.Controllers
                 return BadRequest();
             }
 
+            string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid userId = Guid.Parse(subject);
+
             var player = _mapper.Map<Player>(playerPostDTO);
+            player.UserId = userId;
+
             var createdPlayer = await _playerService.CreatePlayerAsync(player);
             var playerDTO = _mapper.Map<PlayerDTO>(createdPlayer);
 
