@@ -6,7 +6,6 @@ namespace HvZ_backend.Data.DTOs.Player
     {
         [StringLength(100)]
         public string Username { get; set; }
-        public int UserId { get; set; }
         public int GameId { get; set; }
     }
 }

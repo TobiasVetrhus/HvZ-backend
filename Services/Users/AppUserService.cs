@@ -4,42 +4,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace HvZ_backend.Services.Users
 {
-    public class UserService : IUserService
+    public class AppUserService : IAppUserService
     {
         private readonly HvZDbContext _context;
 
-        public UserService(HvZDbContext context)
+        public AppUserService(HvZDbContext context)
         {
             _context = context;
         }
 
-        public async Task<User> AddAsync(User obj)
+        public async Task<AppUser> AddAsync(AppUser obj)
         {
-            await _context.Users.AddAsync(obj);
+            await _context.AppUsers.AddAsync(obj);
             await _context.SaveChangesAsync();
             return obj;
         }
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<AppUser>> GetAllAsync()
         {
-            return await _context.Users.Include(u => u.Players).ToListAsync();
+            return await _context.AppUsers.Include(u => u.Players).ToListAsync();
         }
 
-        public async Task<User> GetByIdAsync(int id)
+        public async Task<AppUser> GetUserIfExists(Guid id)
+        {
+            var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == id);
+            return user;
+        }
+
+        public async Task<AppUser> GetByIdAsync(Guid id)
         {
             if (!await UserExistsAsync(id))
-                throw new EntityNotFoundException(nameof(User), id);
+                throw new EntityNotFoundException(nameof(AppUser), id);
 
-            var user = await _context.Users.Where(c => c.Id == id)
+            var user = await _context.AppUsers.Where(c => c.Id == id)
                 .Include(u => u.Players)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
 
             return user;
         }
 
-        public async Task<User> UpdateAsync(User obj)
+        public async Task<AppUser> UpdateAsync(AppUser obj)
         {
             if (!await UserExistsAsync(obj.Id))
-                throw new EntityNotFoundException(nameof(User), obj.Id);
+                throw new EntityNotFoundException(nameof(AppUser), obj.Id);
 
             _context.Entry(obj).State = EntityState.Modified;
             _context.SaveChanges();
@@ -47,33 +53,31 @@ namespace HvZ_backend.Services.Users
             return obj;
         }
 
-
-
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteByIdAsync(Guid id)
         {
             if (!await UserExistsAsync(id))
-                throw new EntityNotFoundException(nameof(User), id);
+                throw new EntityNotFoundException(nameof(AppUser), id);
 
-            var user = await _context.Users
+            var user = await _context.AppUsers
                 .Where(u => u.Id == id)
                 .Include(u => u.Players)
                 .FirstAsync();
 
             user.Players.Clear();
 
-            _context.Users.Remove(user);
+            _context.AppUsers.Remove(user);
             await _context.SaveChangesAsync();
         }
 
-        public async Task AddPlayerAsync(int userId, int playerId)
+        public async Task AddPlayerAsync(Guid userId, int playerId)
         {
             if (!await UserExistsAsync(userId))
-                throw new EntityNotFoundException(nameof(User), userId);
+                throw new EntityNotFoundException(nameof(AppUser), userId);
 
-            if (!await UserExistsAsync(playerId))
+            if (!await PlayerExistsAsync(playerId))
                 throw new EntityNotFoundException(nameof(Player), playerId);
 
-            var user = await _context.Users
+            var user = await _context.AppUsers
                 .Include(u => u.Players)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -84,12 +88,12 @@ namespace HvZ_backend.Services.Users
             await _context.SaveChangesAsync();
         }
 
-        public async Task UpdatePlayersAsync(int userId, int[] playerIds)
+        public async Task UpdatePlayersAsync(Guid userId, int[] playerIds)
         {
             if (!await UserExistsAsync(userId))
-                throw new EntityNotFoundException(nameof(User), userId);
+                throw new EntityNotFoundException(nameof(AppUser), userId);
 
-            var user = await _context.Users
+            var user = await _context.AppUsers
                 .Include(u => u.Players)
                 .FirstOrDefaultAsync(u => u.Id == userId);
 
@@ -112,7 +116,7 @@ namespace HvZ_backend.Services.Users
             // Associate the user with the new set of players
             foreach (int playerId in playerIds)
             {
-                if (!await UserExistsAsync(playerId))
+                if (!await PlayerExistsAsync(playerId))
                     throw new EntityNotFoundException(nameof(Player), playerId);
 
                 var player = await _context.Players.FindAsync(playerId);
@@ -123,15 +127,15 @@ namespace HvZ_backend.Services.Users
         }
 
 
-        public async Task RemovePlayerAsync(int userId, int playerId)
+        public async Task RemovePlayerAsync(Guid userId, int playerId)
         {
             if (!await UserExistsAsync(userId))
-                throw new EntityNotFoundException(nameof(User), userId);
+                throw new EntityNotFoundException(nameof(AppUser), userId);
 
-            if (!await UserExistsAsync(playerId))
+            if (!await PlayerExistsAsync(playerId))
                 throw new EntityNotFoundException(nameof(Player), playerId);
 
-            var user = _context.Users
+            var user = _context.AppUsers
                 .Where(u => u.Id == userId)
                 .Include(u => u.Players)
                 //.FirstOrDefaultAsync();
@@ -145,9 +149,9 @@ namespace HvZ_backend.Services.Users
         }
 
 
-        private async Task<bool> UserExistsAsync(int id)
+        private async Task<bool> UserExistsAsync(Guid id)
         {
-            return await _context.Users.AnyAsync(u => u.Id == id);
+            return await _context.AppUsers.AnyAsync(u => u.Id == id);
         }
 
         private async Task<bool> PlayerExistsAsync(int id)
