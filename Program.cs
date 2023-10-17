@@ -14,11 +14,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.SignalR;
+using HvZ_backend.Data.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
         .Build();
+
+
+builder.Services.AddSignalR();
 
 // Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
@@ -54,7 +59,8 @@ builder.Services.AddCors(options =>
     {
         builder.WithOrigins("http://localhost:3000")
                .AllowAnyMethod()
-               .AllowAnyHeader();
+               .AllowAnyHeader()
+              .AllowCredentials();
     });
 });
 
@@ -65,6 +71,8 @@ builder.Services.AddDbContext<HvZDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("HvZDb"));
 });
+// Add SignalR configuration
+builder.Services.AddSignalR();
 
 // Add custom services
 builder.Services.AddScoped<IGameService, GameService>();
@@ -103,5 +111,7 @@ app.UseAuthorization();
 app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
+
+app.MapHub<ChatHub>("/hub");
 
 app.Run();
