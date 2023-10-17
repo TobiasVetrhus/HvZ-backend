@@ -109,5 +109,26 @@ namespace HvZ_backend.Services.Players
         {
             return await _context.Players.AnyAsync(p => p.Id == playerId);
         }
+
+        public async Task<Player> UpdateZombieStateAsync(int playerId, bool zombie, string biteCode)
+        {
+            var player = await _context.Players.FindAsync(playerId);
+
+            if (player == null)
+            {
+                throw new EntityNotFoundException("Player", playerId);
+            }
+
+            // Update the Zombie attribute
+            player.Zombie = zombie;
+            player.BiteCode = biteCode;
+
+
+            await _context.SaveChangesAsync();
+
+            return player;
+        }
+
+
     }
 }
