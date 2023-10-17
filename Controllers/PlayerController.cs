@@ -99,6 +99,24 @@ namespace HvZ_backend.Controllers
             return Ok(playerDTO);
         }
 
+
+        [HttpPut("{id}/update-zombiestate")]
+        public async Task<IActionResult> UpdateZombieStateAsync(int id, bool zombie, string biteCode)
+        {
+            try
+            {
+                await _playerService.UpdateZombieStateAsync(id, zombie, biteCode);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         /// <summary>
         /// Delete a player by ID.
         /// </summary>
