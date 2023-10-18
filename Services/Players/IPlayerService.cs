@@ -10,6 +10,7 @@ namespace HvZ_backend.Services.Players
         Task<Player> UpdatePlayerAsync(Player player);
         Task<Player> UpdateZombieStateAsync(int playerId, bool zombie, string biteCode);
         Task DeletePlayerAsync(int playerId);
+        Task<Player> GetPlayerByBiteCodeAsync(string biteCode);
     }
 }
 

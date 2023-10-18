@@ -100,26 +100,6 @@ namespace HvZ_backend.Controllers
         }
 
 
-        [HttpPut("{id}/update-zombiestate")]
-        public async Task<IActionResult> UpdateZombieStateAsync(int id, bool zombie, string biteCode)
-        {
-            try
-            {
-                await _playerService.UpdateZombieStateAsync(id, zombie, biteCode);
-                return NoContent();
-            }
-            catch (EntityNotFoundException ex)
-            {
-                return NotFound(ex.Message);
-            }
-            catch (EntityValidationException ex)
-            {
-                return BadRequest(ex.Message);
-            }
-        }
-        /// <summary>
-        /// Delete a player by ID.
-        /// </summary>
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlayer(int id)
@@ -145,6 +125,26 @@ namespace HvZ_backend.Controllers
             {
                 return StatusCode(500); // Internal Server Error
             }
+        }
+
+        /// <summary>
+        /// Get a player by bitecode and set zombie to true
+        /// </summary>
+        [HttpPut("by-bitecode/{biteCode}")]
+        public async Task<ActionResult<PlayerDTO>> SetPlayerToZombieByBiteCode(string biteCode)
+        {
+            var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
+
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            player.Zombie = true;
+            await _playerService.UpdatePlayerAsync(player);
+
+            var playerDTO = _mapper.Map<PlayerDTO>(player);
+            return Ok(playerDTO);
         }
     }
 }
