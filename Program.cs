@@ -1,4 +1,5 @@
 using HvZ_backend.Data.Entities;
+using HvZ_backend.Data.Hubs;
 using HvZ_backend.Services.Conversations;
 using HvZ_backend.Services.Games;
 using HvZ_backend.Services.Kills;
@@ -14,8 +15,6 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
-using Microsoft.AspNetCore.SignalR;
-using HvZ_backend.Data.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = new ConfigurationBuilder()
@@ -62,6 +61,8 @@ builder.Services.AddCors(options =>
                .AllowAnyHeader()
               .AllowCredentials()
               .SetIsOriginAllowed((host) => true);
+
+      
     });
 });
 

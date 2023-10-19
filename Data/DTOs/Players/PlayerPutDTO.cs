@@ -10,6 +10,8 @@ namespace HvZ_backend.Data.DTOs.Player
         [StringLength(100)]
         public string Username { get; set; }
 
+        public bool Zombie { get; set; }
+
         [StringLength(8)]
         public string BiteCode { get; set; }
         public Guid UserId { get; set; }
