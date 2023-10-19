@@ -111,5 +111,10 @@ app.MapControllers();
 
 app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
 app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> f0ac26b (added locationhub)
 
 app.Run();
