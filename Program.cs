@@ -109,7 +109,16 @@ app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
 
+<<<<<<< HEAD
 app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
 app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
+=======
+<<<<<<< HEAD
+app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy"); ;
+=======
+app.MapHub<LocationHub>("/locationhub");
+app.MapHub<ChatHub>("/hub");
+>>>>>>> 0ed79cd (added locationhub)
+>>>>>>> f54ea14 (added locationhub)
 
 app.Run();
