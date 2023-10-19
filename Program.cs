@@ -62,7 +62,7 @@ builder.Services.AddCors(options =>
               .AllowCredentials()
               .SetIsOriginAllowed((host) => true);
 
-      
+
     });
 });
 
@@ -110,7 +110,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Use CORS with your custom policy
-app.UseCors();
+app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
 
