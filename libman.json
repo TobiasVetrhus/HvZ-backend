@@ -4,7 +4,11 @@
   "libraries": [
     {
       "library": "@microsoft/signalr@latest",
+<<<<<<< HEAD
       "destination": "wwwroot/js/signalr/.",
+=======
+      "destination": "www/root/js/signalr/",
+>>>>>>> 0ed79cd (added locationhub)
       "files": [
         "dist/browser/signalr.js",
         "dist/browser/signalr.min.js"
