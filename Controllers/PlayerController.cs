@@ -25,9 +25,9 @@ namespace HvZ_backend.Controllers
         /// Get a list of all players.
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetAllPlayers()
+        public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetPlayers()
         {
-            var players = await _playerService.GetAllPlayersAsync();
+            var players = await _playerService.GetAllAsync();
             var playerDTOs = _mapper.Map<IEnumerable<PlayerDTO>>(players);
             return Ok(playerDTOs);
         }
@@ -38,12 +38,7 @@ namespace HvZ_backend.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTO>> GetPlayerById(int id)
         {
-            var player = await _playerService.GetPlayerByIdAsync(id);
-
-            if (player == null)
-            {
-                return NotFound();
-            }
+            var player = await _playerService.GetByIdAsync(id);
 
             var playerDTO = _mapper.Map<PlayerDTO>(player);
             return Ok(playerDTO);
@@ -56,18 +51,13 @@ namespace HvZ_backend.Controllers
         [HttpPost]
         public async Task<ActionResult<PlayerDTO>> CreatePlayer(PlayerPostDTO playerPostDTO)
         {
-            if (playerPostDTO == null)
-            {
-                return BadRequest();
-            }
-
             string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             Guid userId = Guid.Parse(subject);
 
             var player = _mapper.Map<Player>(playerPostDTO);
             player.UserId = userId;
 
-            var createdPlayer = await _playerService.CreatePlayerAsync(player);
+            var createdPlayer = await _playerService.AddAsync(player);
             var playerDTO = _mapper.Map<PlayerDTO>(createdPlayer);
 
             return CreatedAtAction(nameof(GetPlayerById), new { id = playerDTO.Id }, playerDTO);
@@ -80,20 +70,15 @@ namespace HvZ_backend.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<PlayerDTO>> UpdatePlayer(int id, PlayerPutDTO playerPutDTO)
         {
-            if (playerPutDTO == null || id != playerPutDTO.Id)
+            if (id != playerPutDTO.Id)
             {
                 return BadRequest();
             }
 
-            var existingPlayer = await _playerService.GetPlayerByIdAsync(id);
-
-            if (existingPlayer == null)
-            {
-                return NotFound();
-            }
+            var existingPlayer = await _playerService.GetByIdAsync(id);
 
             var updatedPlayer = _mapper.Map(playerPutDTO, existingPlayer);
-            var player = await _playerService.UpdatePlayerAsync(updatedPlayer);
+            var player = await _playerService.UpdateAsync(updatedPlayer);
 
             var playerDTO = _mapper.Map<PlayerDTO>(player);
             return Ok(playerDTO);
@@ -106,14 +91,9 @@ namespace HvZ_backend.Controllers
         {
             try
             {
-                var player = await _playerService.GetPlayerByIdAsync(id);
+                var player = await _playerService.GetByIdAsync(id);
 
-                if (player == null)
-                {
-                    return NotFound();
-                }
-
-                await _playerService.DeletePlayerAsync(id);
+                await _playerService.DeleteByIdAsync(id);
 
                 return NoContent();
             }
@@ -140,8 +120,16 @@ namespace HvZ_backend.Controllers
                 return NotFound();
             }
 
-            player.Zombie = true;
-            await _playerService.UpdatePlayerAsync(player);
+            var playerDTO = _mapper.Map<PlayerDTO>(player);
+            return Ok(playerDTO);
+        }
+
+        [HttpGet("by-bitecode/{biteCode}")]
+        public async Task<ActionResult<PlayerDTO>> GetPlayerByBiteCode(string biteCode)
+        {
+            var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
+
+            await _playerService.UpdateAsync(player);
 
             var playerDTO = _mapper.Map<PlayerDTO>(player);
             return Ok(playerDTO);
