@@ -14,32 +14,28 @@ namespace HvZ_backend.Services.Players
         }
 
         // Retrieve all players from the database.
-        public async Task<IEnumerable<Player>> GetAllPlayersAsync()
+        public async Task<IEnumerable<Player>> GetAllAsync()
         {
             return await _context.Players
                 .Include(p => p.Messages)
-                .Include(p => p.PlayerRolesInKills)
                 .ToListAsync();
         }
 
         // Retrieve a player by their ID from the database.
-        public async Task<Player> GetPlayerByIdAsync(int playerId)
+        public async Task<Player> GetByIdAsync(int id)
         {
+            if (!await PlayerExistsAsync(id))
+                throw new EntityNotFoundException(nameof(Player), id);
+
             var player = await _context.Players
                 .Include(p => p.Messages)
-                .Include(p => p.PlayerRolesInKills)
-                .FirstOrDefaultAsync(p => p.Id == playerId);
-
-            if (player == null)
-            {
-                throw new EntityNotFoundException("Player", playerId);
-            }
+                .FirstOrDefaultAsync(p => p.Id == id);
 
             return player;
         }
 
         // Create a new player and add them to the database.
-        public async Task<Player> CreatePlayerAsync(Player player)
+        public async Task<Player> AddAsync(Player obj)
         {
             //Add starting location
             var location = new Location { XCoordinate = 1, YCoordinate = 1 };
@@ -53,47 +49,38 @@ namespace HvZ_backend.Services.Players
                 .Select(s => s[random.Next(s.Length)]).ToArray());
 
             //Determine Zombie property
-            bool zombiesExist = await _context.Players.AnyAsync(p => p.GameId == player.GameId && p.Zombie);
+            bool zombiesExist = await _context.Players.AnyAsync(p => p.GameId == obj.GameId && p.Zombie);
 
-            player.LocationId = location.Id;
-            player.BiteCode = biteCode;
-            player.Zombie = zombiesExist ? false : true;
+            obj.LocationId = location.Id;
+            obj.BiteCode = biteCode;
+            obj.Zombie = zombiesExist ? false : true;
 
-            _context.Players.Add(player);
+            _context.Players.Add(obj);
             await _context.SaveChangesAsync();
 
-            return player;
+            return obj;
         }
 
         // Update an existing player's information in the database.
-        public async Task<Player> UpdatePlayerAsync(Player player)
+        public async Task<Player> UpdateAsync(Player obj)
         {
-            if (player == null)
-            {
-                throw new ArgumentNullException(nameof(player));
-            }
+            if (!await PlayerExistsAsync(obj.Id))
+                throw new EntityNotFoundException("Player", obj.Id);
 
-            if (!await PlayerExistsAsync(player.Id))
-            {
-                throw new EntityNotFoundException("Player", player.Id);
-            }
-
-            _context.Entry(player).State = EntityState.Modified;
+            _context.Entry(obj).State = EntityState.Modified;
             await _context.SaveChangesAsync();
 
-            return player;
+            return obj;
         }
 
         // Delete a player by their ID from the database.
-        public async Task DeletePlayerAsync(int playerId)
+        public async Task DeleteByIdAsync(int id)
         {
-            if (!await PlayerExistsAsync(playerId))
-            {
-                throw new EntityNotFoundException("Player", playerId);
-            }
+            if (!await PlayerExistsAsync(id))
+                throw new EntityNotFoundException("Player", id);
 
             var player = await _context.Players
-                .Where(p => p.Id == playerId)
+                .Where(p => p.Id == id)
                 .Include(p => p.Messages)
                 .FirstAsync();
 
@@ -120,11 +107,8 @@ namespace HvZ_backend.Services.Players
             }
 
             // Update the Zombie attribute
-            player.Zombie = zombie;
-            player.BiteCode = biteCode;
-
-
-            await _context.SaveChangesAsync();
+            player.Zombie = true;
+            await UpdateAsync(player);
 
             return player;
         }

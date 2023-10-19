@@ -17,14 +17,12 @@ namespace HvZ_backend.Data.Entities
         public int? GameId { get; set; }
         public int? SquadId { get; set; }
         public ICollection<Message>? Messages { get; set; }
-
-        public ICollection<PlayerKillRole>? PlayerRolesInKills { get; set; }
-
+        public ICollection<Kill>? Kills { get; set; }
 
         //Navigation
         public AppUser User { get; set; }
         public Game Game { get; set; }
         public Location Location { get; set; }
-        public Squad squad { get; set; }
+        public Squad Squad { get; set; }
     }
 }

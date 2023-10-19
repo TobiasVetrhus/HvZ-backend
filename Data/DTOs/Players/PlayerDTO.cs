@@ -16,7 +16,7 @@ namespace HvZ_backend.Data.DTOs.Player
         public int? LocationId { get; set; }
         public int? GameId { get; set; }
         public int? SquadId { get; set; }
-        public int[]? MessageIds { get; set; }
-        public int[]? PlayerKillRoleIds { get; set; }
+        public int[]? Messages { get; set; }
+        public int[]? Kills { get; set; }
     }
 }

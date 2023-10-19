@@ -19,13 +19,11 @@ namespace HvZ_backend.Data.Entities
         public DbSet<Squad> Squads { get; set; }
         public DbSet<AppUser> AppUsers { get; set; }
 
-        public DbSet<PlayerKillRole> PlayerKillRole { get; set; }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Squad>()
                 .HasMany(s => s.Players)
-                .WithOne(p => p.squad)
+                .WithOne(p => p.Squad)
                 .HasForeignKey(p => p.SquadId)
                 .IsRequired(false);
 
@@ -65,22 +63,18 @@ namespace HvZ_backend.Data.Entities
                 .IsRequired(false);
 
             modelBuilder.Entity<Player>()
-                .HasMany(p => p.PlayerRolesInKills)
-                .WithOne(k => k.Player)
-                .HasForeignKey(k => k.PlayerId)
-                .IsRequired(false);
-            modelBuilder.Entity<Kill>()
-                .HasMany(p => p.PlayerRoles)
-                .WithOne(k => k.Kill)
-                .HasForeignKey(k => k.KillId)
-                .IsRequired(false);
-
-            modelBuilder.Entity<Player>()
                 .HasMany(p => p.Messages)
                 .WithOne(m => m.Player)
                 .HasForeignKey(m => m.PlayerId)
                 .OnDelete(DeleteBehavior.NoAction)
                 .IsRequired(false);
+
+            modelBuilder.Entity<Player>()
+                .HasMany(p => p.Kills)
+                .WithOne(k => k.Player)
+                .HasForeignKey(k => k.PlayerId)
+                .IsRequired(false);
+
             // Seed data for Conversations
             modelBuilder.Entity<Conversation>().HasData(
                 new Conversation { Id = 1, ConversationName = "Global Chat", ChatType = ChatType.Global, GameId = 1 },
@@ -176,10 +170,8 @@ new Game
 
             // Seed data for Kills
             modelBuilder.Entity<Kill>().HasData(
-                new Kill { Id = 1, Description = "Player 2 tagged Player 1 as a zombie.", TimeOfKill = DateTime.Now },
-                new Kill { Id = 2, Description = "Player 3 eliminated Zombie 1.", TimeOfKill = DateTime.Now },
-                new Kill { Id = 3, Description = "Player 4 tagged Player 3.", TimeOfKill = DateTime.Now },
-                new Kill { Id = 4, Description = "Player 1 tagged Player 4.", TimeOfKill = DateTime.Now }
+                new Kill { Id = 1, PlayerId = 1, TimeOfKill = DateTime.Now },
+                new Kill { Id = 2, PlayerId = 4, TimeOfKill = DateTime.Now }
             );
 
             // Seed data for Locations
@@ -281,18 +273,10 @@ new Game
                 new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 4, SquadId = 4, GameId = 4 }
             );
 
-            // Seed data for PlayerKillRoles
-            modelBuilder.Entity<PlayerKillRole>().HasData(
-                new PlayerKillRole { Id = 1, RoleType = KillRoleType.Killer, PlayerId = 1, KillId = 1 },
-                new PlayerKillRole { Id = 2, RoleType = KillRoleType.Victim, PlayerId = 2, KillId = 1 },
-                new PlayerKillRole { Id = 3, RoleType = KillRoleType.Killer, PlayerId = 3, KillId = 2 },
-                new PlayerKillRole { Id = 4, RoleType = KillRoleType.Victim, PlayerId = 1, KillId = 3 }
-            );
-
             // Configure one-to-many relationship between Squad and Player
             modelBuilder.Entity<Squad>()
                     .HasMany(s => s.Players)
-                    .WithOne(p => p.squad)
+                    .WithOne(p => p.Squad)
                     .HasForeignKey(p => p.SquadId);
 
             modelBuilder.Entity<Game>()

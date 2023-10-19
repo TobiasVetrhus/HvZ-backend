@@ -13,10 +13,10 @@ namespace HvZ_backend.Mappers
 
             // Mapping from Player to PlayerDTO
             CreateMap<Player, PlayerDTO>()
-                .ForMember(pdto => pdto.MessageIds, options => options
+                .ForMember(pdto => pdto.Messages, options => options
                     .MapFrom(p => p.Messages.Select(m => m.Id).ToArray()))
-                .ForMember(pdto => pdto.PlayerKillRoleIds, options => options
-                    .MapFrom(p => p.PlayerRolesInKills.Select(pr => pr.Id).ToArray()));
+                .ForMember(pdto => pdto.Kills, options => options
+                    .MapFrom(p => p.Kills.Select(k => k.Id).ToArray()));
 
             // Mapping from Player to PlayerPutDTO and vice versa
             CreateMap<Player, PlayerPutDTO>().ReverseMap();
