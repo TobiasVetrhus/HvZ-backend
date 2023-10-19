@@ -12,7 +12,7 @@ namespace HvZ_backend.Data.Entities
 
         [StringLength(8, ErrorMessage = "Bite code cannot be longer than 8 characters.")]
         public string BiteCode { get; set; }
-        public int? UserId { get; set; }
+        public Guid? UserId { get; set; }
         public int? LocationId { get; set; }
         public int? GameId { get; set; }
         public int? SquadId { get; set; }
@@ -22,7 +22,7 @@ namespace HvZ_backend.Data.Entities
 
 
         //Navigation
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public Game Game { get; set; }
         public Location Location { get; set; }
         public Squad squad { get; set; }

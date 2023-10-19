@@ -3,35 +3,53 @@ using HvZ_backend.Data.DTOs.Users;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
+    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class UsersController : ControllerBase
+    public class AppUserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAppUserService _userService;
         private readonly IMapper _mapper;
 
-        public UsersController(IUserService userService, IMapper mapper)
+        public AppUserController(IAppUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserDTO>>> GetUsers()
+        [HttpGet("subject")]
+        public ActionResult GetSubject()
         {
-            return Ok(_mapper.Map<IEnumerable<UserDTO>>(await _userService.GetAllAsync()));
+            var subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return Ok(new { Subject = subject });
+        }
+
+        [HttpGet("exists")]
+        public async Task<IActionResult> GetIfExists()
+        {
+            string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _userService.GetUserIfExists(new Guid(subject));
+            return user is null ? NotFound() : Ok(user);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AppUserDTO>>> GetAppUsers()
+        {
+            return Ok(_mapper.Map<IEnumerable<AppUserDTO>>(await _userService.GetAllAsync()));
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserDTO>> GetUser(int id)
+        public async Task<ActionResult<AppUserDTO>> GetAppUser(Guid id)
         {
             try
             {
-                return Ok(_mapper.Map<UserDTO>(await _userService.GetByIdAsync(id)));
+                return Ok(_mapper.Map<AppUserDTO>(await _userService.GetByIdAsync(id)));
             }
             catch (EntityNotFoundException ex)
             {
@@ -40,7 +58,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutUser(int id, UserPutDTO user)
+        public async Task<IActionResult> PutAppUser(Guid id, AppUserPutDTO user)
         {
             if (id != user.Id)
             {
@@ -48,7 +66,7 @@ namespace HvZ_backend.Controllers
             }
             try
             {
-                var updatedUser = await _userService.UpdateAsync(_mapper.Map<User>(user));
+                var updatedUser = await _userService.UpdateAsync(_mapper.Map<AppUser>(user));
             }
             catch (EntityNotFoundException ex)
             {
@@ -59,19 +77,29 @@ namespace HvZ_backend.Controllers
         }
 
 
-        [HttpPost]
-        public async Task<ActionResult<UserDTO>> PostUser(UserPostDTO user)
+        [HttpPost("register")]
+        public async Task<ActionResult<AppUserDTO>> PostAppUser()
         {
-            var newUser = await _userService.AddAsync(_mapper.Map<User>(user));
+            string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            Guid userId = Guid.Parse(subject);
 
-            return CreatedAtAction("GetUser",
-                new { id = newUser.Id },
-                _mapper.Map<UserDTO>(newUser));
+            var newUser = new AppUser
+            {
+                Id = userId
+            };
+
+            newUser.Id = userId;
+
+            newUser = await _userService.AddAsync(newUser);
+
+            var userDto = _mapper.Map<AppUserDTO>(newUser);
+
+            return CreatedAtAction("GetAppUser", new { id = userDto.Id }, userDto);
         }
 
         // DELETE: api/Users/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUser(int id)
+        public async Task<IActionResult> DeleteAppUser(Guid id)
         {
             try
             {
@@ -86,7 +114,7 @@ namespace HvZ_backend.Controllers
 
 
         [HttpPut("{id}/add-player/{playerId}")]
-        public async Task<IActionResult> AddPlayerAsync(int id, int playerId)
+        public async Task<IActionResult> AddPlayerAsync(Guid id, int playerId)
         {
             try
             {
