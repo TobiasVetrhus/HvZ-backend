@@ -12,6 +12,7 @@ namespace HvZ_backend.Controllers
     [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
+    //[Authorize]
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
@@ -57,7 +58,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<GameDTO>> AddGame(GamePostDTO game)
         {
             var newGame = await _gameService.AddAsync(_mapper.Map<Game>(game));
@@ -66,7 +67,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/add-rule/{ruleId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddRuleAsync(int id, int ruleId)
         {
             try
@@ -85,7 +86,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/add-player/{playerId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddPlayerAsync(int id, int playerId)
         {
             try
@@ -104,7 +105,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/add-mission/{missionId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddMissionAsync(int id, int missionId)
         {
             try
@@ -123,7 +124,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/add-conversation/{conversationId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddConversationAsync(int id, int conversationId)
         {
             try
@@ -142,7 +143,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateGame(int id, GamePutDTO game)
         {
             if (id != game.Id)
@@ -163,7 +164,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/update-conversations")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateConversationsAsync(int id, [FromBody] int[] conversations)
         {
             try
@@ -182,7 +183,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/update-rules")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateRulesAsync(int id, [FromBody] int[] rules)
         {
             try
@@ -201,7 +202,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/update-missions")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateMissionsAsync(int id, [FromBody] int[] missions)
         {
             try
@@ -220,7 +221,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/update-players")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdatePlayersAsync(int id, [FromBody] int[] players)
         {
             try
@@ -239,7 +240,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/remove-mission/{missionId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveMissionAsync(int id, int missionId)
         {
             try
@@ -258,7 +259,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/remove-rule/{ruleId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveRuleAsync(int id, int ruleId)
         {
             try
@@ -277,7 +278,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/remove-conversation/{conversationId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveConversationAsync(int id, int conversationId)
         {
             try
@@ -296,7 +297,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}/remove-player/{playerId}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemovePlayerAsync(int id, int playerId)
         {
             try
@@ -315,7 +316,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpDelete("{id}")]
-        [Authorize(Roles = RoleConstants.Admin)]
+        //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteGame(int id)
         {
             try
