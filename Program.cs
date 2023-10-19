@@ -20,9 +20,6 @@ var Configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json")
         .Build();
 
-
-builder.Services.AddSignalR();
-
 // Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -112,6 +109,7 @@ app.UseCors("MyCorsPolicy");
 
 app.MapControllers();
 
-app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy"); ;
+app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
+app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
 
 app.Run();

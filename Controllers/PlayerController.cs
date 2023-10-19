@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using HvZ_backend.Data.DTOs.Locations;
 using HvZ_backend.Data.DTOs.Player;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
@@ -63,10 +64,23 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction(nameof(GetPlayerById), new { id = playerDTO.Id }, playerDTO);
         }
 
+        [HttpPut("leaveMarker/{id}")]
+        public async Task<IActionResult> UpdatePlayerLocation(int id, [FromBody] LocationUpdateDTO locationUpdateDTO)
+        {
+            try
+            {
+                var success = await _playerService.updatePlayerLocationAsync(id, locationUpdateDTO.XCoordinate, locationUpdateDTO.YCoordinate);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Update an existing player.
         /// </summary>
-
         [HttpPut("{id}")]
         public async Task<ActionResult<PlayerDTO>> UpdatePlayer(int id, PlayerPutDTO playerPutDTO)
         {
