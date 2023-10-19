@@ -160,7 +160,7 @@ namespace HvZ_backend.Services.Games
                 .FirstOrDefaultAsync(g => g.Id == gameId);
 
 
-            if (!await RuleExistsAsync(missionId))
+            if (!await MissionExistsAsync(missionId))
                 throw new EntityNotFoundException(nameof(Mission), missionId);
 
             var mission = await _context.Missions.FindAsync(missionId);

@@ -57,10 +57,11 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("MyCorsPolicy", builder =>
     {
-        builder.WithOrigins("http://localhost:3000")
+        builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
                .AllowAnyMethod()
                .AllowAnyHeader()
-              .AllowCredentials();
+              .AllowCredentials()
+              .SetIsOriginAllowed((host) => true);
     });
 });
 
@@ -108,10 +109,10 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Use CORS with your custom policy
-app.UseCors("MyCorsPolicy");
+app.UseCors();
 
 app.MapControllers();
 
-app.MapHub<ChatHub>("/hub");
+app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy"); ;
 
 app.Run();
