@@ -39,6 +39,8 @@ namespace HvZ_backend.Services.Games
             game.Rules.Clear();
             game.Conversations.Clear();
 
+            _context.Games.Remove(game);
+
             await _context.SaveChangesAsync();
         }
 

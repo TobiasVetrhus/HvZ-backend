@@ -4,8 +4,6 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Kills;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace HvZ_backend.Controllers
 {
@@ -21,7 +19,7 @@ namespace HvZ_backend.Controllers
             _killService = killService;
             _mapper = mapper;
         }
-        
+
         // GET: api/v1/Kill/GetKills
         [HttpGet("GetKills")]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
@@ -30,10 +28,10 @@ namespace HvZ_backend.Controllers
             var killDTOs = _mapper.Map<IEnumerable<KillDTO>>(kills);
             return Ok(killDTOs);
         }
-        
+
         // GET: api/v1/Kill/{id}
         [HttpGet("{id}")]
-        public async Task<ActionResult<KillDTO>> GetKill(int id)
+        public async Task<ActionResult<KillDTO>> GetKillById(int id)
         {
             try
             {
@@ -47,35 +45,35 @@ namespace HvZ_backend.Controllers
             }
 
         }
-        
+
         // POST: api/v1/Kill
         [HttpPost]
-        public async Task<ActionResult<KillDTO>> PostKill(KillPostDTO killPostDTO)
+        public async Task<ActionResult<KillDTO>> AddKill(KillPostDTO killPostDTO)
         {
-            var newKill = await _killService.CreateKillAsync(killPostDTO);
+            var newKill = await _killService.AddAsync(_mapper.Map<Kill>(killPostDTO));
 
-            return CreatedAtAction("GetKill",
-                new { id = newKill.Id },
-                _mapper.Map<KillDTO>(newKill));
+            return CreatedAtAction("GetKillById", new { id = newKill.Id }, _mapper.Map<KillDTO>(newKill));
         }
-        
+
         // PUT: api/v1/Kill/{id}
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutKill(int id, KillPutDTO killPutDTO)
+        public async Task<IActionResult> UpdateKill(int id, KillPutDTO killPutDTO)
         {
+            if (id != killPutDTO.Id)
+            {
+                return BadRequest();
+            }
+
             try
             {
-                // Update the existing kill with the provided ID using the DTO data
-                var updatedKill = await _killService.UpdateKillAsync(id, killPutDTO);
-
-                // Return the updated kill as a DTO
-                return Ok(_mapper.Map<KillDTO>(updatedKill));
+                var updatedGame = await _killService.UpdateAsync(_mapper.Map<Kill>(killPutDTO));
             }
             catch (EntityNotFoundException ex)
             {
-                // Handle the case where the kill with the specified ID was not found
                 return NotFound(ex.Message);
             }
+
+            return NoContent();
         }
 
         // DELETE: api/v1/Kill/{id}
@@ -84,25 +82,16 @@ namespace HvZ_backend.Controllers
         {
             try
             {
-                // Delete a kill by ID and return NoContent on success
-                var isDeleted = await _killService.DeleteKillAsync(id);
-                if (isDeleted)
-                {
-                    return NoContent();
-                }
-                else
-                {
-                    return NotFound("Kill not found.");
-                }
+                await _killService.DeleteByIdAsync(id);
+                return NoContent();
             }
             catch (EntityNotFoundException ex)
             {
-                // Handle the case where the kill with the specified ID was not found
                 return NotFound(ex.Message);
             }
         }
     }
 }
 
-    
+
 

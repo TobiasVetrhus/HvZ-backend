@@ -6,7 +6,6 @@ using HvZ_backend.Services.Kills;
 using HvZ_backend.Services.Locations;
 using HvZ_backend.Services.Messages;
 using HvZ_backend.Services.Missions;
-using HvZ_backend.Services.PlayerKillRoles;
 using HvZ_backend.Services.Players;
 using HvZ_backend.Services.Rules;
 using HvZ_backend.Services.Squads;
@@ -84,7 +83,6 @@ builder.Services.AddScoped<IAppUserService, AppUserService>();
 builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
 builder.Services.AddScoped<ISquadService, SquadService>();
-builder.Services.AddScoped<IPlayerKillRoleService, PlayerKillRoleService>();
 
 
 
