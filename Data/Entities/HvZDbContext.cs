@@ -170,7 +170,7 @@ new Game
 
             // Seed data for Kills
             modelBuilder.Entity<Kill>().HasData(
-                new Kill { Id = 1, PlayerId = 1, TimeOfKill = DateTime.Now },
+                new Kill { Id = 1, PlayerId = 1, TimeOfKill = DateTime.Now, LocationId = 2 },
                 new Kill { Id = 2, PlayerId = 4, TimeOfKill = DateTime.Now }
             );
 
