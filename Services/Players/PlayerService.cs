@@ -78,23 +78,6 @@ namespace HvZ_backend.Services.Players
             return true;
         }
 
-        public async Task<bool> updatePlayerLocationAsync(int playerId, int x, int y)
-        {
-            if (!await PlayerExistsAsync(playerId))
-                throw new EntityNotFoundException(nameof(Player), playerId);
-
-            var player = await _context.Players
-                .Include(p => p.Location)
-                .FirstOrDefaultAsync(p => p.Id == playerId);
-
-            player.Location.XCoordinate = x;
-            player.Location.YCoordinate = y;
-
-
-            await _context.SaveChangesAsync();
-            return true;
-        }
-
         // Update an existing player's information in the database.
         public async Task<Player> UpdateAsync(Player obj)
         {
