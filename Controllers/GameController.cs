@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Games;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
@@ -9,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
     //[Authorize]

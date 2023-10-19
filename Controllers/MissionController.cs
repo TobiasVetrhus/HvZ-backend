@@ -50,6 +50,25 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetMissionById", new { id = newMission.Id }, _mapper.Map<MissionDTO>(newMission));
         }
 
+
+        [HttpPut("{id}/add-location/{locationId}")]
+        public async Task<IActionResult> AddMissionAsync(int id, int locationId)
+        {
+            try
+            {
+                await _missionService.AddLocationToMissionAsync(id, locationId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMission(int id, MissionPutDTO mission)
         {
