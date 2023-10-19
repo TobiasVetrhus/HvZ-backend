@@ -113,7 +113,7 @@ namespace HvZ_backend.Controllers
         [HttpPut("by-bitecode/{biteCode}")]
         public async Task<ActionResult<PlayerDTO>> SetPlayerToZombieByBiteCode(string biteCode)
         {
-            var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
+            var player = await _playerService.UpdateZombieStateAsync(biteCode);
 
             if (player == null)
             {
