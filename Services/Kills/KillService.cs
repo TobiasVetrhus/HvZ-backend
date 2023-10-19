@@ -77,9 +77,36 @@ namespace HvZ_backend.Services.Kills
             await _context.SaveChangesAsync();
         }
 
+        public async Task AddLocationToKillAsync(int killId, int locationId)
+        {
+            if (!await KillExistsAsync(killId))
+                throw new EntityNotFoundException(nameof(Kill), killId);
+
+            if (!await LocationExistsAsync(locationId))
+                throw new EntityNotFoundException(nameof(Location), locationId);
+
+            var kill = await _context.Kills.FirstOrDefaultAsync(k => k.Id == killId);
+            var location = await _context.Locations.FindAsync(locationId);
+
+            if (kill != null && location != null)
+            {
+                kill.Location = location;
+
+                // Save the changes to the database.
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public async Task<bool> KillExistsAsync(int id)
         {
             return await _context.Kills.AnyAsync(m => m.Id == id);
         }
+
+        public async Task<bool> LocationExistsAsync(int id)
+        {
+            return await _context.Locations.AnyAsync(m => m.Id == id);
+        }
+
+
     }
 }

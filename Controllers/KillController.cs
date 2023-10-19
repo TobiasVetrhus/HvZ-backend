@@ -76,6 +76,24 @@ namespace HvZ_backend.Controllers
             return NoContent();
         }
 
+        [HttpPut("{id}/add-location/{locationId}")]
+        public async Task<IActionResult> AddLocationAsync(int id, int locationId)
+        {
+            try
+            {
+                await _killService.AddLocationToKillAsync(id, locationId);
+                return NoContent();
+            }
+            catch (EntityNotFoundException ex)
+            {
+                return NotFound(ex.Message);
+            }
+            catch (EntityValidationException ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         // DELETE: api/v1/Kill/{id}
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKill(int id)
