@@ -1,5 +1,6 @@
 ﻿using HvZ_backend.Data.Entities;
 using Microsoft.AspNetCore.SignalR;
+using Serilog;
 
 namespace HvZ_backend.Data.Hubs
 {
@@ -11,6 +12,7 @@ namespace HvZ_backend.Data.Hubs
         {
             _context = context;
         }
+
         private string DetermineSquadIdForClient(int playerId)
         {
             var player = _context.Players.FirstOrDefault(p => p.Id == playerId);
@@ -20,17 +22,17 @@ namespace HvZ_backend.Data.Hubs
             }
             return null;
         }
-        public async Task OnConnectedAsync(int playerId)
-        {
-            string squadId = DetermineSquadIdForClient(playerId);
-            await Groups.AddToGroupAsync(Context.ConnectionId, squadId);
-        }
 
         public async Task SendLocationUpdate(int playerId, int x, int y)
         {
-            // Broadcast the location update to all clients in the same squad group
+            Log.Information($"playerId: {playerId}, ConnectionId: {Context.ConnectionId}");
+
             string squadId = DetermineSquadIdForClient(playerId);
+
+            await Groups.AddToGroupAsync(Context.ConnectionId, squadId);
             await Clients.Group(squadId).SendAsync("ReceiveLocationUpdate", playerId, x, y);
         }
+
     }
 }
+
