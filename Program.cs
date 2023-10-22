@@ -14,11 +14,20 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
+using Serilog;
+using Serilog.Sinks.SystemConsole.Themes;
 
 var builder = WebApplication.CreateBuilder(args);
 var Configuration = new ConfigurationBuilder()
-        .AddJsonFile("appsettings.json")
-        .Build();
+    .AddJsonFile("appsettings.json")
+    .Build();
+
+// Configure Serilog with the console sink
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console(theme: AnsiConsoleTheme.Code)
+    .CreateLogger();
+
+Log.Information("Application is starting... DEBUG");
 
 // Swagger configuration
 builder.Services.AddEndpointsApiExplorer();
@@ -33,7 +42,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             {
                 var client = new HttpClient();
                 var keyuri = Configuration["TokenSecrets:KeyURI"];
-                //Retrieves the keys from keycloak instance to verify token
+                // Retrieves the keys from the Keycloak instance to verify the token
                 var response = client.GetAsync(keyuri).Result;
                 var responseString = response.Content.ReadAsStringAsync().Result;
                 var keys = JsonConvert.DeserializeObject<JsonWebKeySet>(responseString);
@@ -41,9 +50,9 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             },
 
             ValidIssuers = new List<string>
-              {
+            {
                 Configuration["TokenSecrets:IssuerURI"]
-              }
+            }
         };
     });
 
@@ -55,10 +64,8 @@ builder.Services.AddCors(options =>
         builder.WithOrigins("http://localhost:3000", "https://localhost:3000")
                .AllowAnyMethod()
                .AllowAnyHeader()
-              .AllowCredentials()
-              .SetIsOriginAllowed((host) => true);
-
-
+               .AllowCredentials()
+               .SetIsOriginAllowed((host) => true);
     });
 });
 
@@ -69,6 +76,7 @@ builder.Services.AddDbContext<HvZDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("HvZDb"));
 });
+
 // Add SignalR configuration
 builder.Services.AddSignalR();
 
@@ -84,10 +92,7 @@ builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<IRuleService, RuleService>();
 builder.Services.AddScoped<ISquadService, SquadService>();
 
-
-
-
-// Add automapper
+// Add AutoMapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 var app = builder.Build();
@@ -113,3 +118,4 @@ app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
 app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
 
 app.Run();
+

@@ -48,6 +48,15 @@ namespace HvZ_backend.Services.Squads
             return squad;
         }
 
+        public async Task<ICollection<Squad>> GetSquadsByGameAsync(int gameId)
+        {
+            return await _context.Squads
+                .Include(s => s.Players)
+                .Where(s => s.GameId == gameId)
+                .ToListAsync();
+        }
+
+
         // Add a new squad to the database
         public async Task<Squad> AddAsync(Squad squad)
         {
@@ -162,6 +171,28 @@ namespace HvZ_backend.Services.Squads
             await _context.SaveChangesAsync();
         }
 
+
+        public async Task AddGameToSquadAsync(int squadId, int gameId)
+        {
+            if (!await SquadExistsAsync(squadId))
+                throw new EntityNotFoundException(nameof(Squad), squadId);
+
+            if (!await GameExistsAsync(gameId))
+                throw new EntityNotFoundException(nameof(Game), gameId);
+
+            var squad = await _context.Squads.FirstOrDefaultAsync(s => s.Id == squadId);
+            var game = await _context.Games.FindAsync(gameId);
+
+            if (squad != null && game != null)
+            {
+                squad.Game = game;
+
+                // Save the changes to the database.
+                await _context.SaveChangesAsync();
+            }
+        }
+
+
         // Get all squads within a size range
         public async Task<ICollection<Squad>> GetSquadsBySizeAsync(int minSize, int maxSize)
         {
@@ -200,5 +231,12 @@ namespace HvZ_backend.Services.Squads
         {
             return await _context.Squads.AnyAsync(s => s.Id == id);
         }
+
+        private async Task<bool> GameExistsAsync(int id)
+        {
+            return await _context.Games.AnyAsync(s => s.Id == id);
+        }
+
+
     }
 }

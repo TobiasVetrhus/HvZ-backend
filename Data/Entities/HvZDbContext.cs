@@ -245,10 +245,12 @@ new Game
 
             // Seed data for Squads
             modelBuilder.Entity<Squad>().HasData(
-                new Squad { Id = 1, SquadName = "Alpha Squad", NumberOfMembers = 5, NumberOfDeceased = 0 },
-                new Squad { Id = 2, SquadName = "Zombie Horde", NumberOfMembers = 10, NumberOfDeceased = 3 },
-                new Squad { Id = 3, SquadName = "Survivor Team", NumberOfMembers = 7, NumberOfDeceased = 1 },
-                new Squad { Id = 4, SquadName = "Bravo Squad", NumberOfMembers = 6, NumberOfDeceased = 2 }
+                new Squad { Id = 1, SquadName = "Alpha Squad", NumberOfMembers = 5, NumberOfDeceased = 0, GameId = 1 },
+                new Squad { Id = 2, SquadName = "Zombie Horde", NumberOfMembers = 10, NumberOfDeceased = 3, GameId = 1 },
+                new Squad { Id = 3, SquadName = "Survivor Team", NumberOfMembers = 7, NumberOfDeceased = 1, GameId = 1 },
+                new Squad { Id = 4, SquadName = "Bravo Squad", NumberOfMembers = 6, NumberOfDeceased = 2, GameId = 1 },
+                new Squad { Id = 5, SquadName = "Alpha Squad", NumberOfMembers = 5, NumberOfDeceased = 0, GameId = 2 },
+                new Squad { Id = 6, SquadName = "Zombie Horde", NumberOfMembers = 10, NumberOfDeceased = 3, GameId = 2 }
             );
 
             //Seed Guid for Users

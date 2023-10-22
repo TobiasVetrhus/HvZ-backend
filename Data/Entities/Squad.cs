@@ -12,6 +12,9 @@ namespace HvZ_backend.Data.Entities
         public int? NumberOfMembers { get; set; }
 
         public int? NumberOfDeceased { get; set; }
+        public int? GameId { get; set; }
+
+        public Game Game { get; set; }
         public ICollection<Player>? Players { get; set; } //1-M
     }
 }
