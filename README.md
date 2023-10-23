@@ -61,7 +61,8 @@ This will create the database with dummy data from `HvZDbContext.cs` in SSMS.
 The API can be used to interact with the database through HTTP requests. There are different endpoints for the database tables that can be used perform GET, POST or PUT requests from the frontend. 
 
 ## Contributors
-[Tobias Vetrhus](https://github.com/TobiasVetrhus)
-[Tommy J�vold](https://github.com/t-lined)
-[Ritwaan Hashi](https://github.com/ritwaan)
-[Ine Bredesen](https://github.com/inemari)
+- [Tommy Jåvold](https://github.com/t-lined)
+- [Ine Mari Bredesen](https://github.com/inemari)
+- [Tobias Vetrhus](https://github.com/TobiasVetrhus)
+- [Ritwaan Hashi](https://github.com/Ritwaan)
+- [Noah Høgstøl](https://github.com/Nuuah)
