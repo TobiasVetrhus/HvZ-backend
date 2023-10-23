@@ -143,7 +143,7 @@ namespace HvZ_backend.Controllers
         {
             var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
 
-            await _playerService.UpdateAsync(player);
+            await _playerService.GetByIdAsync(player.Id);
 
             var playerDTO = _mapper.Map<PlayerDTO>(player);
             return Ok(playerDTO);

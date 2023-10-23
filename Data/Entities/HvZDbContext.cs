@@ -85,86 +85,96 @@ namespace HvZ_backend.Data.Entities
 
             // Seed data for Games
             modelBuilder.Entity<Game>().HasData(
-    new Game
-    {
-        Id = 1,
-        Title = "Cursed Asylum",
-        Description = "Venture into the Cursed Asylum, where madness reigns and dark secrets lurk in every corner. Can you escape its horrifying grip?",
-        GameState = GameStatus.Registration,
-        PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
-    },
-new Game
-{
-    Id = 2,
-    Title = "Eldritch Nightmare",
-    Description = "Enter the Eldritch Nightmare, a realm of cosmic horrors and unspeakable terrors. Will you survive the relentless onslaught of the unknown?",
-    GameState = GameStatus.InProgress,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 3,
-    Title = "Haunting Shadows",
-    Description = "Face the Haunting Shadows, where vengeful spirits and malevolent entities lurk in the darkness. Can you escape their relentless pursuit?",
-    GameState = GameStatus.InProgress,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 4,
-    Title = "Frostbitten Horror",
-    Description = "Confront the Frostbitten Horror, a desolate wasteland where the cold bites deep and ancient evils stir. Will you survive its icy embrace?",
-    GameState = GameStatus.Complete,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 5,
-    Title = "Dreaded Catacombs",
-    Description = "Descend into the Dreaded Catacombs, a labyrinth of death and despair. Face the wrath of the undead in this chilling underground nightmare.",
-    GameState = GameStatus.Registration,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
-},
-new Game
-{
-    Id = 6,
-    Title = "Infernal Abyss",
-    Description = "Plunge into the Infernal Abyss, a fiery inferno of torment and suffering. Survive the relentless flames or be consumed by the eternal blaze.",
-    GameState = GameStatus.InProgress,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 7,
-    Title = "Phantom's Curse",
-    Description = "Unravel the Phantom's Curse, a haunting enigma that threatens your very soul. Confront the ghostly apparitions and uncover their dark secrets.",
-    GameState = GameStatus.InProgress,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 8,
-    Title = "Eternal Frostbite",
-    Description = "Endure the Eternal Frostbite, where bone-chilling cold and frosty horrors await. Can you withstand the icy grip of this frozen nightmare?",
-    GameState = GameStatus.Complete,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-},
-new Game
-{
-    Id = 9,
-    Title = "Sinister Hunt",
-    Description = "Embark on the Sinister Hunt, a deadly game of survival where hunters become the hunted. Outwit your pursuers or meet a gruesome fate.",
-    GameState = GameStatus.Registration,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
-},
-new Game
-{
-    Id = 10,
-    Title = "Crimson Catastrophe",
-    Description = "Face the Crimson Catastrophe, a world bathed in blood and chaos. Survive the crimson tide or drown in the sea of horror it brings.",
-    GameState = GameStatus.InProgress,
-    PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg"
-}
+            new Game
+            {
+                Id = 1,
+                Title = "Cursed Asylum",
+                Description = "Venture into the Cursed Asylum, where madness reigns and dark secrets lurk in every corner. Can you escape its horrifying grip?",
+                GameState = GameStatus.Registration,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 2,
+                Title = "Eldritch Nightmare",
+                Description = "Enter the Eldritch Nightmare, a realm of cosmic horrors and unspeakable terrors. Will you survive the relentless onslaught of the unknown?",
+                GameState = GameStatus.InProgress,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 3,
+                Title = "Haunting Shadows",
+                Description = "Face the Haunting Shadows, where vengeful spirits and malevolent entities lurk in the darkness. Can you escape their relentless pursuit?",
+                GameState = GameStatus.InProgress,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 4,
+                Title = "Frostbitten Horror",
+                Description = "Confront the Frostbitten Horror, a desolate wasteland where the cold bites deep and ancient evils stir. Will you survive its icy embrace?",
+                GameState = GameStatus.Complete,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 5,
+                Title = "Dreaded Catacombs",
+                Description = "Descend into the Dreaded Catacombs, a labyrinth of death and despair. Face the wrath of the undead in this chilling underground nightmare.",
+                GameState = GameStatus.Registration,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 6,
+                Title = "Infernal Abyss",
+                Description = "Plunge into the Infernal Abyss, a fiery inferno of torment and suffering. Survive the relentless flames or be consumed by the eternal blaze.",
+                GameState = GameStatus.InProgress,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 7,
+                Title = "Phantom's Curse",
+                Description = "Unravel the Phantom's Curse, a haunting enigma that threatens your very soul. Confront the ghostly apparitions and uncover their dark secrets.",
+                GameState = GameStatus.InProgress,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 8,
+                Title = "Eternal Frostbite",
+                Description = "Endure the Eternal Frostbite, where bone-chilling cold and frosty horrors await. Can you withstand the icy grip of this frozen nightmare?",
+                GameState = GameStatus.Complete,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 9,
+                Title = "Sinister Hunt",
+                Description = "Embark on the Sinister Hunt, a deadly game of survival where hunters become the hunted. Outwit your pursuers or meet a gruesome fate.",
+                GameState = GameStatus.Registration,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            },
+            new Game
+            {
+                Id = 10,
+                Title = "Crimson Catastrophe",
+                Description = "Face the Crimson Catastrophe, a world bathed in blood and chaos. Survive the crimson tide or drown in the sea of horror it brings.",
+                GameState = GameStatus.InProgress,
+                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                MapURL = "assets/images/maps/Map1.png",
+            }
 
             );
 
@@ -282,13 +292,13 @@ new Game
             // Seed data for Players
             modelBuilder.Entity<Player>().HasData(
                 new Player { Id = 1, Username = "Player1", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 7, SquadId = 1, GameId = 1 },
-                new Player { Id = 2, Username = "Player2", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 8, SquadId = 2, GameId = 2 },
-                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 9, SquadId = 3, GameId = 3 },
-                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 10, SquadId = 4, GameId = 4 },
-                new Player { Id = 5, Username = "Player5", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 7, SquadId = 1, GameId = 1 },
-                new Player { Id = 6, Username = "Player6", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 8, SquadId = 2, GameId = 2 },
-                new Player { Id = 7, Username = "Player7", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 9, SquadId = 3, GameId = 3 },
-                new Player { Id = 8, Username = "Player8", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 10, SquadId = 4, GameId = 4 }
+                new Player { Id = 2, Username = "Player2", Zombie = false, BiteCode = "BITE002", UserId = user2Guid, LocationId = 8, SquadId = 2, GameId = 2 },
+                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE003", UserId = user3Guid, LocationId = 9, SquadId = 3, GameId = 3 },
+                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE004", UserId = user4Guid, LocationId = 10, SquadId = 4, GameId = 4 },
+                new Player { Id = 5, Username = "Player5", Zombie = true, BiteCode = "ZOMBIE01", UserId = user5Guid, LocationId = 11, SquadId = 1, GameId = 1 },
+                new Player { Id = 6, Username = "Player6", Zombie = true, BiteCode = "ZOMBIE02", UserId = user6Guid, LocationId = 12, SquadId = 2, GameId = 2 },
+                new Player { Id = 7, Username = "Player7", Zombie = true, BiteCode = "ZOMBIE03", UserId = user7Guid, LocationId = 13, SquadId = 3, GameId = 2 },
+                new Player { Id = 8, Username = "Player8", Zombie = true, BiteCode = "ZOMBIE04", UserId = user8Guid, LocationId = 14, SquadId = 4, GameId = 3 }
             );
 
             // Configure one-to-many relationship between Squad and Player
