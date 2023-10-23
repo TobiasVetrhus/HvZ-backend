@@ -3,12 +3,14 @@ using HvZ_backend.Data.DTOs.Squads;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Squads;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;

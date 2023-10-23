@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Missions;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Missions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class MissionController : ControllerBase
     {
         private readonly IMissionService _missionService;
@@ -21,6 +24,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions()
         {
             var missions = await _missionService.GetAllAsync();
@@ -29,6 +33,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<MissionDTO>> GetMissionById(int id)
         {
             try
@@ -43,6 +48,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<MissionDTO>> AddMission(MissionPostDTO mission)
         {
             var newMission = await _missionService.AddAsync(_mapper.Map<Mission>(mission));
@@ -52,6 +58,7 @@ namespace HvZ_backend.Controllers
 
 
         [HttpPut("{id}/add-location/{locationId}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddMissionAsync(int id, int locationId)
         {
             try
@@ -70,6 +77,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateMission(int id, MissionPutDTO mission)
         {
             if (id != mission.Id)
@@ -90,6 +98,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteMission(int id)
         {
             try

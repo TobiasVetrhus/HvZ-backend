@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Rules;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Rules;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class RulesController : ControllerBase
     {
         private readonly IRuleService _ruleService;
@@ -24,6 +27,7 @@ namespace HvZ_backend.Controllers
         /// </summary>
 
         [HttpGet("GetRules")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RuleDTO>>> GetRules()
         {
             var rules = await _ruleService.GetAllAsync();
@@ -33,6 +37,7 @@ namespace HvZ_backend.Controllers
 
         // GET: api/v1/Rules/{id}
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<RuleDTO>> GetRule(int id)
         {
             try
@@ -50,6 +55,7 @@ namespace HvZ_backend.Controllers
 
         // PUT: api/v1/Rules/{id}
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> PutRule(int id, RulePutDTO rule)
         {
             if (id != rule.Id)
@@ -72,6 +78,7 @@ namespace HvZ_backend.Controllers
         }
         // POST: api/v1/Rules
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<RuleDTO>> PostRule(RulePostDTO rule)
         {
             // Create a new rule and return CreatedAtAction with the newly created rule's information
@@ -84,6 +91,7 @@ namespace HvZ_backend.Controllers
 
         // DELETE: api/v1/Rules/{id}
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteRule(int id)
         {
             try

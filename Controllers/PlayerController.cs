@@ -4,6 +4,7 @@ using HvZ_backend.Data.DTOs.Player;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Players;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,6 +12,7 @@ namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("api/v1/players")]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;

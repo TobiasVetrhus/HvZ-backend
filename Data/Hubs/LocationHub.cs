@@ -28,9 +28,16 @@ namespace HvZ_backend.Data.Hubs
 
         public async Task SendLocationUpdate(int playerId, int x, int y)
         {
-            // Broadcast the location update to all clients in the same squad group
-            string squadId = DetermineSquadIdForClient(playerId);
-            await Clients.Group(squadId).SendAsync("ReceiveLocationUpdate", playerId, x, y);
+            try
+            {
+                string squadId = DetermineSquadIdForClient(playerId);
+                await Clients.Group(squadId).SendAsync("ReceiveLocationUpdate", playerId, x, y);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in SendLocationUpdate: {ex}");
+                throw new HubException("An error occurred while processing the request.");
+            }
         }
     }
 }

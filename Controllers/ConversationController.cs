@@ -3,6 +3,7 @@ using HvZ_backend.Data.DTOs.Conversations;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Conversations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
@@ -10,6 +11,7 @@ namespace HvZ_backend.Controllers
 
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConversationController : ControllerBase
     {
         private readonly IConversationService _conversationService;

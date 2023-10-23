@@ -3,12 +3,14 @@ using HvZ_backend.Data.DTOs.Locations;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Locations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class LocationController : ControllerBase
     {
         private readonly ILocationService _locationService;
@@ -21,6 +23,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<LocationDTO>>> GetLocations()
         {
             var locations = await _locationService.GetAllAsync();
@@ -29,6 +32,7 @@ namespace HvZ_backend.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<LocationDTO>> GetLocationById(int id)
         {
             try

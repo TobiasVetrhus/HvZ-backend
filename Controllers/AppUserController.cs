@@ -9,9 +9,9 @@ using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class AppUserController : ControllerBase
     {
         private readonly IAppUserService _userService;
@@ -21,13 +21,6 @@ namespace HvZ_backend.Controllers
         {
             _userService = userService;
             _mapper = mapper;
-        }
-
-        [HttpGet("subject")]
-        public ActionResult GetSubject()
-        {
-            var subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return Ok(new { Subject = subject });
         }
 
         [HttpGet("exists")]
@@ -97,7 +90,6 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetAppUser", new { id = userDto.Id }, userDto);
         }
 
-        // DELETE: api/Users/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppUser(Guid id)
         {
