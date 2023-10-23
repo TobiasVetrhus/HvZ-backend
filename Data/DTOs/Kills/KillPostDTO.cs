@@ -3,6 +3,7 @@
     public class KillPostDTO
     {
         public int? PlayerId { get; set; }
+        public string? Description { get; set; }
         public DateTime TimeOfKill { get; set; }
         public int? LocationId { get; set; }
     }

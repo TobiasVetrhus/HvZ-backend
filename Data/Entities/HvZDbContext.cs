@@ -170,9 +170,12 @@ new Game
 
             // Seed data for Kills
             modelBuilder.Entity<Kill>().HasData(
-                new Kill { Id = 1, PlayerId = 1, TimeOfKill = DateTime.Now, LocationId = 2 },
-                new Kill { Id = 2, PlayerId = 4, TimeOfKill = DateTime.Now }
+                new Kill { Id = 1, PlayerId = 5, Description = "Bitten in the shoulder by a relentless zombie, blood oozing from the wound, as they fought for their life.", TimeOfKill = DateTime.Now, LocationId = 11 },
+                new Kill { Id = 2, PlayerId = 6, Description = "Caught off guard, player 6 was bitten on the leg, leaving a gruesome bite mark as a zombie overpowered them.", TimeOfKill = DateTime.Now, LocationId = 12 },
+                new Kill { Id = 3, PlayerId = 7, Description = "In a frantic struggle, player 7 managed to fend off a biting zombie, but not before getting a nasty bite on their arm.", TimeOfKill = DateTime.Now, LocationId = 13 },
+                new Kill { Id = 4, PlayerId = 8, Description = "Player 8 fought valiantly but was ultimately bitten on the neck, leaving a fatal wound in the heat of battle.", TimeOfKill = DateTime.Now, LocationId = 14 }
             );
+
 
             // Seed data for Locations
             modelBuilder.Entity<Location>().HasData(
@@ -249,8 +252,8 @@ new Game
                 new Squad { Id = 2, SquadName = "Zombie Horde", NumberOfMembers = 10, NumberOfDeceased = 3, GameId = 1 },
                 new Squad { Id = 3, SquadName = "Survivor Team", NumberOfMembers = 7, NumberOfDeceased = 1, GameId = 1 },
                 new Squad { Id = 4, SquadName = "Bravo Squad", NumberOfMembers = 6, NumberOfDeceased = 2, GameId = 1 },
-                new Squad { Id = 5, SquadName = "Alpha Squad", NumberOfMembers = 5, NumberOfDeceased = 0, GameId = 2 },
-                new Squad { Id = 6, SquadName = "Zombie Horde", NumberOfMembers = 10, NumberOfDeceased = 3, GameId = 2 }
+                new Squad { Id = 5, SquadName = "Alpha Squad", NumberOfMembers = 4, NumberOfDeceased = 0, GameId = 2 },
+                new Squad { Id = 6, SquadName = "Zombie Horde", NumberOfMembers = 9, NumberOfDeceased = 3, GameId = 2 }
             );
 
             //Seed Guid for Users
@@ -258,21 +261,34 @@ new Game
             var user2Guid = Guid.NewGuid();
             var user3Guid = Guid.NewGuid();
             var user4Guid = Guid.NewGuid();
+            var user5Guid = Guid.NewGuid();
+            var user6Guid = Guid.NewGuid();
+            var user7Guid = Guid.NewGuid();
+            var user8Guid = Guid.NewGuid();
 
             // Seed data for Users
             modelBuilder.Entity<AppUser>().HasData(
                 new AppUser { Id = user1Guid, FirstName = "John", LastName = "Doe", Email = "johndoe@example.com", Phone = "1234567890" },
                 new AppUser { Id = user2Guid, FirstName = "Jane", LastName = "Smith", Email = "janesmith@example.com", Phone = "9876543210" },
                 new AppUser { Id = user3Guid, FirstName = "Zombie", LastName = "Walker", Email = "zombiewalker@example.com", Phone = "5555555555" },
-                new AppUser { Id = user4Guid, FirstName = "Player", LastName = "Four", Email = "playerfour@example.com", Phone = "1111111111" }
+                new AppUser { Id = user4Guid, FirstName = "Player", LastName = "Four", Email = "playerfour@example.com", Phone = "1111111111" },
+                new AppUser { Id = user5Guid, FirstName = "Sarah", LastName = "Williams", Email = "sarah@example.com", Phone = "2222222222" },
+                new AppUser { Id = user6Guid, FirstName = "David", LastName = "Anderson", Email = "david@example.com", Phone = "3333333333" },
+                new AppUser { Id = user7Guid, FirstName = "Linda", LastName = "Johnson", Email = "linda@example.com", Phone = "4444444444" },
+                new AppUser { Id = user8Guid, FirstName = "Michael", LastName = "Brown", Email = "michael@example.com", Phone = "6666666666" }
             );
+
 
             // Seed data for Players
             modelBuilder.Entity<Player>().HasData(
-                new Player { Id = 1, Username = "Player1", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 1, SquadId = 1, GameId = 1 },
-                new Player { Id = 2, Username = "Player2", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 2, SquadId = 2, GameId = 2 },
-                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 3, SquadId = 3, GameId = 3 },
-                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 4, SquadId = 4, GameId = 4 }
+                new Player { Id = 1, Username = "Player1", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 7, SquadId = 1, GameId = 1 },
+                new Player { Id = 2, Username = "Player2", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 8, SquadId = 2, GameId = 2 },
+                new Player { Id = 3, Username = "Player3", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 9, SquadId = 3, GameId = 3 },
+                new Player { Id = 4, Username = "Player4", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 10, SquadId = 4, GameId = 4 },
+                new Player { Id = 5, Username = "Player5", Zombie = false, BiteCode = "BITE001", UserId = user1Guid, LocationId = 7, SquadId = 1, GameId = 1 },
+                new Player { Id = 6, Username = "Player6", Zombie = true, BiteCode = "ZOMBIE01", UserId = user2Guid, LocationId = 8, SquadId = 2, GameId = 2 },
+                new Player { Id = 7, Username = "Player7", Zombie = false, BiteCode = "BITE002", UserId = user3Guid, LocationId = 9, SquadId = 3, GameId = 3 },
+                new Player { Id = 8, Username = "Player8", Zombie = false, BiteCode = "BITE003", UserId = user4Guid, LocationId = 10, SquadId = 4, GameId = 4 }
             );
 
             // Configure one-to-many relationship between Squad and Player
