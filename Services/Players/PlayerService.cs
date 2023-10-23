@@ -133,7 +133,7 @@ namespace HvZ_backend.Services.Players
 
         public async Task<Player> GetPlayerByBiteCodeAsync(string biteCode)
         {
-            return await _context.Players.SingleOrDefaultAsync(p => p.BiteCode == biteCode);
+            return await _context.Players.FirstOrDefaultAsync(p => p.BiteCode == biteCode);
         }
     }
 }
