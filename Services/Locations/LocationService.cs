@@ -13,6 +13,7 @@ namespace HvZ_backend.Services.Locations
             _context = context;
         }
 
+        // Add a new location to the database
         public async Task<Location> AddAsync(Location obj)
         {
             await _context.Locations.AddAsync(obj);
@@ -20,6 +21,7 @@ namespace HvZ_backend.Services.Locations
             return obj;
         }
 
+        // Delete a location by its ID
         public async Task DeleteByIdAsync(int id)
         {
             if (!await LocationExistsAsync(id))
@@ -33,11 +35,13 @@ namespace HvZ_backend.Services.Locations
             await _context.SaveChangesAsync();
         }
 
+        // Get all locations
         public async Task<IEnumerable<Location>> GetAllAsync()
         {
             return await _context.Locations.ToListAsync();
         }
 
+        // Get a location by its ID
         public async Task<Location> GetByIdAsync(int id)
         {
             if (!await LocationExistsAsync(id))
@@ -48,6 +52,7 @@ namespace HvZ_backend.Services.Locations
             return location;
         }
 
+        // Update an existing location
         public async Task<Location> UpdateAsync(Location obj)
         {
             if (!await LocationExistsAsync(obj.Id))
@@ -59,7 +64,7 @@ namespace HvZ_backend.Services.Locations
             return obj;
         }
 
-        //Helper methods
+        // Helper method to check if a location with a given ID exists
         public async Task<bool> LocationExistsAsync(int id)
         {
             return await _context.Locations.AnyAsync(l => l.Id == id);
