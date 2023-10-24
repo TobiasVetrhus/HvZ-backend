@@ -124,29 +124,50 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Get a player by bitecode and set zombie to true
         /// </summary>
-        [HttpPut("by-bitecode/{biteCode}")]
-        public async Task<ActionResult<PlayerDTO>> SetPlayerToZombieByBiteCode(string biteCode)
-        {
-            var player = await _playerService.UpdateZombieStateAsync(biteCode);
 
-            if (player == null)
-            {
-                return NotFound();
-            }
-
-            var playerDTO = _mapper.Map<PlayerDTO>(player);
-            return Ok(playerDTO);
-        }
 
         [HttpGet("by-bitecode/{biteCode}")]
         public async Task<ActionResult<PlayerDTO>> GetPlayerByBiteCode(string biteCode)
         {
-            var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
+            try
+            {
+                var player = await _playerService.GetPlayerByBiteCodeAsync(biteCode);
 
-            await _playerService.GetByIdAsync(player.Id);
+                await _playerService.GetByIdAsync(player.Id);
 
-            var playerDTO = _mapper.Map<PlayerDTO>(player);
-            return Ok(playerDTO);
+                var playerDTO = _mapper.Map<PlayerDTO>(player);
+                return Ok(playerDTO);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception here
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
         }
+
+
+
+        [HttpPut("by-bitecode/{biteCode}")]
+        public async Task<ActionResult<PlayerDTO>> SetPlayerToZombieByBiteCode(string biteCode)
+        {
+            try
+            {
+                var player = await _playerService.UpdateZombieStateAsync(biteCode);
+
+                if (player == null)
+                {
+                    return NotFound();
+                }
+
+                var playerDTO = _mapper.Map<PlayerDTO>(player);
+                return Ok(playerDTO);
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception here
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 }

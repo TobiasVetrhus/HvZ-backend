@@ -158,18 +158,5 @@ namespace HvZ_backend.Services.Users
         {
             return await _context.Players.AnyAsync(u => u.Id == id);
         }
-
-
-
-        /*
-private async Task<bool> PlayerExistsAsync(int movieId)
-{
-   return await _context.Players.AnyAsync(p => p.Id == playerId);
-}
-*/
-
-
-
-
     }
 }

@@ -108,20 +108,13 @@ namespace HvZ_backend.Services.Players
             await _context.SaveChangesAsync();
         }
 
-        // Check if a player with a specific ID exists in the database.
-        private async Task<bool> PlayerExistsAsync(int playerId)
-        {
-            return await _context.Players.AnyAsync(p => p.Id == playerId);
-        }
+
 
         public async Task<Player> UpdateZombieStateAsync(string biteCode)
         {
             var player = await GetPlayerByBiteCodeAsync(biteCode);
 
-            if (player == null)
-            {
-                throw new EntityNotFoundException("Player", "Player not found for bite code: " + biteCode);
-            }
+
 
             // Update the Zombie attribute
             player.Zombie = true;
@@ -133,7 +126,21 @@ namespace HvZ_backend.Services.Players
 
         public async Task<Player> GetPlayerByBiteCodeAsync(string biteCode)
         {
+            var player = await _context.Players.FirstOrDefaultAsync(p => p.BiteCode == biteCode);
+
+            if (player == null)
+            {
+                throw new EntityNotFoundException("Player", "Player not found for bite code: " + biteCode);
+            }
+
             return await _context.Players.FirstOrDefaultAsync(p => p.BiteCode == biteCode);
         }
+
+        // Check if a player with a specific ID exists in the database.
+        private async Task<bool> PlayerExistsAsync(int playerId)
+        {
+            return await _context.Players.AnyAsync(p => p.Id == playerId);
+        }
+
     }
 }

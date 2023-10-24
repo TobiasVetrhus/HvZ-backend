@@ -131,9 +131,8 @@ namespace HvZ_backend.Controllers
             }
         }
 
-        /*
         [HttpPut("{id}/update-players")]
-        public async Task<IActionResult> UpdatePlayersAsync(int id, [FromBody] int[] players)
+        public async Task<IActionResult> UpdatePlayersAsync(Guid id, [FromBody] int[] players)
         {
             try
             {
@@ -149,11 +148,9 @@ namespace HvZ_backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        */
 
-        /*
         [HttpPut("{id}/remove-player/{playerId}")]
-        public async Task<IActionResult> RemovePlayerAsync(int userId, int playerId)
+        public async Task<IActionResult> RemovePlayerAsync(Guid userId, int playerId)
         {
             try
             {
@@ -169,7 +166,5 @@ namespace HvZ_backend.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        */
-
     }
 }
