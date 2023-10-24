@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Kills;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Kills;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class KillController : ControllerBase
     {
         private readonly IKillService _killService;
@@ -25,6 +28,7 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <returns>An action result containing a list of KillDTO objects.</returns>
         [HttpGet("GetKills")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
         {
             var kills = await _killService.GetAllAsync();
@@ -39,6 +43,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result containing a KillDTO representing the requested kill.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<KillDTO>> GetKillById(int id)
         {
             try
@@ -76,6 +81,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure of the update.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateKill(int id, KillPutDTO killPutDTO)
         {
             if (id != killPutDTO.Id)
@@ -128,6 +134,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure of the deletion.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteKill(int id)
         {
             try

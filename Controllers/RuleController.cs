@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Rules;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Rules;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class RulesController : ControllerBase
     {
         private readonly IRuleService _ruleService;
@@ -23,6 +26,7 @@ namespace HvZ_backend.Controllers
         /// Get a list of all rules with GameIds.
         /// </summary>
         [HttpGet("GetRules")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<RuleDTO>>> GetRules()
         {
             var rules = await _ruleService.GetAllAsync();
@@ -37,6 +41,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result containing a RuleDTO representing the requested rule.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested rule is not found.</exception>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<RuleDTO>> GetRule(int id)
         {
             try
@@ -58,6 +63,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure of the update.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested rule is not found.</exception>
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> PutRule(int id, RulePutDTO rule)
         {
             if (id != rule.Id)
@@ -82,6 +88,7 @@ namespace HvZ_backend.Controllers
         /// <param name="rule">A DTO representing the rule to be created.</param>
         /// <returns>An action result containing a RuleDTO for the newly created rule.</returns>
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<RuleDTO>> PostRule(RulePostDTO rule)
         {
             var newRule = await _ruleService.AddAsync(_mapper.Map<Rule>(rule));
@@ -97,6 +104,7 @@ namespace HvZ_backend.Controllers
         /// <param name="id">The unique identifier of the rule to delete.</param>
         /// <returns>An action result indicating success or failure of the deletion.</returns>
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteRule(int id)
         {
             try

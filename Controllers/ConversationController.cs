@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Conversations;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Conversations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
@@ -12,6 +14,7 @@ namespace HvZ_backend.Controllers
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class ConversationController : ControllerBase
     {
         private readonly IConversationService _conversationService;
@@ -58,6 +61,7 @@ namespace HvZ_backend.Controllers
         /// <param name="conversation">The conversation data for the creation.</param>
         /// <returns>An action result containing the created conversation (DTO).</returns
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<ConversationDTO>> PostConversation(ConversationPostDTO conversation)
         {
             var newConversation = await _conversationService.AddAsync(_mapper.Map<Conversation>(conversation));
@@ -75,6 +79,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure.</returns
         /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> PutConversation(int id, ConversationPutDTO conversation)
         {
             if (id != conversation.Id)
@@ -100,6 +105,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure.</returns
         /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteConversation(int id)
         {
             try

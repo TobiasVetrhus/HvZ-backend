@@ -1,9 +1,11 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Locations;
 using HvZ_backend.Data.DTOs.Player;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Players;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -11,6 +13,7 @@ namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("api/v1/players")]
+    [Authorize]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;
@@ -27,6 +30,7 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <returns>An action result containing a list of PlayerDTO objects.</returns>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetPlayers()
         {
             var players = await _playerService.GetAllAsync();
@@ -40,6 +44,7 @@ namespace HvZ_backend.Controllers
         /// <param name="id">The unique identifier of the player to retrieve.</param>
         /// <returns>An action result containing a PlayerDTO representing the requested player.</returns>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<PlayerDTO>> GetPlayerById(int id)
         {
             var player = await _playerService.GetByIdAsync(id);
@@ -54,6 +59,7 @@ namespace HvZ_backend.Controllers
         /// <param name="playerPostDTO">A DTO representing the player to be created.</param>
         /// <returns>An action result containing a PlayerDTO for the newly created player.</returns>
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<PlayerDTO>> CreatePlayer(PlayerPostDTO playerPostDTO)
         {
             string subject = User.FindFirst(ClaimTypes.NameIdentifier).Value;

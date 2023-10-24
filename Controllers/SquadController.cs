@@ -11,6 +11,7 @@ namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Authorize]
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;
@@ -27,6 +28,7 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <returns>An action result containing a list of SquadDTO objects representing all squads.</returns>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<SquadDTO>>> GetSquads()
         {
             var squads = await _squadService.GetAllAsync();
@@ -56,6 +58,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result containing a SquadDTO representing the requested squad.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested squad is not found.</exception>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<SquadDTO>> GetSquadById(int id)
         {
             try

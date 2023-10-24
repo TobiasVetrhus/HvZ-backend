@@ -1,14 +1,17 @@
 ﻿using AutoMapper;
+using HvZ_backend.Consts;
 using HvZ_backend.Data.DTOs.Locations;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Locations;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Authorize]
     public class LocationController : ControllerBase
     {
         private readonly ILocationService _locationService;
@@ -25,6 +28,7 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <returns>An action result containing a list of LocationDTO objects.</returns>
         [HttpGet]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<LocationDTO>>> GetLocations()
         {
             var locations = await _locationService.GetAllAsync();
@@ -39,6 +43,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result containing a LocationDTO representing the requested location.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested location is not found.</exception>
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<ActionResult<LocationDTO>> GetLocationById(int id)
         {
             try
@@ -58,6 +63,7 @@ namespace HvZ_backend.Controllers
         /// <param name="location">A DTO representing the location to be added.</param>
         /// <returns>An action result containing a LocationDTO for the newly added location.</returns>
         [HttpPost]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<LocationDTO>> AddLocation(LocationPostDTO location)
         {
             var newLocation = await _locationService.AddAsync(_mapper.Map<Location>(location));
@@ -73,6 +79,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure of the update.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested location is not found.</exception>
         [HttpPut("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateLocation(int id, LocationPutDTO location)
         {
             if (id != location.Id)
@@ -99,6 +106,7 @@ namespace HvZ_backend.Controllers
         /// <returns>An action result indicating success or failure of the deletion.</returns>
         /// <exception cref="EntityNotFoundException">Thrown when the requested location is not found.</exception>
         [HttpDelete("{id}")]
+        [Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteLocation(int id)
         {
             try
