@@ -14,6 +14,7 @@ namespace HvZ_backend.Services.Games
             _context = context;
         }
 
+        // Adds a new game to the database
         public async Task<Game> AddAsync(Game obj)
         {
             await _context.Games.AddAsync(obj);
@@ -21,6 +22,7 @@ namespace HvZ_backend.Services.Games
             return obj;
         }
 
+        // Deletes a game by its ID, including associated missions, players, rules, and conversations
         public async Task DeleteByIdAsync(int id)
         {
             if (!await GameExistsAsync(id))
@@ -44,6 +46,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Gets games by their game status
         public async Task<ICollection<Game>> GetGamesByStateAsync(GameStatus gamestatus)
         {
             return await _context.Games
@@ -55,6 +58,7 @@ namespace HvZ_backend.Services.Games
                 .ToListAsync();
         }
 
+        // Gets all games, including players, rules, missions, and conversations
         public async Task<IEnumerable<Game>> GetAllAsync()
         {
             return await _context.Games
@@ -65,6 +69,7 @@ namespace HvZ_backend.Services.Games
                 .ToListAsync();
         }
 
+        // Gets a game by its ID, including players, rules, missions, and conversations
         public async Task<Game> GetByIdAsync(int id)
         {
             if (!await GameExistsAsync(id))
@@ -81,26 +86,31 @@ namespace HvZ_backend.Services.Games
             return game;
         }
 
+        // Gets conversations associated with a game by its ID
         public async Task<ICollection<Conversation>> GetGameConversationsAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
+        // Gets missions associated with a game by its ID
         public async Task<ICollection<Mission>> GetGameMissionsAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
+        // Gets players associated with a game by its ID
         public async Task<ICollection<Player>> GetGamePlayersAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
+        // Gets rules associated with a game by its ID
         public async Task<ICollection<Rule>> GetGameRulesAsync(int gameId)
         {
             throw new NotImplementedException();
         }
 
+        // Updates an existing game in the database
         public async Task<Game> UpdateAsync(Game obj)
         {
             if (!await GameExistsAsync(obj.Id))
@@ -112,6 +122,7 @@ namespace HvZ_backend.Services.Games
             return obj;
         }
 
+        // Adds a rule to a game by their respective IDs
         public async Task AddRuleAsync(int gameId, int ruleId)
         {
             if (!await GameExistsAsync(gameId))
@@ -132,6 +143,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Adds a player to a game by their respective IDs
         public async Task AddPlayerAsync(int gameId, int playerId)
         {
             if (!await GameExistsAsync(gameId))
@@ -152,6 +164,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Adds a mission to a game by their respective IDs
         public async Task AddMissionAsync(int gameId, int missionId)
         {
             if (!await GameExistsAsync(gameId))
@@ -172,6 +185,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Adds a conversation to a game by their respective IDs
         public async Task AddConversationAsync(int gameId, int conversationId)
         {
             if (!await GameExistsAsync(gameId))
@@ -192,6 +206,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Updates conversations associated with a game by their IDs
         public async Task UpdateConversationsAsync(int gameId, int[] conversations)
         {
             var game = await _context.Games
@@ -215,6 +230,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Updates missions associated with a game by their IDs
         public async Task UpdateMissionsAsync(int gameId, int[] missionIds)
         {
             var game = await _context.Games
@@ -238,6 +254,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Updates players associated with a game by their IDs
         public async Task UpdatePlayersAsync(int gameId, int[] playerIds)
         {
             var game = await _context.Games
@@ -261,6 +278,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Updates rules associated with a game by their IDs
         public async Task UpdateRulesAsync(int gameId, int[] ruleIds)
         {
             var game = await _context.Games
@@ -284,6 +302,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Removes a rule from a game by their respective IDs
         public async Task RemoveRuleAsync(int gameId, int ruleId)
         {
             var game = await _context.Games
@@ -304,6 +323,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Removes a mission from a game by their respective IDs
         public async Task RemoveMissionAsync(int gameId, int missionId)
         {
             var game = await _context.Games
@@ -323,6 +343,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Removes a conversation from a game by their respective IDs
         public async Task RemoveConversationAsync(int gameId, int conversationId)
         {
             var game = await _context.Games
@@ -342,6 +363,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
+        // Removes a player from a game by their respective IDs
         public async Task RemovePlayerAsync(int gameId, int playerId)
         {
             var game = await _context.Games
@@ -361,7 +383,7 @@ namespace HvZ_backend.Services.Games
             await _context.SaveChangesAsync();
         }
 
-        //Helper methods
+        // Helper methods to check entity existence
         public async Task<bool> GameExistsAsync(int id)
         {
             return await _context.Games.AnyAsync(g => g.Id == id);

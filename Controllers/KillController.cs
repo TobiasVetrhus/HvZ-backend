@@ -20,7 +20,10 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
-        // GET: api/v1/Kill/GetKills
+        /// <summary>
+        /// Retrieve a list of all kills.
+        /// </summary>
+        /// <returns>An action result containing a list of KillDTO objects.</returns>
         [HttpGet("GetKills")]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
         {
@@ -29,7 +32,12 @@ namespace HvZ_backend.Controllers
             return Ok(killDTOs);
         }
 
-        // GET: api/v1/Kill/{id}
+        /// <summary>
+        /// Retrieve a specific kill by its ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the kill.</param>
+        /// <returns>An action result containing a KillDTO representing the requested kill.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<KillDTO>> GetKillById(int id)
         {
@@ -46,7 +54,11 @@ namespace HvZ_backend.Controllers
 
         }
 
-        // POST: api/v1/Kill
+        /// <summary>
+        /// Add a new kill to the system.
+        /// </summary>
+        /// <param name="killPostDTO">A DTO representing the kill to be added.</param>
+        /// <returns>An action result containing a KillDTO for the newly added kill.</returns>
         [HttpPost]
         public async Task<ActionResult<KillDTO>> AddKill(KillPostDTO killPostDTO)
         {
@@ -55,7 +67,14 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetKillById", new { id = newKill.Id }, _mapper.Map<KillDTO>(newKill));
         }
 
-        // PUT: api/v1/Kill/{id}
+
+        /// <summary>
+        /// Update an existing kill with the specified ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the kill to update.</param>
+        /// <param name="killPutDTO">A DTO representing the updated kill information.</param>
+        /// <returns>An action result indicating success or failure of the update.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateKill(int id, KillPutDTO killPutDTO)
         {
@@ -76,6 +95,14 @@ namespace HvZ_backend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Add a location to a kill.
+        /// </summary>
+        /// <param name="id">The unique identifier of the kill.</param>
+        /// <param name="locationId">The location identifier to add to the kill.</param>
+        /// <returns>An action result indicating success or failure of the operation.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested kill or location is not found.</exception>
+        /// <exception cref="EntityValidationException">Thrown when the operation is not valid.</exception>
         [HttpPut("{id}/add-location/{locationId}")]
         public async Task<IActionResult> AddLocationAsync(int id, int locationId)
         {
@@ -94,7 +121,12 @@ namespace HvZ_backend.Controllers
             }
         }
 
-        // DELETE: api/v1/Kill/{id}
+        /// <summary>
+        /// Delete a kill by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the kill to delete.</param>
+        /// <returns>An action result indicating success or failure of the deletion.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested kill is not found.</exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKill(int id)
         {
@@ -110,6 +142,3 @@ namespace HvZ_backend.Controllers
         }
     }
 }
-
-
-

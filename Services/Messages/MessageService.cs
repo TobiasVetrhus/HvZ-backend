@@ -13,6 +13,7 @@ namespace HvZ_backend.Services.Messages
             _context = context;
         }
 
+        // Add a new message to the database
         public async Task<Message> AddAsync(Message obj)
         {
             await _context.Messages.AddAsync(obj);
@@ -20,11 +21,13 @@ namespace HvZ_backend.Services.Messages
             return obj;
         }
 
+        // Get all messages
         public async Task<IEnumerable<Message>> GetAllAsync()
         {
             return await _context.Messages.ToListAsync();
         }
 
+        // Get a message by its ID
         public async Task<Message> GetByIdAsync(int id)
         {
             if (!await MessageExistsAsync(id))
@@ -49,7 +52,7 @@ namespace HvZ_backend.Services.Messages
         }
         */
 
-
+        // Update an existing message
         public async Task<Message> UpdateAsync(Message updatedMessage)
         {
             var existingMessage = await _context.Messages.FindAsync(updatedMessage.Id);
@@ -65,6 +68,8 @@ namespace HvZ_backend.Services.Messages
 
             return existingMessage;
         }
+
+        // Delete a message by its ID
         public async Task DeleteByIdAsync(int id)
         {
             if (!await MessageExistsAsync(id))
@@ -78,6 +83,7 @@ namespace HvZ_backend.Services.Messages
             await _context.SaveChangesAsync();
         }
 
+        // Helper method to check if a message with a given ID exists
         private async Task<bool> MessageExistsAsync(int id)
         {
             return await _context.Messages.AnyAsync(u => u.Id == id);

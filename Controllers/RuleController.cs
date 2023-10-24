@@ -22,7 +22,6 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Get a list of all rules with GameIds.
         /// </summary>
-
         [HttpGet("GetRules")]
         public async Task<ActionResult<IEnumerable<RuleDTO>>> GetRules()
         {
@@ -31,50 +30,60 @@ namespace HvZ_backend.Controllers
             return Ok(ruleDTOs);
         }
 
-        // GET: api/v1/Rules/{id}
+        /// <summary>
+        /// Get a rule by ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the rule to retrieve.</param>
+        /// <returns>An action result containing a RuleDTO representing the requested rule.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested rule is not found.</exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<RuleDTO>> GetRule(int id)
         {
             try
             {
-                // Retrieve a rule by ID and return it
                 return Ok(_mapper.Map<RuleDTO>(await _ruleService.GetByIdAsync(id)));
             }
             catch (EntityNotFoundException ex)
             {
-                // Handle the case where the rule with the specified ID was not found
                 return NotFound(ex.Message);
             }
         }
 
 
-        // PUT: api/v1/Rules/{id}
+        /// <summary>
+        /// Update an existing rule by ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the rule to update.</param>
+        /// <param name="rule">A DTO representing the updated rule information.</param>
+        /// <returns>An action result indicating success or failure of the update.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested rule is not found.</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRule(int id, RulePutDTO rule)
         {
             if (id != rule.Id)
             {
-                // If the provided ID in the URL does not match the ID in the request body, return BadRequest
                 return BadRequest();
             }
             try
             {
-                // Update the rule and return NoContent on success
                 var updatedRule = await _ruleService.UpdateAsync(_mapper.Map<Rule>(rule));
             }
             catch (EntityNotFoundException ex)
             {
-                // Handle the case where the rule with the specified ID was not found
                 return NotFound(ex.Message);
             }
 
             return NoContent();
         }
-        // POST: api/v1/Rules
+
+        /// <summary>
+        /// Create a new rule.
+        /// </summary>
+        /// <param name="rule">A DTO representing the rule to be created.</param>
+        /// <returns>An action result containing a RuleDTO for the newly created rule.</returns>
         [HttpPost]
         public async Task<ActionResult<RuleDTO>> PostRule(RulePostDTO rule)
         {
-            // Create a new rule and return CreatedAtAction with the newly created rule's information
             var newRule = await _ruleService.AddAsync(_mapper.Map<Rule>(rule));
 
             return CreatedAtAction("GetRule",
@@ -82,19 +91,21 @@ namespace HvZ_backend.Controllers
                 _mapper.Map<RuleDTO>(newRule));
         }
 
-        // DELETE: api/v1/Rules/{id}
+        /// <summary>
+        /// Delete a rule by ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the rule to delete.</param>
+        /// <returns>An action result indicating success or failure of the deletion.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteRule(int id)
         {
             try
             {
-                // Delete a rule by ID and return NoContent on success
                 await _ruleService.DeleteByIdAsync(id);
                 return NoContent();
             }
             catch (EntityNotFoundException ex)
             {
-                // Handle the case where the rule with the specified ID was not found
                 return NotFound(ex.Message);
             }
         }

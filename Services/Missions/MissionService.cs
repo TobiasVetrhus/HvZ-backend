@@ -13,6 +13,7 @@ namespace HvZ_backend.Services.Missions
             _context = context;
         }
 
+        // Add a new mission to the database
         public async Task<Mission> AddAsync(Mission obj)
         {
             await _context.Missions.AddAsync(obj);
@@ -20,6 +21,7 @@ namespace HvZ_backend.Services.Missions
             return obj;
         }
 
+        // Delete a mission by its ID
         public async Task DeleteByIdAsync(int id)
         {
             if (!await MissionExistsAsync(id))
@@ -33,11 +35,13 @@ namespace HvZ_backend.Services.Missions
             await _context.SaveChangesAsync();
         }
 
+        // Get all missions
         public async Task<IEnumerable<Mission>> GetAllAsync()
         {
             return await _context.Missions.ToListAsync();
         }
 
+        // Get a mission by its ID
         public async Task<Mission> GetByIdAsync(int id)
         {
             if (!await MissionExistsAsync(id))
@@ -50,6 +54,7 @@ namespace HvZ_backend.Services.Missions
             return mission;
         }
 
+        // Update an existing mission
         public async Task<Mission> UpdateAsync(Mission obj)
         {
             if (!await MissionExistsAsync(obj.Id))
@@ -61,7 +66,7 @@ namespace HvZ_backend.Services.Missions
             return obj;
         }
 
-
+        // Add a location to a mission
         public async Task AddLocationToMissionAsync(int missionId, int locationId)
         {
             if (!await MissionExistsAsync(missionId))
@@ -83,16 +88,13 @@ namespace HvZ_backend.Services.Missions
             }
         }
 
-
-
-
-
-        //Helper methods
+        // Helper method to check if a mission with a given ID exists
         public async Task<bool> MissionExistsAsync(int id)
         {
             return await _context.Missions.AnyAsync(m => m.Id == id);
         }
 
+        // Helper method to check if a location with a given ID exists
         public async Task<bool> LocationExistsAsync(int id)
         {
             return await _context.Locations.AnyAsync(m => m.Id == id);

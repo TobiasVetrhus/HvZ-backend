@@ -48,6 +48,7 @@ namespace HvZ_backend.Services.Squads
             return squad;
         }
 
+        // Get squads by the game they belong to
         public async Task<ICollection<Squad>> GetSquadsByGameAsync(int gameId)
         {
             return await _context.Squads
@@ -133,6 +134,7 @@ namespace HvZ_backend.Services.Squads
             await _context.SaveChangesAsync();
         }
 
+        // Add a player to a squad
         public async Task AddPlayerAsync(int squadId, int playerId)
         {
             if (!await SquadExistsAsync(squadId))
@@ -152,6 +154,8 @@ namespace HvZ_backend.Services.Squads
 
             await _context.SaveChangesAsync();
         }
+
+        // Remove a player from a squad
         public async Task RemovePlayerAsync(int squadId, int playerId)
         {
             var squad = await _context.Squads
@@ -171,7 +175,7 @@ namespace HvZ_backend.Services.Squads
             await _context.SaveChangesAsync();
         }
 
-
+        // Associate a game with a squad
         public async Task AddGameToSquadAsync(int squadId, int gameId)
         {
             if (!await SquadExistsAsync(squadId))
@@ -187,7 +191,7 @@ namespace HvZ_backend.Services.Squads
             {
                 squad.Game = game;
 
-                // Save the changes to the database.
+                // Save the changes to the database
                 await _context.SaveChangesAsync();
             }
         }
@@ -216,6 +220,7 @@ namespace HvZ_backend.Services.Squads
             return squad.Players.ToList();
         }
 
+        // Update the statistical information of a squad
         private void UpdateSquadStatistics(Squad squad)
         {
             squad.NumberOfMembers = squad.Players.Count;

@@ -20,6 +20,10 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Retrieve a list of all missions.
+        /// </summary>
+        /// <returns>An action result containing a list of MissionDTO objects.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<MissionDTO>>> GetMissions()
         {
@@ -28,6 +32,12 @@ namespace HvZ_backend.Controllers
             return Ok(locationDTOs);
         }
 
+        /// <summary>
+        /// Retrieve a specific mission by its ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the mission.</param>
+        /// <returns>An action result containing a MissionDTO representing the requested mission.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested mission is not found.</exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<MissionDTO>> GetMissionById(int id)
         {
@@ -42,6 +52,11 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Create and post a new mission.
+        /// </summary>
+        /// <param name="mission">A DTO representing the mission to be added.</param>
+        /// <returns>An action result containing a MissionDTO for the newly added mission.</returns>
         [HttpPost]
         public async Task<ActionResult<MissionDTO>> AddMission(MissionPostDTO mission)
         {
@@ -50,7 +65,14 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetMissionById", new { id = newMission.Id }, _mapper.Map<MissionDTO>(newMission));
         }
 
-
+        /// <summary>
+        /// Add a location to a mission by its ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the mission.</param>
+        /// <param name="locationId">The unique identifier of the location to add.</param>
+        /// <returns>An action result indicating success or failure of the operation.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the mission or location is not found.</exception>
+        /// <exception cref="EntityValidationException">Thrown when there is a validation issue.</exception>
         [HttpPut("{id}/add-location/{locationId}")]
         public async Task<IActionResult> AddMissionAsync(int id, int locationId)
         {
@@ -69,6 +91,13 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update an existing mission with the specified ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the mission to update.</param>
+        /// <param name="mission">A DTO representing the updated mission information.</param>
+        /// <returns>An action result indicating success or failure of the update.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested mission is not found.</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateMission(int id, MissionPutDTO mission)
         {
@@ -89,6 +118,12 @@ namespace HvZ_backend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Delete a mission by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the mission to delete.</param>
+        /// <returns>An action result indicating success or failure of the deletion.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested mission is not found.</exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMission(int id)
         {

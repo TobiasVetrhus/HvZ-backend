@@ -8,9 +8,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HvZ_backend.Controllers
 {
+    /// <summary>
+    /// Controller for managing games.
+    /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
-    //[Authorize]
     public class GameController : ControllerBase
     {
         private readonly IGameService _gameService;
@@ -22,6 +24,10 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
+        /// <summary>
+        /// Get a list of all games.
+        /// </summary>
+        /// <returns>An action result containing a list of games (DTOs).</returns
         [HttpGet]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTO>>> GetGames()
@@ -31,6 +37,12 @@ namespace HvZ_backend.Controllers
             return Ok(gameDTOs);
         }
 
+        /// <summary>
+        /// Get a game by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game to retrieve.</param>
+        /// <returns>An action result containing the game (DTO).</returns
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
         [HttpGet("{id}")]
         [AllowAnonymous]
         public async Task<ActionResult<GameDTO>> GetGameById(int id)
@@ -46,6 +58,11 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Get games filtered by their state (e.g., active, completed, etc.).
+        /// </summary>
+        /// <param name="gamestate">The game state to filter by.</param>
+        /// <returns>An action result containing a list of filtered games (DTOs).</returns
         [HttpGet("filterbystates/{gamestate}")]
         [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<GameDTO>>> GetGamesByState(GameStatus gamestate)
@@ -55,6 +72,11 @@ namespace HvZ_backend.Controllers
             return Ok(gameDTOs);
         }
 
+        /// <summary>
+        /// Create a new game.
+        /// </summary>
+        /// <param name="game">The game data for the creation.</param>
+        /// <returns>An action result containing the created game (DTO).</returns
         [HttpPost]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<ActionResult<GameDTO>> AddGame(GamePostDTO game)
@@ -64,6 +86,14 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction("GetGameById", new { id = newGame.Id }, _mapper.Map<GameDTO>(newGame));
         }
 
+        /// <summary>
+        /// Add a rule to a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="ruleId">The rule identifier to add.</param>
+        /// <returns>An action result indicating success or failure.</returns
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the rule addition is not valid.</exception
         [HttpPut("{id}/add-rule/{ruleId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddRuleAsync(int id, int ruleId)
@@ -83,6 +113,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a player to a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="playerId">The player identifier to add.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or player is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the player addition is not valid.</exception
         [HttpPut("{id}/add-player/{playerId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddPlayerAsync(int id, int playerId)
@@ -102,6 +140,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a mission to a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="missionId">The mission identifier to add.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or mission is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the mission addition is not valid.</exception
         [HttpPut("{id}/add-mission/{missionId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddMissionAsync(int id, int missionId)
@@ -121,6 +167,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Add a conversation to a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="conversationId">The conversation identifier to add.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or conversation is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the conversation addition is not valid.</exception
         [HttpPut("{id}/add-conversation/{conversationId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> AddConversationAsync(int id, int conversationId)
@@ -140,6 +194,13 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a game's information.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="game">The updated game data.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
         [HttpPut("{id}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateGame(int id, GamePutDTO game)
@@ -161,6 +222,14 @@ namespace HvZ_backend.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Update the list of conversations for a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="conversations">An array of conversation identifiers to update the game's conversations.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the conversation update is not valid.</exception
         [HttpPut("{id}/update-conversations")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateConversationsAsync(int id, [FromBody] int[] conversations)
@@ -180,6 +249,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update the list of rules for a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="rules">An array of rule identifiers to update the game's rules.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the rule update is not valid.</exception
         [HttpPut("{id}/update-rules")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateRulesAsync(int id, [FromBody] int[] rules)
@@ -199,6 +276,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update the list of missions for a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="missions">An array of mission identifiers to update the game's missions.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the mission update is not valid.</exception
         [HttpPut("{id}/update-missions")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdateMissionsAsync(int id, [FromBody] int[] missions)
@@ -218,6 +303,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update the list of players for a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="players">An array of player identifiers to update the game's players.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the player update is not valid.</exception
         [HttpPut("{id}/update-players")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> UpdatePlayersAsync(int id, [FromBody] int[] players)
@@ -237,6 +330,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a mission from a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="missionId">The mission identifier to remove.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or mission is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the mission removal is not valid.</exception
         [HttpPut("{id}/remove-mission/{missionId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveMissionAsync(int id, int missionId)
@@ -256,6 +357,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a rule from a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="ruleId">The rule identifier to remove.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or rule is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the rule removal is not valid.</exception
         [HttpPut("{id}/remove-rule/{ruleId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveRuleAsync(int id, int ruleId)
@@ -275,6 +384,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a conversation from a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="conversationId">The conversation identifier to remove.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or conversation is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the conversation removal is not valid.</exception
         [HttpPut("{id}/remove-conversation/{conversationId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemoveConversationAsync(int id, int conversationId)
@@ -294,6 +411,14 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Remove a player from a game.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game.</param>
+        /// <param name="playerId">The player identifier to remove.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game or player is not found.</exception
+        /// <exception cref="EntityValidationException">Thrown when the player removal is not valid.</exception
         [HttpPut("{id}/remove-player/{playerId}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> RemovePlayerAsync(int id, int playerId)
@@ -313,6 +438,12 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Delete a game by its unique identifier.
+        /// </summary>
+        /// <param name="id">The unique identifier of the game to delete.</param>
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested game is not found.</exception
         [HttpDelete("{id}")]
         //[Authorize(Roles = RoleConstants.Admin)]
         public async Task<IActionResult> DeleteGame(int id)
