@@ -5,12 +5,15 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Players;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;

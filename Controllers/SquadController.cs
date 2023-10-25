@@ -6,11 +6,14 @@ using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Squads;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace HvZ_backend.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;

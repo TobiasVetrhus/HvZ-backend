@@ -3,8 +3,8 @@ using HvZ_backend.Data.DTOs.Users;
 using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Users;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
@@ -12,9 +12,10 @@ namespace HvZ_backend.Controllers
     /// <summary>
     /// Controller for managing application users.
     /// </summary>
-    [Authorize]
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class AppUserController : ControllerBase
     {
         private readonly IAppUserService _userService;
@@ -40,7 +41,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Check if a user with a specific identifier exists.
         /// </summary>
-        /// <returns>An action result indicating whether the user exists or not.</returns
+        /// <returns>An action result indicating whether the user exists or not.</returns>
         [HttpGet("exists")]
         public async Task<IActionResult> GetIfExists()
         {
@@ -52,7 +53,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Get a list of all application users.
         /// </summary>
-        /// <returns>An action result containing a list of application users (DTOs).</returns
+        /// <returns>An action result containing a list of application users (DTOs).</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppUserDTO>>> GetAppUsers()
         {
@@ -63,8 +64,8 @@ namespace HvZ_backend.Controllers
         /// Get an application user by their unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the user to retrieve.</param>
-        /// <returns>An action result containing the application user (DTO).</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
+        /// <returns>An action result containing the application user (DTO).</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<AppUserDTO>> GetAppUser(Guid id)
         {
@@ -84,8 +85,8 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user to update.</param>
         /// <param name="user">The user data for the update.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutAppUser(Guid id, AppUserPutDTO user)
         {
@@ -108,7 +109,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Register a new application user.
         /// </summary>
-        /// <returns>An action result containing the registered application user (DTO).</returns
+        /// <returns>An action result containing the registered application user (DTO).</returns>
         [HttpPost("register")]
         public async Task<ActionResult<AppUserDTO>> PostAppUser()
         {
@@ -133,8 +134,8 @@ namespace HvZ_backend.Controllers
         /// Delete an application user by their unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the user to delete.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppUser(Guid id)
         {
@@ -154,9 +155,9 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user.</param>
         /// <param name="playerId">The player identifier to add.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
-        /// <exception cref="EntityValidationException">Thrown when the player addition is not valid.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
+        /// <exception cref="EntityValidationException">Thrown when the player addition is not valid.</exception>
         [HttpPut("{id}/add-player/{playerId}")]
         public async Task<IActionResult> AddPlayerAsync(Guid id, int playerId)
         {
@@ -180,9 +181,9 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the user.</param>
         /// <param name="players">An array of player identifiers for the update.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
-        /// <exception cref="EntityValidationException">Thrown when the player update is not valid.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
+        /// <exception cref="EntityValidationException">Thrown when the player update is not valid.</exception>
         [HttpPut("{id}/update-players")]
         public async Task<IActionResult> UpdatePlayersAsync(Guid id, [FromBody] int[] players)
         {
@@ -206,9 +207,9 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <param name="userId">The unique identifier of the user.</param>
         /// <param name="playerId">The player identifier to remove.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception
-        /// <exception cref="EntityValidationException">Thrown when the player removal is not valid.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested user is not found.</exception>
+        /// <exception cref="EntityValidationException">Thrown when the player removal is not valid.</exception>
         [HttpPut("{id}/remove-player/{playerId}")]
         public async Task<IActionResult> RemovePlayerAsync(Guid userId, int playerId)
         {

@@ -4,11 +4,14 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Kills;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class KillController : ControllerBase
     {
         private readonly IKillService _killService;
@@ -20,7 +23,7 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
-    
+
 
         /// <summary>
         /// Retrieve a list of all kills.

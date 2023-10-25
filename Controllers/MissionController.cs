@@ -4,11 +4,14 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Missions;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class MissionController : ControllerBase
     {
         private readonly IMissionService _missionService;

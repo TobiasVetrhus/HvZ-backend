@@ -4,6 +4,7 @@ using HvZ_backend.Data.Entities;
 using HvZ_backend.Data.Exceptions;
 using HvZ_backend.Services.Conversations;
 using Microsoft.AspNetCore.Mvc;
+using System.Net.Mime;
 
 namespace HvZ_backend.Controllers
 {
@@ -12,6 +13,8 @@ namespace HvZ_backend.Controllers
     /// </summary>
     [Route("api/v1/[controller]")]
     [ApiController]
+    [Produces(MediaTypeNames.Application.Json)]
+    [ApiConventionType(typeof(DefaultApiConventions))]
     public class ConversationController : ControllerBase
     {
         private readonly IConversationService _conversationService;
@@ -26,7 +29,7 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Get a list of all conversations.
         /// </summary>
-        /// <returns>An action result containing a list of conversations (DTOs).</returns
+        /// <returns>An action result containing a list of conversations (DTOs).</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ConversationDTO>>> GetConversations()
         {
@@ -37,8 +40,8 @@ namespace HvZ_backend.Controllers
         /// Get a conversation by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the conversation to retrieve.</param>
-        /// <returns>An action result containing the conversation (DTO).</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception
+        /// <returns>An action result containing the conversation (DTO).</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception>
         [HttpGet("{id}")]
         public async Task<ActionResult<ConversationDTO>> GetConversation(int id)
         {
@@ -56,7 +59,7 @@ namespace HvZ_backend.Controllers
         /// Create a new conversation.
         /// </summary>
         /// <param name="conversation">The conversation data for the creation.</param>
-        /// <returns>An action result containing the created conversation (DTO).</returns
+        /// <returns>An action result containing the created conversation (DTO).</returns>
         [HttpPost]
         public async Task<ActionResult<ConversationDTO>> PostConversation(ConversationPostDTO conversation)
         {
@@ -72,8 +75,8 @@ namespace HvZ_backend.Controllers
         /// </summary>
         /// <param name="id">The unique identifier of the conversation to update.</param>
         /// <param name="conversation">The conversation data for the update.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception>
         [HttpPut("{id}")]
         public async Task<IActionResult> PutConversation(int id, ConversationPutDTO conversation)
         {
@@ -97,8 +100,8 @@ namespace HvZ_backend.Controllers
         /// Delete a conversation by its unique identifier.
         /// </summary>
         /// <param name="id">The unique identifier of the conversation to delete.</param>
-        /// <returns>An action result indicating success or failure.</returns
-        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception
+        /// <returns>An action result indicating success or failure.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested conversation is not found.</exception>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteConversation(int id)
         {
