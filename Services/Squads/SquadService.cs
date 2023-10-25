@@ -51,10 +51,17 @@ namespace HvZ_backend.Services.Squads
         // Get squads by the game they belong to
         public async Task<ICollection<Squad>> GetSquadsByGameAsync(int gameId)
         {
-            return await _context.Squads
+            var squads = await _context.Squads
                 .Include(s => s.Players)
                 .Where(s => s.GameId == gameId)
                 .ToListAsync();
+
+            foreach (var squad in squads)
+            {
+                UpdateSquadStatistics(squad);
+            }
+
+            return squads;
         }
 
 
