@@ -77,6 +77,7 @@ namespace HvZ_backend.Services.Kills
             await _context.SaveChangesAsync();
         }
 
+        // Add a location to a kill
         public async Task AddLocationToKillAsync(int killId, int locationId)
         {
             if (!await KillExistsAsync(killId))
@@ -97,11 +98,13 @@ namespace HvZ_backend.Services.Kills
             }
         }
 
+        // Check if a kill with a given ID exists
         public async Task<bool> KillExistsAsync(int id)
         {
             return await _context.Kills.AnyAsync(m => m.Id == id);
         }
 
+        // Check if a location with a given ID exists
         public async Task<bool> LocationExistsAsync(int id)
         {
             return await _context.Locations.AnyAsync(m => m.Id == id);

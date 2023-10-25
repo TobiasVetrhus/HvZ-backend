@@ -98,22 +98,30 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-
+// Redirect HTTP requests to HTTPS for secure communication.
 app.UseHttpsRedirection();
 
+// Enable authentication for user identity and authorization.
 app.UseAuthentication();
+
+// Enable authorization to control access to API resources.
 app.UseAuthorization();
 
 // Use CORS with your custom policy
 app.UseCors("MyCorsPolicy");
 
+// Map API controllers for routing HTTP requests to actions.
 app.MapControllers();
 
+// Map the ChatHub SignalR hub and require CORS policy "MyCorsPolicy"
 app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
+
+// Map the LocationHub SignalR hub and require CORS policy "MyCorsPolicy"
 app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
 
+// Complete the request pipeline configuration.
 app.Run();
 

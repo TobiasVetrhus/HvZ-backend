@@ -24,7 +24,8 @@ namespace HvZ_backend.Controllers
 
         /// <summary>
         /// Get a list of all players.
-
+        /// </summary>
+        /// <returns>An action result containing a list of PlayerDTO objects.</returns>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PlayerDTO>>> GetPlayers()
         {
@@ -36,6 +37,8 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Get a player by ID.
         /// </summary>
+        /// <param name="id">The unique identifier of the player to retrieve.</param>
+        /// <returns>An action result containing a PlayerDTO representing the requested player.</returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PlayerDTO>> GetPlayerById(int id)
         {
@@ -48,7 +51,8 @@ namespace HvZ_backend.Controllers
         /// <summary>
         /// Create a new player.
         /// </summary>
-
+        /// <param name="playerPostDTO">A DTO representing the player to be created.</param>
+        /// <returns>An action result containing a PlayerDTO for the newly created player.</returns>
         [HttpPost]
         public async Task<ActionResult<PlayerDTO>> CreatePlayer(PlayerPostDTO playerPostDTO)
         {
@@ -64,6 +68,13 @@ namespace HvZ_backend.Controllers
             return CreatedAtAction(nameof(GetPlayerById), new { id = playerDTO.Id }, playerDTO);
         }
 
+        /// <summary>
+        /// Update a player's location by ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the player whose location to update.</param>
+        /// <param name="locationUpdateDTO">A DTO representing the updated player location.</param>
+        /// <returns>An action result indicating success or failure of the operation.</returns>
+        /// <exception cref="EntityNotFoundException">Thrown when the requested player is not found.</exception>
         [HttpPut("leaveMarker/{id}")]
         public async Task<IActionResult> UpdatePlayerLocation(int id, [FromBody] LocationUpdateDTO locationUpdateDTO)
         {
@@ -79,8 +90,11 @@ namespace HvZ_backend.Controllers
         }
 
         /// <summary>
-        /// Update an existing player.
+        /// Update an existing player by ID.
         /// </summary>
+        /// <param name="id">The unique identifier of the player to update.</param>
+        /// <param name="playerPutDTO">A DTO representing the updated player information.</param>
+        /// <returns>An action result containing a PlayerDTO representing the updated player.</returns>
         [HttpPut("{id}")]
         public async Task<ActionResult<PlayerDTO>> UpdatePlayer(int id, PlayerPutDTO playerPutDTO)
         {
@@ -98,8 +112,11 @@ namespace HvZ_backend.Controllers
             return Ok(playerDTO);
         }
 
-
-
+        /// <summary>
+        /// Delete a player by ID.
+        /// </summary>
+        /// <param name="id">The unique identifier of the player to delete.</param>
+        /// <returns>An action result indicating success or failure of the deletion.</returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlayer(int id)
         {
@@ -122,10 +139,11 @@ namespace HvZ_backend.Controllers
         }
 
         /// <summary>
-        /// Get a player by bitecode and set zombie to true
+        /// Get a player by bitecode and set zombie to true.
         /// </summary>
-
-
+        /// <param name="biteCode">The bitecode of the player to search for.</param>
+        /// <returns>An action result containing a PlayerDTO representing the requested player.</returns>
+        /// <exception cref="Exception">Thrown when an unexpected error occurs.</exception>
         [HttpGet("by-bitecode/{biteCode}")]
         public async Task<ActionResult<PlayerDTO>> GetPlayerByBiteCode(string biteCode)
         {
@@ -146,7 +164,12 @@ namespace HvZ_backend.Controllers
         }
 
 
-
+        /// <summary>
+        /// Set a player to zombie by bitecode.
+        /// </summary>
+        /// <param name="biteCode">The bitecode of the player to convert to a zombie.</param>
+        /// <returns>An action result containing a PlayerDTO representing the updated player.</returns>
+        /// <exception cref="Exception">Thrown when an unexpected error occurs.</exception>
         [HttpPut("by-bitecode/{biteCode}")]
         public async Task<ActionResult<PlayerDTO>> SetPlayerToZombieByBiteCode(string biteCode)
         {

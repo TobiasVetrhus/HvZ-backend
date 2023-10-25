@@ -13,23 +13,28 @@ namespace HvZ_backend.Services.Users
             _context = context;
         }
 
+        // Add a new AppUser to the database
         public async Task<AppUser> AddAsync(AppUser obj)
         {
             await _context.AppUsers.AddAsync(obj);
             await _context.SaveChangesAsync();
             return obj;
         }
+
+        // Retrieve all AppUsers with associated Player entities
         public async Task<IEnumerable<AppUser>> GetAllAsync()
         {
             return await _context.AppUsers.Include(u => u.Players).ToListAsync();
         }
 
+        // Retrieve an AppUser by their unique ID if it exists
         public async Task<AppUser> GetUserIfExists(Guid id)
         {
             var user = await _context.AppUsers.FirstOrDefaultAsync(u => u.Id == id);
             return user;
         }
 
+        // Retrieve an AppUser by their unique ID with associated Player entities
         public async Task<AppUser> GetByIdAsync(Guid id)
         {
             if (!await UserExistsAsync(id))
@@ -42,6 +47,7 @@ namespace HvZ_backend.Services.Users
             return user;
         }
 
+        // Update an existing AppUser's information in the database
         public async Task<AppUser> UpdateAsync(AppUser obj)
         {
             if (!await UserExistsAsync(obj.Id))
@@ -53,6 +59,7 @@ namespace HvZ_backend.Services.Users
             return obj;
         }
 
+        // Delete an AppUser by their unique ID from the database
         public async Task DeleteByIdAsync(Guid id)
         {
             if (!await UserExistsAsync(id))
@@ -69,6 +76,7 @@ namespace HvZ_backend.Services.Users
             await _context.SaveChangesAsync();
         }
 
+        // Add a player to an AppUser
         public async Task AddPlayerAsync(Guid userId, int playerId)
         {
             if (!await UserExistsAsync(userId))
@@ -88,6 +96,7 @@ namespace HvZ_backend.Services.Users
             await _context.SaveChangesAsync();
         }
 
+        // Update players associated with an AppUser.
         public async Task UpdatePlayersAsync(Guid userId, int[] playerIds)
         {
             if (!await UserExistsAsync(userId))
@@ -126,7 +135,7 @@ namespace HvZ_backend.Services.Users
             await _context.SaveChangesAsync();
         }
 
-
+        // Remove a player from an AppUser's association
         public async Task RemovePlayerAsync(Guid userId, int playerId)
         {
             if (!await UserExistsAsync(userId))
@@ -148,12 +157,13 @@ namespace HvZ_backend.Services.Users
 
         }
 
-
+        // Helper method to check if an AppUser with the given ID exists
         private async Task<bool> UserExistsAsync(Guid id)
         {
             return await _context.AppUsers.AnyAsync(u => u.Id == id);
         }
 
+        // Helper method to check if a Player with the given ID exists
         private async Task<bool> PlayerExistsAsync(int id)
         {
             return await _context.Players.AnyAsync(u => u.Id == id);

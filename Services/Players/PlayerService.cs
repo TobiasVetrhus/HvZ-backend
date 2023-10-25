@@ -61,6 +61,7 @@ namespace HvZ_backend.Services.Players
             return obj;
         }
 
+        // Update a player's location
         public async Task<bool> updatePlayerLocationAsync(int playerId, int x, int y)
         {
             if (!await PlayerExistsAsync(playerId))
@@ -108,8 +109,7 @@ namespace HvZ_backend.Services.Players
             await _context.SaveChangesAsync();
         }
 
-
-
+        // Update a player's Zombie state by their BiteCode
         public async Task<Player> UpdateZombieStateAsync(string biteCode)
         {
             var player = await GetPlayerByBiteCodeAsync(biteCode);
@@ -123,7 +123,7 @@ namespace HvZ_backend.Services.Players
             return player;
         }
 
-
+        // Get a player by their BiteCode
         public async Task<Player> GetPlayerByBiteCodeAsync(string biteCode)
         {
             var player = await _context.Players.FirstOrDefaultAsync(p => p.BiteCode == biteCode);
