@@ -20,11 +20,13 @@ namespace HvZ_backend.Controllers
             _mapper = mapper;
         }
 
+    
+
         /// <summary>
         /// Retrieve a list of all kills.
         /// </summary>
         /// <returns>An action result containing a list of KillDTO objects.</returns>
-        [HttpGet("GetKills")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
         {
             var kills = await _killService.GetAllAsync();
