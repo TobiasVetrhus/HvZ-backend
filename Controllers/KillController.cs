@@ -21,7 +21,7 @@ namespace HvZ_backend.Controllers
         }
 
         // GET: api/v1/Kill/GetKills
-        [HttpGet("GetKills")]
+        [HttpGet]
         public async Task<ActionResult<IEnumerable<KillDTO>>> GetKills()
         {
             var kills = await _killService.GetAllAsync();

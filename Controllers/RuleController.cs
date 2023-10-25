@@ -9,11 +9,11 @@ namespace HvZ_backend.Controllers
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class RulesController : ControllerBase
+    public class RuleController : ControllerBase
     {
         private readonly IRuleService _ruleService;
         private readonly IMapper _mapper;
-        public RulesController(IRuleService ruleService, IMapper mapper)
+        public RuleController(IRuleService ruleService, IMapper mapper)
         {
             _ruleService = ruleService;
             _mapper = mapper;

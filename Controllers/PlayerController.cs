@@ -9,8 +9,8 @@ using System.Security.Claims;
 
 namespace HvZ_backend.Controllers
 {
+    [Route("api/v1/[controller]")]
     [ApiController]
-    [Route("api/v1/players")]
     public class PlayerController : ControllerBase
     {
         private readonly IPlayerService _playerService;
