@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'HumansVsZombies'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FC207F3E28BB46828F36D5C8EAA6F309 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_D6ACC2D908C54B1BB77C222DBBF7A7CF }}
           package: .
