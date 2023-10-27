@@ -91,7 +91,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Cursed Asylum",
                 Description = "Venture into the Cursed Asylum, where madness reigns and dark secrets lurk in every corner. Can you escape its horrifying grip?",
                 GameState = GameStatus.Registration,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/2791657/pexels-photo-2791657.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -100,7 +100,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Eldritch Nightmare",
                 Description = "Enter the Eldritch Nightmare, a realm of cosmic horrors and unspeakable terrors. Will you survive the relentless onslaught of the unknown?",
                 GameState = GameStatus.InProgress,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/4997839/pexels-photo-4997839.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -109,7 +109,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Haunting Shadows",
                 Description = "Face the Haunting Shadows, where vengeful spirits and malevolent entities lurk in the darkness. Can you escape their relentless pursuit?",
                 GameState = GameStatus.InProgress,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/6770569/pexels-photo-6770569.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -118,7 +118,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Frostbitten Horror",
                 Description = "Confront the Frostbitten Horror, a desolate wasteland where the cold bites deep and ancient evils stir. Will you survive its icy embrace?",
                 GameState = GameStatus.Complete,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/6494658/pexels-photo-6494658.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -127,7 +127,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Dreaded Catacombs",
                 Description = "Descend into the Dreaded Catacombs, a labyrinth of death and despair. Face the wrath of the undead in this chilling underground nightmare.",
                 GameState = GameStatus.Registration,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/6495744/pexels-photo-6495744.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -136,7 +136,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Infernal Abyss",
                 Description = "Plunge into the Infernal Abyss, a fiery inferno of torment and suffering. Survive the relentless flames or be consumed by the eternal blaze.",
                 GameState = GameStatus.InProgress,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/7383327/pexels-photo-7383327.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -145,7 +145,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Phantom's Curse",
                 Description = "Unravel the Phantom's Curse, a haunting enigma that threatens your very soul. Confront the ghostly apparitions and uncover their dark secrets.",
                 GameState = GameStatus.InProgress,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/3772353/pexels-photo-3772353.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -154,7 +154,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Eternal Frostbite",
                 Description = "Endure the Eternal Frostbite, where bone-chilling cold and frosty horrors await. Can you withstand the icy grip of this frozen nightmare?",
                 GameState = GameStatus.Complete,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/6937710/pexels-photo-6937710.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -163,7 +163,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Sinister Hunt",
                 Description = "Embark on the Sinister Hunt, a deadly game of survival where hunters become the hunted. Outwit your pursuers or meet a gruesome fate.",
                 GameState = GameStatus.Registration,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/5976404/pexels-photo-5976404.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             },
             new Game
@@ -172,7 +172,7 @@ namespace HvZ_backend.Data.Entities
                 Title = "Crimson Catastrophe",
                 Description = "Face the Crimson Catastrophe, a world bathed in blood and chaos. Survive the crimson tide or drown in the sea of horror it brings.",
                 GameState = GameStatus.InProgress,
-                PictureURL = "https://images.pexels.com/photos/6473550/pexels-photo-6473550.jpeg",
+                PictureURL = "https://images.pexels.com/photos/6495748/pexels-photo-6495748.jpeg",
                 MapURL = "assets/images/maps/Map1.png",
             }
 
