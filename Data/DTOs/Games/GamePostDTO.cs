@@ -10,7 +10,7 @@ namespace HvZ_backend.Data.DTOs.Games
         [StringLength(255)]
         public string Description { get; set; }
         public GameStatus GameState { get; set; }
-        [StringLength(50)]
+        [StringLength(250)]
         public string PictureURL { get; set; }
         public string? MapURL { get; set; }
     }
