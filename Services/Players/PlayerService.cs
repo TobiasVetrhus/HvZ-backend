@@ -109,6 +109,17 @@ namespace HvZ_backend.Services.Players
             await _context.SaveChangesAsync();
         }
 
+        //Update a player's state. Takes a player ID and a boolean value to update the state.
+        public async Task<Player> UpdatePlayerState(int playerId, bool state)
+        {
+            var player = await GetByIdAsync(playerId);
+
+            player.Zombie = state;
+            await UpdateAsync(player);
+
+            return player;
+        }
+
         // Update a player's Zombie state by their BiteCode
         public async Task<Player> UpdateZombieStateAsync(string biteCode)
         {

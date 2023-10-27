@@ -12,7 +12,12 @@ namespace HvZ_backend.Data.Hubs
         {
             _context = context;
         }
-
+        public async Task AddToGroup(int playerId)
+        {
+            // Perform actions when a client connects, such as adding them to a group
+            string squadId = DetermineSquadIdForClient(playerId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, squadId);
+        }
         private string DetermineSquadIdForClient(int playerId)
         {
             var player = _context.Players.FirstOrDefault(p => p.Id == playerId);

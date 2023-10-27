@@ -195,5 +195,25 @@ namespace HvZ_backend.Controllers
             }
         }
 
+        /// <summary>
+        /// Update a players state; true (Zombie), false (Human)
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="state"></param>
+        /// <returns>Player with updated state</returns>
+        [HttpPut("{id}/update-state")]
+        public async Task<ActionResult<PlayerDTO>> UpdatePlayerState(int id, [FromBody] bool state)
+        {
+            var player = await _playerService.UpdatePlayerState(id, state);
+
+            if (player == null)
+            {
+                return NotFound();
+            }
+
+            var playerDTO = _mapper.Map<PlayerDTO>(player);
+            return Ok(playerDTO);
+        }
+
     }
 }

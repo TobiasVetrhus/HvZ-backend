@@ -13,6 +13,8 @@ namespace HvZ_backend.Services.Players
         /// <param name="biteCode">The BiteCode of the player to update.</param>
         Task<Player> UpdateZombieStateAsync(string biteCode);
 
+        Task<Player> UpdatePlayerState(int playerId, bool state);
+
         /// <summary>
         /// Retrieves a player by their BiteCode.
         /// </summary>
