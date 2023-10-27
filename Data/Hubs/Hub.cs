@@ -1,15 +1,48 @@
-﻿using Microsoft.AspNetCore.SignalR;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using HvZ_backend.Data.Entities;
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace HvZ_backend.Data.Hubs
 {
-    public class ChatHub : Hub
+    public class Hub : Microsoft.AspNetCore.SignalR.Hub
     {
         private static List<string> connectedUsers = new List<string>();
         private static List<string> squadChatUsers = new List<string>();
         private static Dictionary<string, List<string>> lobbyUsers = new Dictionary<string, List<string>>();
+        private readonly HvZDbContext _context;
+
+        public Hub(HvZDbContext context)
+        {
+            _context = context;
+        }
+
+        public async Task AddToGroup(int playerId)
+        {
+            // Perform actions when a client connects, such as adding them to a group
+            string squadId = DetermineSquadIdForClient(playerId);
+            await Groups.AddToGroupAsync(Context.ConnectionId, squadId);
+        }
+
+        private string DetermineSquadIdForClient(int playerId)
+        {
+            var player = _context.Players.FirstOrDefault(p => p.Id == playerId);
+            if (player != null && player.SquadId.HasValue)
+            {
+                return player.SquadId.Value.ToString();
+            }
+            return null;
+        }
+
+        public async Task SendLocationUpdate(int playerId, int x, int y)
+        {
+            Log.Information($"playerId: {playerId}, ConnectionId: {Context.ConnectionId}");
+
+            //string squadId = DetermineSquadIdForClient(playerId);
+
+            //await Groups.AddToGroupAsync(Context.ConnectionId, squadId);
+            await Clients.All.SendAsync("receivelocationupdate", playerId, x, y);
+        }
 
         // Allows a user to join a chat room by adding their connection to the specified room's group.
         public async Task JoinRoom(string roomName, string user)

@@ -141,11 +141,8 @@ app.UseCors("MyCorsPolicy");
 // Map API controllers for routing HTTP requests to actions.
 app.MapControllers();
 
-// Map the ChatHub SignalR hub and require CORS policy "MyCorsPolicy"
-app.MapHub<ChatHub>("/chathub").RequireCors("MyCorsPolicy");
-
-// Map the LocationHub SignalR hub and require CORS policy "MyCorsPolicy"
-app.MapHub<LocationHub>("/locationhub").RequireCors("MyCorsPolicy");
+// Map the Hub SignalR hub and require CORS policy "MyCorsPolicy"
+app.MapHub<Hub>("/hub").RequireCors("MyCorsPolicy");
 
 // Complete the request pipeline configuration.
 app.Run();
